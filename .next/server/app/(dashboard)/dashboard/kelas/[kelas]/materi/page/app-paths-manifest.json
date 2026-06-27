@@ -1,0 +1,3 @@
+{
+  "/(dashboard)/dashboard/kelas/[kelas]/materi/page": "app/(dashboard)/dashboard/kelas/[kelas]/materi/page.js"
+}

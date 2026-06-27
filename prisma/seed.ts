@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, MateriTipe, KelasLevel } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
@@ -88,51 +88,141 @@ async function main() {
   console.log('✅ Packages created:', [package1.nama, package2.nama])
 
   // 4. Seed Materi
-  const materi1 = await prisma.materi.upsert({
-    where: { slug: 'pengantar-tenses-inggris' },
-    update: {},
-    create: {
+  const materis: Array<{
+    judul: string
+    slug: string
+    tipe: MateriTipe
+    kelas: KelasLevel
+    kontenTeks: string | null
+    videoUrl: string | null
+    videoProvider: 'YOUTUBE' | 'VIMEO' | null
+    isPremium: boolean
+    urutan: number
+  }> = [
+    // TEKS - FREE
+    {
       judul: 'Pengantar Tenses Bahasa Inggris',
       slug: 'pengantar-tenses-inggris',
       tipe: 'TEKS',
+      kelas: 'DASAR',
       kontenTeks: '<p>Tenses adalah bentuk kata kerja yang menunjukkan waktu terjadinya suatu peristiwa. Ada 16 tenses dalam bahasa Inggris, tapi kita akan pelajari yang paling dasar dulu: Present Simple, Present Continuous, Past Simple, dan Future Simple.</p>',
       videoUrl: null,
       videoProvider: null,
       isPremium: false,
       urutan: 1
-    }
-  })
-
-  const materi2 = await prisma.materi.upsert({
-    where: { slug: 'cara-memperkenalkan-diri-dalam-bahasa-jepang' },
-    update: {},
-    create: {
+    },
+    {
+      judul: 'Vocabulary Sehari-hari Bahasa Inggris',
+      slug: 'vocabulary-sehari-hari-inggris',
+      tipe: 'TEKS',
+      kelas: 'DASAR',
+      kontenTeks: '<p>Pelajari kosakata bahasa Inggris yang sering digunakan dalam percakapan sehari-hari:</p><ul><li>House - Rumah</li><li>School - Sekolah</li><li>Friend - Teman</li><li>Food - Makanan</li></ul>',
+      videoUrl: null,
+      videoProvider: null,
+      isPremium: false,
+      urutan: 2
+    },
+    // TEKS - PREMIUM
+    {
+      judul: 'Present Perfect Tenses',
+      slug: 'present-perfect-tenses',
+      tipe: 'TEKS',
+      kelas: 'DASAR',
+      kontenTeks: '<p>Present Perfect Tense digunakan untuk menyatakan aksi yang terjadi pada waktu yang tidak jelas di lampau, tapi masih ada hubungan dengan sekarang.</p>',
+      videoUrl: null,
+      videoProvider: null,
+      isPremium: true,
+      urutan: 3
+    },
+    {
+      judul: 'Past Continuous Tenses',
+      slug: 'past-continuous-tenses',
+      tipe: 'TEKS',
+      kelas: 'DASAR',
+      kontenTeks: '<p>Past Continuous Tense digunakan untuk menyatakan aksi yang sedang berlangsung pada waktu tertentu di lampau.</p>',
+      videoUrl: null,
+      videoProvider: null,
+      isPremium: true,
+      urutan: 4
+    },
+    {
+      judul: 'Future Perfect Tenses',
+      slug: 'future-perfect-tenses',
+      tipe: 'TEKS',
+      kelas: 'DASAR',
+      kontenTeks: '<p>Future Perfect Tense digunakan untuk menyatakan aksi yang akan selesai di waktu tertentu di masa depan.</p>',
+      videoUrl: null,
+      videoProvider: null,
+      isPremium: true,
+      urutan: 5
+    },
+    // VIDEO - FREE
+    {
       judul: 'Cara Memperkenalkan Diri dalam Bahasa Jepang',
-      slug: 'cara-memperkenalkan-diri-dalam-bahasa-jepang',
+      slug: 'cara-memperkenalkan-diri-jepang',
       tipe: 'VIDEO',
+      kelas: 'DASAR',
+      kontenTeks: null,
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoProvider: 'YOUTUBE',
+      isPremium: false,
+      urutan: 1
+    },
+    {
+      judul: 'Pengucapan Dasar Bahasa Jepang',
+      slug: 'pengucapan-dasar-jepang',
+      tipe: 'VIDEO',
+      kelas: 'DASAR',
       kontenTeks: null,
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       videoProvider: 'YOUTUBE',
       isPremium: false,
       urutan: 2
-    }
-  })
-
-  const materi3 = await prisma.materi.upsert({
-    where: { slug: 'vocabulary-bahasa-inggris-sehari-hari' },
-    update: {},
-    create: {
-      judul: 'Vocabulary Bahasa Inggris Sehari-hari',
-      slug: 'vocabulary-bahasa-inggris-sehari-hari',
-      tipe: 'CAMPURAN',
-      kontenTeks: '<p>Pelajari kosakata bahasa Inggris yang sering digunakan dalam percakapan sehari-hari:</p><ul><li>House - Rumah</li><li>School - Sekolah</li><li>Friend - Teman</li><li>Food - Makanan</li></ul>',
+    },
+    // VIDEO - PREMIUM
+    {
+      judul: 'Percakapan di Restoran Bahasa Jepang',
+      slug: 'percakapan-restoran-jepang',
+      tipe: 'VIDEO',
+      kelas: 'DASAR',
+      kontenTeks: null,
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       videoProvider: 'YOUTUBE',
       isPremium: true,
       urutan: 3
+    },
+    {
+      judul: 'Tata Bahasa Dasar Bahasa Jepang',
+      slug: 'tata-bahasa-dasar-jepang',
+      tipe: 'VIDEO',
+      kelas: 'DASAR',
+      kontenTeks: null,
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoProvider: 'YOUTUBE',
+      isPremium: true,
+      urutan: 4
+    },
+    {
+      judul: 'Berbicara di Tempat Kerja Bahasa Jepang',
+      slug: 'berbicara-tempat-kerja-jepang',
+      tipe: 'VIDEO',
+      kelas: 'DASAR',
+      kontenTeks: null,
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoProvider: 'YOUTUBE',
+      isPremium: true,
+      urutan: 5
     }
-  })
-  console.log('✅ Materi created:', [materi1.judul, materi2.judul, materi3.judul])
+  ]
+
+  for (const materi of materis) {
+    await prisma.materi.upsert({
+      where: { slug: materi.slug },
+      update: {},
+      create: materi
+    })
+  }
+  console.log('✅ Materi created:', materis.map(m => m.judul))
 
   // 5. Seed Quiz
   const quiz1 = await prisma.quiz.upsert({
@@ -185,7 +275,35 @@ async function main() {
       }
     }
   })
-  console.log('✅ Quiz created:', quiz1.judul)
+
+  const quiz2 = await prisma.quiz.upsert({
+    where: { id: 'quiz-jepang-dasar' },
+    update: {},
+    create: {
+      id: 'quiz-jepang-dasar',
+      judul: 'Quiz Bahasa Jepang Dasar',
+      deskripsi: 'Uji pemahamanmu tentang bahasa Jepang dasar!',
+      isPremium: true,
+      questions: {
+        create: [
+          {
+            pertanyaan: 'Apa arti "Konnichiwa"?',
+            urutan: 1,
+            options: {
+              create: [
+                { teks: 'Selamat malam', isCorrect: false },
+                { teks: 'Selamat siang', isCorrect: true },
+                { teks: 'Selamat pagi', isCorrect: false },
+                { teks: 'Terima kasih', isCorrect: false }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  })
+
+  console.log('✅ Quiz created:', [quiz1.judul, quiz2.judul])
 
   console.log('🎉 Seeding completed!')
 }

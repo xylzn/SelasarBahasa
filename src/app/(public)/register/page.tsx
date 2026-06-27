@@ -48,7 +48,7 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch('/api/auth/register', {
+      const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -58,8 +58,8 @@ export default function RegisterPage() {
         }),
       });
 
-      if (!res.ok) {
-        const result = await res.json();
+      if (!response.ok) {
+        const result = await response.json();
         throw new Error(result.error || 'Gagal mendaftar');
       }
 
@@ -70,8 +70,8 @@ export default function RegisterPage() {
       });
 
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (e: any) {
+      setError(e.message);
     } finally {
       setIsLoading(false);
     }

@@ -51,7 +51,8 @@ export async function GET(request: Request) {
 const createMateriSchema = z.object({
   judul: z.string().min(1),
   slug: z.string().optional(),
-  tipe: z.enum(['TEKS', 'VIDEO', 'CAMPURAN']),
+  tipe: z.enum(['TEKS', 'VIDEO']),
+  kelas: z.enum(['DASAR', 'MENENGAH', 'LANJUTAN']).default('DASAR'),
   kontenTeks: z.string().optional(),
   videoUrl: z.string().optional(),
   isPremium: z.boolean().default(false),

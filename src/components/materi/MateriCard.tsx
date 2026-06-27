@@ -1,33 +1,64 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
-import { BookOpen, PlayCircle, Lock } from 'lucide-react';
+import { PremiumLockModal } from '@/components/shared/PremiumLockModal';
 
 interface MateriCardProps {
   id: string;
   judul: string;
   slug: string;
-  tipe: 'TEKS' | 'VIDEO' | 'CAMPURAN';
+  tipe: 'TEKS' | 'VIDEO';
+  kelas: string;
   isPremium: boolean;
-  isLocked: boolean;
+  userCanAccess: boolean;
 }
 
-export default function MateriCard({ id, judul, slug, tipe, isPremium, isLocked }: MateriCardProps) {
-  const Icon = tipe === 'VIDEO' || tipe === 'CAMPURAN' ? PlayCircle : BookOpen;
+export default function MateriCard({ id, judul, slug, tipe, kelas, isPremium, userCanAccess }: MateriCardProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleClick = () => {
+    if (isPremium && !userCanAccess) {
+      setIsModalOpen(true);
+    }
+  };
+
+  if (isPremium && !userCanAccess) {
+    return (
+      <>
+        <div
+          onClick={handleClick}
+          className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition cursor-pointer"
+        >
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-sm font-medium text-gray-500">
+              {tipe === 'TEKS' ? 'Teks' : 'Video'}
+            </span>
+            <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
+              Premium
+            </span>
+          </div>
+          <h3 className="font-bold text-gray-900 mb-2">{judul}</h3>
+        </div>
+        <PremiumLockModal open={isModalOpen} onOpenChange={setIsModalOpen} />
+      </>
+    );
+  }
 
   return (
-    <Link href={`/dashboard/materi/${slug}`} className="block">
-      <div className={`bg-white rounded-xl shadow-sm border p-6 hover:shadow-md transition ${isLocked ? 'opacity-75' : ''}`}>
-        <div className="flex items-start justify-between mb-4">
-          <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
-            {isLocked ? <Lock size={20} className="text-gray-400" /> : <Icon size={20} className="text-blue-600" />}
-          </div>
+    <Link href={`/dashboard/kelas/${kelas.toLowerCase()}/${tipe.toLowerCase()}/${slug}`}>
+      <div className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition cursor-pointer">
+        <div className="flex items-start justify-between mb-3">
+          <span className="text-sm font-medium text-gray-500">
+            {tipe === 'TEKS' ? 'Teks' : 'Video'}
+          </span>
           {isPremium && (
-            <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-full">
+            <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
               Premium
             </span>
           )}
         </div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-1">{judul}</h3>
-        <p className="text-sm text-gray-500 capitalize">{tipe.toLowerCase()}</p>
+        <h3 className="font-bold text-gray-900">{judul}</h3>
       </div>
     </Link>
   );

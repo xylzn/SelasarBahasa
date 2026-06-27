@@ -1,12 +1,11 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import QuizCard from '@/components/quiz/QuizCard';
 
 export default async function QuizPage() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userRole = session?.user?.role || 'USER';
-  const isPremium = userRole === 'ADMIN' || userRole === 'PREMIUM';
+  const userCanAccessPremium = userRole === 'ADMIN' || userRole === 'PREMIUM';
 
   const quizList = await prisma.quiz.findMany({
     where: { published: true },
@@ -27,7 +26,7 @@ export default async function QuizPage() {
             judul={quiz.judul}
             deskripsi={quiz.deskripsi}
             isPremium={quiz.isPremium}
-            isLocked={quiz.isPremium && !isPremium}
+            userCanAccess={userCanAccessPremium}
           />
         ))}
       </div>

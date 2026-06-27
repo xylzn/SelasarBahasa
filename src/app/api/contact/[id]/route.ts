@@ -5,11 +5,12 @@ import { requireAdmin } from '@/lib/api-auth';
 // PATCH /api/contact/[id]
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await requireAdmin();
+  const { id } = await params;
   const message = await prisma.contactMessage.findUnique({
-    where: { id: params.id },
+    where: { id },
   });
 
   if (!message) {
@@ -17,7 +18,7 @@ export async function PATCH(
   }
 
   const updated = await prisma.contactMessage.update({
-    where: { id: params.id },
+    where: { id },
     data: { isRead: !message.isRead },
   });
 
@@ -27,11 +28,13 @@ export async function PATCH(
 // DELETE /api/contact/[id]
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await requireAdmin();
+  const { id } = await params;
+
   await prisma.contactMessage.delete({
-    where: { id: params.id },
+    where: { id },
   });
 
   return NextResponse.json({ message: 'Pesan dihapus' });

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import { Home, BookOpen, HelpCircle, LogOut } from 'lucide-react';
+import { Home, GraduationCap, HelpCircle, LogOut } from 'lucide-react';
 
 interface SidebarProps {
   userName: string;
@@ -12,12 +12,16 @@ interface SidebarProps {
 
 const navItems = [
   { href: '/dashboard', icon: Home, label: 'Dashboard' },
-  { href: '/dashboard/materi', icon: BookOpen, label: 'Materi' },
+  { href: '/dashboard/kelas', icon: GraduationCap, label: 'Kelas' },
   { href: '/dashboard/quiz', icon: HelpCircle, label: 'Quiz' },
 ];
 
 export default function Sidebar({ userName, userRole }: SidebarProps) {
   const pathname = usePathname();
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/' });
+  };
 
   return (
     <div className="w-64 bg-white border-r border-gray-200 min-h-screen flex flex-col">
@@ -59,7 +63,7 @@ export default function Sidebar({ userName, userRole }: SidebarProps) {
           </p>
         </div>
         <button
-          onClick={() => signOut()}
+          onClick={handleSignOut}
           className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 transition"
         >
           <LogOut size={20} />

@@ -45,7 +45,7 @@ export default async function AdminMateriPage() {
           <p className="text-gray-600">Tambah, edit, atau hapus materi.</p>
         </div>
         <Link
-          href="#"
+          href="/admin/materi/create"
           className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-medium"
         >
           + Tambah Materi

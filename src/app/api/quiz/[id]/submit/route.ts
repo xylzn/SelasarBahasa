@@ -10,10 +10,11 @@ const submitQuizSchema = z.object({
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await requireAuth();
   const userId = session.user?.id as string;
+  const { id } = await params;
 
   // Rate limit: max 10 per minute per user
   const { allowed } = await checkRateLimit(
@@ -33,7 +34,7 @@ export async function POST(
 
   // Get full quiz with correct answers (server-side only!)
   const quiz = await prisma.quiz.findUnique({
-    where: { id: params.id, published: true },
+    where: { id, published: true },
     include: {
       questions: { include: { options: true } },
     },
@@ -78,7 +79,7 @@ export async function POST(
   const attempt = await prisma.quizAttempt.create({
     data: {
       userId,
-      quizId: params.id,
+      quizId: id,
       score,
       jawaban: validated.jawaban,
     },

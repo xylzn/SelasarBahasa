@@ -80,6 +80,7 @@ model Materi {
   judul         String
   slug          String       @unique
   tipe          MateriTipe   @default(TEKS)
+  kelas         KelasLevel   @default(DASAR)
   kontenTeks    String?      @db.Text
   videoUrl      String?
   videoProvider VideoProvider?
@@ -91,12 +92,18 @@ model Materi {
 
   @@index([isPremium, published])
   @@index([urutan])
+  @@index([kelas, tipe])
+}
+
+enum KelasLevel {
+  DASAR
+  MENENGAH
+  LANJUTAN
 }
 
 enum MateriTipe {
   TEKS
   VIDEO
-  CAMPURAN
 }
 
 enum VideoProvider {

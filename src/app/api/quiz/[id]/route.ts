@@ -7,15 +7,16 @@ import { CACHE_KEYS } from '@/lib/cache-keys';
 // GET /api/quiz/[id]
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await requireAuth();
+  const { id } = await params;
 
-  const cacheKey = CACHE_KEYS.quizDetail(params.id);
+  const cacheKey = CACHE_KEYS.quizDetail(id);
 
   const quiz = await getCached(cacheKey, 1800, async () => {
     return await prisma.quiz.findUnique({
-      where: { id: params.id, published: true },
+      where: { id, published: true },
       select: {
         id: true,
         judul: true,

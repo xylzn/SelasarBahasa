@@ -34,19 +34,23 @@ export default function LoginPage() {
     setError(null);
     setIsLoading(true);
 
-    const result = await signIn('credentials', {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    });
+    try {
+      const result = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
 
-    if (result?.error) {
-      setError('Email atau password salah');
+      if (result?.error) {
+        setError('Email atau password salah');
+      } else {
+        router.push('/dashboard');
+      }
+    } catch (e) {
+      setError('Terjadi kesalahan, silakan coba lagi');
+    } finally {
       setIsLoading(false);
-      return;
     }
-
-    router.push('/dashboard');
   };
 
   return (

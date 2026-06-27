@@ -8,15 +8,16 @@ import { z } from 'zod';
 // GET /api/materi/[slug]
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   const session = await requireAuth();
+  const { slug } = await params;
 
-  const cacheKey = CACHE_KEYS.materiDetail(params.slug);
+  const cacheKey = CACHE_KEYS.materiDetail(slug);
 
   const materi = await getCached(cacheKey, 1800, async () => {
     return await prisma.materi.findUnique({
-      where: { slug: params.slug, published: true },
+      where: { slug, published: true },
     });
   });
 
@@ -39,7 +40,7 @@ export async function GET(
 const updateMateriSchema = z.object({
   judul: z.string().min(1).optional(),
   slug: z.string().optional(),
-  tipe: z.enum(['TEKS', 'VIDEO', 'CAMPURAN']).optional(),
+  tipe: z.enum(['TEKS', 'VIDEO']).optional(),
   kontenTeks: z.string().optional(),
   videoUrl: z.string().optional(),
   isPremium: z.boolean().optional(),
@@ -49,11 +50,12 @@ const updateMateriSchema = z.object({
 
 export async function PUT(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  await requireAuth(); // Will update to requireAdmin after fixing
+  await requireAuth();
   const body = await request.json();
   const validated = updateMateriSchema.parse(body);
+  const { slug } = await params;
 
   let videoProvider = null;
   if (validated.videoUrl) {
@@ -65,7 +67,7 @@ export async function PUT(
   }
 
   const materi = await prisma.materi.update({
-    where: { slug: params.slug },
+    where: { slug },
     data: {
       ...validated,
       videoProvider,
@@ -74,7 +76,7 @@ export async function PUT(
 
   // Invalidate cache
   await invalidateCachePattern('materi:list:*');
-  await invalidateCache(CACHE_KEYS.materiDetail(params.slug));
+  await invalidateCache(CACHE_KEYS.materiDetail(slug));
 
   return NextResponse.json(materi);
 }
@@ -82,14 +84,16 @@ export async function PUT(
 // DELETE /api/materi/[slug]
 export async function DELETE(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  await requireAuth(); // Will update to requireAdmin after fixing
-  await prisma.materi.delete({ where: { slug: params.slug } });
+  await requireAuth();
+  const { slug } = await params;
+
+  await prisma.materi.delete({ where: { slug } });
 
   // Invalidate cache
   await invalidateCachePattern('materi:list:*');
-  await invalidateCache(CACHE_KEYS.materiDetail(params.slug));
+  await invalidateCache(CACHE_KEYS.materiDetail(slug));
 
   return NextResponse.json({ message: 'Materi dihapus' });
 }

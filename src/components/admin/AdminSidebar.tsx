@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { signOut } from 'next-auth/react';
+import { signOut } from '@/auth';
 import { Home, BookOpen, HelpCircle, FileText, Package, MessageSquare, Users, LogOut } from 'lucide-react';
 
 interface AdminSidebarProps {
@@ -21,6 +21,10 @@ const navItems = [
 
 export default function AdminSidebar({ userName }: AdminSidebarProps) {
   const pathname = usePathname();
+
+  const handleSignOut = async () => {
+    await signOut({ redirectTo: '/' });
+  };
 
   return (
     <div className="w-64 bg-gray-900 text-white min-h-screen flex flex-col">
@@ -60,7 +64,7 @@ export default function AdminSidebar({ userName }: AdminSidebarProps) {
           <p className="text-xs text-gray-400">Admin</p>
         </div>
         <button
-          onClick={() => signOut()}
+          onClick={handleSignOut}
           className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 transition"
         >
           <LogOut size={20} />

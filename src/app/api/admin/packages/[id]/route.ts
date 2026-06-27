@@ -18,14 +18,15 @@ const updatePackageSchema = z.object({
 // PUT /api/admin/packages/[id]
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await requireAdmin();
   const body = await request.json();
   const validated = updatePackageSchema.parse(body);
+  const { id } = await params;
 
   const pkg = await prisma.package.update({
-    where: { id: params.id },
+    where: { id },
     data: validated,
   });
 
@@ -37,11 +38,13 @@ export async function PUT(
 // DELETE /api/admin/packages/[id]
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await requireAdmin();
+  const { id } = await params;
+
   await prisma.package.delete({
-    where: { id: params.id },
+    where: { id },
   });
 
   await invalidateCache(CACHE_KEYS.packageList());

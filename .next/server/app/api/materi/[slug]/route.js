@@ -1,0 +1,10 @@
+var R=require("../../../../chunks/[turbopack]_runtime.js")("server/app/api/materi/[slug]/route.js")
+R.c("server/chunks/[root-of-the-server]__1ygkwre._.js")
+R.c("server/chunks/node_modules_zod_v3_external_1pf3m_7.js")
+R.c("server/chunks/node_modules_bcryptjs_0vo-ar-._.js")
+R.c("server/chunks/[root-of-the-server]__0xuaoik._.js")
+R.c("server/chunks/src_lib_redis_ts_0f7iir-._.js")
+R.c("server/chunks/_1w83njy._.js")
+R.c("server/chunks/_next-internal_server_app_api_materi_[slug]_route_actions_1c2a7ai.js")
+R.m(39944)
+module.exports=R.m(39944).exports
