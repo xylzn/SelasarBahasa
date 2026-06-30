@@ -50,7 +50,20 @@ export default function TugasForm() {
       // Upload file if selected
       if (selectedFile) {
         setUploadProgress('Mengunggah file...');
-        const uploadResult = await uploadFileToSupabase(selectedFile, 'tugas-files', 'instruksi');
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', selectedFile);
+        
+        const uploadRes = await fetch('/api/upload/tugas', {
+          method: 'POST',
+          body: uploadFormData,
+        });
+        
+        if (!uploadRes.ok) {
+          const errData = await uploadRes.json();
+          throw new Error(errData.error || 'Gagal upload file');
+        }
+        
+        const uploadResult = await uploadRes.json();
         fileInstruksiUrl = uploadResult.url;
       }
 
