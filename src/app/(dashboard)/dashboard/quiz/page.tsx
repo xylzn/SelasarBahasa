@@ -24,7 +24,7 @@ export default async function QuizPage() {
             key={quiz.id}
             id={quiz.id}
             judul={quiz.judul}
-            deskripsi={quiz.deskripsi}
+            deskripsi={`Quiz untuk kelas ${quiz.kelas.toLowerCase()}`}
             isPremium={quiz.isPremium}
             userCanAccess={userCanAccessPremium}
           />

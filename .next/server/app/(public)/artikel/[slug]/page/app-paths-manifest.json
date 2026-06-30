@@ -1,3 +1,0 @@
-{
-  "/(public)/artikel/[slug]/page": "app/(public)/artikel/[slug]/page.js"
-}

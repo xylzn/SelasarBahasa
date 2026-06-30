@@ -1,41 +1,11 @@
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
-import DataTable from '@/components/admin/DataTable';
 
 export default async function AdminQuizPage() {
   const quizList = await prisma.quiz.findMany({
-    include: { _count: { select: { questions: true } } },
+    include: { _count: { select: { pertanyaan: true } } },
     orderBy: { createdAt: 'desc' },
   });
-
-  const columns = [
-    { key: 'judul', header: 'Judul' },
-    {
-      key: '_count',
-      header: 'Jumlah Soal',
-      render: (_count: any, item: any) => item._count.questions,
-    },
-    {
-      key: 'isPremium',
-      header: 'Premium',
-      render: (isPremium: boolean) => (
-        <span className={isPremium ? 'text-yellow-600' : 'text-gray-500'}>
-          {isPremium ? 'Ya' : 'Tidak'}
-        </span>
-      ),
-    },
-    {
-      key: 'published',
-      header: 'Status',
-      render: (published: boolean) => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-          published ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-        }`}>
-          {published ? 'Terbit' : 'Draft'}
-        </span>
-      ),
-    },
-  ];
 
   return (
     <div className="p-8">
@@ -51,7 +21,53 @@ export default async function AdminQuizPage() {
           + Tambah Quiz
         </Link>
       </div>
-      <DataTable columns={columns} data={quizList} />
+
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Judul
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Jumlah Soal
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Premium
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {quizList.map((item) => (
+                <tr key={item.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {item.judul}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {item._count.pertanyaan}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <span className={item.isPremium ? 'text-yellow-600' : 'text-gray-500'}>
+                      {item.isPremium ? 'Ya' : 'Tidak'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      item.published ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {item.published ? 'Terbit' : 'Draft'}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

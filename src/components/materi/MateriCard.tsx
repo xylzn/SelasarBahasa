@@ -32,7 +32,7 @@ export default function MateriCard({ id, judul, slug, tipe, kelas, isPremium, us
         >
           <div className="flex items-start justify-between mb-3">
             <span className="text-sm font-medium text-gray-500">
-              {tipe === 'TEKS' ? 'Teks' : 'Video'}
+              {tipe === 'TEKS' ? 'PDF' : 'Video'}
             </span>
             <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
               Premium
@@ -50,7 +50,7 @@ export default function MateriCard({ id, judul, slug, tipe, kelas, isPremium, us
       <div className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition cursor-pointer">
         <div className="flex items-start justify-between mb-3">
           <span className="text-sm font-medium text-gray-500">
-            {tipe === 'TEKS' ? 'Teks' : 'Video'}
+            {tipe === 'TEKS' ? 'PDF' : 'Video'}
           </span>
           {isPremium && (
             <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">

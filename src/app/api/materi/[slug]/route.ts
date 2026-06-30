@@ -57,7 +57,7 @@ export async function PUT(
   const validated = updateMateriSchema.parse(body);
   const { slug } = await params;
 
-  let videoProvider = null;
+  let videoProvider: 'YOUTUBE' | 'VIMEO' | null = null;
   if (validated.videoUrl) {
     if (validated.videoUrl.includes('youtube.com') || validated.videoUrl.includes('youtu.be')) {
       videoProvider = 'YOUTUBE';

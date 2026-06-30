@@ -24,14 +24,17 @@ export async function GET(request: Request) {
       select: {
         id: true,
         judul: true,
-        deskripsi: true,
         isPremium: true,
-        questions: {
+        tipe: true,
+        kelas: true,
+        slug: true,
+        pertanyaan: {
           select: {
             id: true,
-            pertanyaan: true,
+            teks: true,
             urutan: true,
-            options: { select: { id: true, teks: true } }, // NO isCorrect!
+            pilihan: true, // NO jawabanBenar!
+            tipe: true,
           },
         },
       },
@@ -46,19 +49,20 @@ export async function GET(request: Request) {
 // POST /api/quiz
 const createQuizSchema = z.object({
   judul: z.string().min(1),
-  deskripsi: z.string().min(1),
+  slug: z.string().min(1),
+  materiId: z.string().optional(),
+  tipe: z.enum(['PILIHAN_GANDA', 'ESAY']).default('PILIHAN_GANDA'),
+  kelas: z.enum(['DASAR', 'MENENGAH', 'LANJUTAN']).default('DASAR'),
   isPremium: z.boolean().default(false),
+  urutan: z.number().default(0),
   published: z.boolean().default(true),
-  questions: z.array(
+  pertanyaan: z.array(
     z.object({
-      pertanyaan: z.string().min(1),
+      teks: z.string().min(1),
+      tipe: z.enum(['PILIHAN_GANDA', 'ESAY']).default('PILIHAN_GANDA'),
+      pilihan: z.array(z.string()).optional(),
+      jawabanBenar: z.string().optional(),
       urutan: z.number().default(0),
-      options: z.array(
-        z.object({
-          teks: z.string().min(1),
-          isCorrect: z.boolean().default(false),
-        })
-      ).min(2, 'Setiap soal harus punya minimal 2 opsi'),
     })
   ).min(1, 'Quiz harus punya minimal 1 soal'),
 });
@@ -68,35 +72,22 @@ export async function POST(request: Request) {
   const body = await request.json();
   const validated = createQuizSchema.parse(body);
 
-  // Validate: each question has exactly 1 correct answer
-  for (const q of validated.questions) {
-    const correctCount = q.options.filter(o => o.isCorrect).length;
-    if (correctCount !== 1) {
-      return NextResponse.json(
-        { error: 'Setiap soal harus punya tepat 1 jawaban benar' },
-        { status: 400 }
-      );
-    }
-  }
-
   const quiz = await prisma.quiz.create({
     data: {
       judul: validated.judul,
-      deskripsi: validated.deskripsi,
+      slug: validated.slug,
+      materiId: validated.materiId,
+      tipe: validated.tipe,
+      kelas: validated.kelas,
       isPremium: validated.isPremium,
+      urutan: validated.urutan,
       published: validated.published,
-      questions: {
-        create: validated.questions.map(q => ({
-          pertanyaan: q.pertanyaan,
-          urutan: q.urutan,
-          options: {
-            create: q.options,
-          },
-        })),
+      pertanyaan: {
+        create: validated.pertanyaan,
       },
     },
     include: {
-      questions: { include: { options: true } },
+      pertanyaan: true,
     },
   });
 

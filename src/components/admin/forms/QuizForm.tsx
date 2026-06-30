@@ -40,8 +40,8 @@ export default function QuizForm() {
     formState: { errors },
     setValue,
     watch,
-  } = useForm<QuizFormValues>({
-    resolver: zodResolver(quizSchema),
+  } = useForm<any>({
+    resolver: zodResolver(quizSchema as any),
     defaultValues: {
       isPremium: false,
       published: true,
@@ -98,7 +98,7 @@ export default function QuizForm() {
             placeholder="Masukkan judul quiz"
           />
           {errors.judul && (
-            <p className="text-sm text-red-600 mt-1">{errors.judul.message}</p>
+            <p className="text-sm text-red-600 mt-1">{(errors.judul as any).message}</p>
           )}
         </div>
 
@@ -110,7 +110,7 @@ export default function QuizForm() {
             placeholder="Deskripsi quiz"
           ></textarea>
           {errors.deskripsi && (
-            <p className="text-sm text-red-600 mt-1">{errors.deskripsi.message}</p>
+            <p className="text-sm text-red-600 mt-1">{(errors.deskripsi as any).message}</p>
           )}
         </div>
 
@@ -187,14 +187,14 @@ export default function QuizForm() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Opsi Jawaban</label>
                 <div className="space-y-2">
-                  {watch(`questions.${qIndex}.options`).map((_, oIndex) => (
+                  {watch(`questions.${qIndex}.options`).map((_: any, oIndex: number) => (
                     <div key={oIndex} className="flex items-center gap-2">
                       <input
                         type="radio"
                         name={`correct-${qIndex}`}
                         checked={watch(`questions.${qIndex}.options.${oIndex}.isCorrect`)}
                         onChange={() => {
-                          const newOptions = watch(`questions.${qIndex}.options`).map((opt, idx) => ({
+                          const newOptions = watch(`questions.${qIndex}.options`).map((opt: any, idx: number) => ({
                             ...opt,
                             isCorrect: idx === oIndex,
                           }));

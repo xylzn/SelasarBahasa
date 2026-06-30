@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,10 +17,22 @@ const loginSchema = z.object({
 type FormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Auto redirect jika sudah login
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user) {
+      if (session.user.role === 'ADMIN') {
+        router.replace('/admin');
+      } else {
+        router.replace('/dashboard');
+      }
+    }
+  }, [session, status, router]);
 
   const {
     register,
@@ -43,8 +55,6 @@ export default function LoginPage() {
 
       if (result?.error) {
         setError('Email atau password salah');
-      } else {
-        router.push('/dashboard');
       }
     } catch (e) {
       setError('Terjadi kesalahan, silakan coba lagi');

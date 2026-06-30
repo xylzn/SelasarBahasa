@@ -5,4 +5,6 @@ export const CACHE_KEYS = {
   quizDetail: (id: string) => `quiz:detail:${id}`,
   packageList: () => `package:list`,
   adminStats: () => `admin:stats`,
+  tugasList: (page: number, isPremium: boolean, kelas?: string) => `tugas:list:page:${page}:premium:${isPremium}:kelas:${kelas || 'all'}`,
+  tugasDetail: (slug: string) => `tugas:detail:${slug}`,
 };

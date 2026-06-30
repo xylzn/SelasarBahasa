@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import DataTable from '@/components/admin/DataTable';
+import DataTable, { type Column } from '@/components/admin/DataTable';
 
 interface ContactMessage {
   id: string;
@@ -59,29 +59,29 @@ export default function AdminMessagesPage() {
     }
   };
 
-  const columns = [
+  const columns: Column<ContactMessage>[] = [
     { key: 'nama', header: 'Nama' },
     { key: 'email', header: 'Email' },
     {
       key: 'pesan',
       header: 'Pesan',
-      render: (pesan: string) => pesan.slice(0, 50) + (pesan.length > 50 ? '...' : ''),
+      render: (value: any) => (value as string).slice(0, 50) + ((value as string).length > 50 ? '...' : ''),
     },
     {
       key: 'isRead',
       header: 'Status',
-      render: (isRead: boolean) => (
+      render: (value: any) => (
         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-          isRead ? 'bg-gray-100 text-gray-800' : 'bg-blue-100 text-blue-800'
+          (value as boolean) ? 'bg-gray-100 text-gray-800' : 'bg-blue-100 text-blue-800'
         }`}>
-          {isRead ? 'Dibaca' : 'Baru'}
+          {(value as boolean) ? 'Dibaca' : 'Baru'}
         </span>
       ),
     },
     {
       key: 'createdAt',
       header: 'Tanggal',
-      render: (date: Date) => new Date(date).toLocaleDateString('id-ID'),
+      render: (value: any) => new Date(value as Date).toLocaleDateString('id-ID'),
     },
   ];
 

@@ -7,8 +7,13 @@ export async function getCached<T>(
 ): Promise<T> {
   try {
     const cached = await redis.get(key);
-    if (cached) {
-      return JSON.parse(cached as string);
+    if (cached && typeof cached === 'string') {
+      try {
+        return JSON.parse(cached);
+      } catch (e) {
+        console.error('Cache parse error:', e);
+        await redis.del(key); // Hapus cache yang corrupt
+      }
     }
   } catch (e) {
     console.error('Cache get error:', e);

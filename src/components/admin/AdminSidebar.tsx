@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from '@/auth';
-import { Home, BookOpen, HelpCircle, FileText, Package, MessageSquare, Users, LogOut } from 'lucide-react';
+import { Home, BookOpen, FileText, Package, Users, LogOut, ClipboardList } from 'lucide-react';
 
 interface AdminSidebarProps {
   userName: string;
@@ -13,9 +13,9 @@ const navItems = [
   { href: '/admin', icon: Home, label: 'Dashboard' },
   { href: '/admin/artikel', icon: FileText, label: 'Artikel' },
   { href: '/admin/materi', icon: BookOpen, label: 'Materi' },
-  { href: '/admin/quiz', icon: HelpCircle, label: 'Quiz' },
+  { href: '/admin/quiz', icon: BookOpen, label: 'Quiz' },
+  { href: '/admin/tugas', icon: ClipboardList, label: 'Tugas' },
   { href: '/admin/packages', icon: Package, label: 'Paket' },
-  { href: '/admin/messages', icon: MessageSquare, label: 'Pesan' },
   { href: '/admin/users', icon: Users, label: 'Pengguna' },
 ];
 

@@ -46,7 +46,7 @@ const createArtikelSchema = z.object({
   judul: z.string().min(1),
   slug: z.string().optional(),
   ringkasan: z.string().min(1).max(300),
-  konten: z.string().min(1),
+  isi: z.string().min(1),
   thumbnailUrl: z.string().optional(),
   metaTitle: z.string().optional(),
   metaDescription: z.string().max(160).optional(),
@@ -73,8 +73,16 @@ export async function POST(request: Request) {
 
   const artikel = await prisma.article.create({
     data: {
-      ...validated,
+      judul: validated.judul,
       slug,
+      ringkasan: validated.ringkasan,
+      isi: validated.isi,
+      thumbnailUrl: validated.thumbnailUrl,
+      kategori: validated.kategori,
+      metaTitle: validated.metaTitle,
+      metaDescription: validated.metaDescription,
+      ogImageUrl: validated.ogImageUrl,
+      published: validated.published,
       publishedAt: validated.published ? new Date() : null,
     },
   });

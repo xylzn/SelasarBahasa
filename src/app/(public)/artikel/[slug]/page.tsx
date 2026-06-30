@@ -103,7 +103,7 @@ export default async function ArticleDetailPage({
 
           <div
             className="prose prose-lg max-w-none text-gray-700"
-            dangerouslySetInnerHTML={{ __html: article.konten }}
+            dangerouslySetInnerHTML={{ __html: article.isi }}
           />
         </div>
       </article>

@@ -9,6 +9,7 @@ const packageSchema = z.object({
   nama: z.string().min(1),
   deskripsi: z.string().min(1),
   harga: z.number().int(),
+  durasiBulan: z.number().int(),
   fiturList: z.array(z.string()),
   isPopuler: z.boolean().default(false),
   urutan: z.number().default(0),

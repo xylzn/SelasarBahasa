@@ -1,6 +1,6 @@
 'use client';
 
-interface Column<T> {
+export interface Column<T> {
   key: keyof T;
   header: string;
   render?: (value: T[keyof T], item: T) => React.ReactNode;

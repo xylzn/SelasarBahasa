@@ -2,6 +2,7 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import prisma from './lib/prisma';
 import bcrypt from 'bcryptjs';
+import type { User, Session } from 'next-auth';
 
 const config = {
   providers: [
@@ -21,7 +22,7 @@ const config = {
 
         const passwordMatch = await bcrypt.compare(
           credentials.password as string,
-          user.passwordHash
+          user.password
         );
 
         if (!passwordMatch) {
@@ -38,19 +39,19 @@ const config = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: any; user?: User }) {
       if (user) {
         token.id = user.id;
-        token.nama = user.nama;
-        token.role = user.role;
+        token.nama = (user as any).nama;
+        token.role = (user as any).role;
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: any }) {
       if (session.user) {
-        session.user.id = token.id as string;
-        session.user.nama = token.nama as string;
-        session.user.role = token.role as string;
+        (session.user as any).id = token.id;
+        (session.user as any).nama = token.nama;
+        (session.user as any).role = token.role;
       }
       return session;
     },

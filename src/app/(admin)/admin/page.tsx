@@ -1,25 +1,19 @@
 import prisma from '@/lib/prisma';
-import { getCached } from '@/lib/cache';
-import { CACHE_KEYS } from '@/lib/cache-keys';
 
 export default async function AdminDashboardPage() {
-  const stats = await getCached(CACHE_KEYS.adminStats(), 120, async () => {
-    const [
-      totalUsers,
-      totalMateri,
-      totalQuiz,
-      totalArtikel,
-      unreadMessages,
-    ] = await Promise.all([
-      prisma.user.count(),
-      prisma.materi.count({ where: { published: true } }),
-      prisma.quiz.count({ where: { published: true } }),
-      prisma.article.count({ where: { published: true } }),
-      prisma.contactMessage.count({ where: { isRead: false } }),
-    ]);
-
-    return { totalUsers, totalMateri, totalQuiz, totalArtikel, unreadMessages };
-  });
+  const [
+    totalUsers,
+    totalMateri,
+    totalQuiz,
+    totalArtikel,
+    unreadMessages,
+  ] = await Promise.all([
+    prisma.user.count(),
+    prisma.materi.count({ where: { published: true } }),
+    prisma.quiz.count({ where: { published: true } }),
+    prisma.article.count({ where: { published: true } }),
+    prisma.contactMessage.count({ where: { isRead: false } }),
+  ]);
 
   return (
     <div className="p-8">
@@ -31,23 +25,23 @@ export default async function AdminDashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <h3 className="text-sm font-medium text-gray-500 mb-2">Total Pengguna</h3>
-          <p className="text-3xl font-bold text-gray-900">{stats.totalUsers}</p>
+          <p className="text-3xl font-bold text-gray-900">{totalUsers}</p>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <h3 className="text-sm font-medium text-gray-500 mb-2">Total Materi</h3>
-          <p className="text-3xl font-bold text-gray-900">{stats.totalMateri}</p>
+          <p className="text-3xl font-bold text-gray-900">{totalMateri}</p>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <h3 className="text-sm font-medium text-gray-500 mb-2">Total Quiz</h3>
-          <p className="text-3xl font-bold text-gray-900">{stats.totalQuiz}</p>
+          <p className="text-3xl font-bold text-gray-900">{totalQuiz}</p>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <h3 className="text-sm font-medium text-gray-500 mb-2">Total Artikel</h3>
-          <p className="text-3xl font-bold text-gray-900">{stats.totalArtikel}</p>
+          <p className="text-3xl font-bold text-gray-900">{totalArtikel}</p>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <h3 className="text-sm font-medium text-gray-500 mb-2">Pesan Belum Dibaca</h3>
-          <p className="text-3xl font-bold text-red-600">{stats.unreadMessages}</p>
+          <p className="text-3xl font-bold text-red-600">{unreadMessages}</p>
         </div>
       </div>
     </div>

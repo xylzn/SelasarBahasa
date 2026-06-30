@@ -36,7 +36,7 @@ export async function POST(
   const quiz = await prisma.quiz.findUnique({
     where: { id, published: true },
     include: {
-      questions: { include: { options: true } },
+      pertanyaan: true,
     },
   });
 
@@ -56,32 +56,30 @@ export async function POST(
   let correctCount = 0;
   const breakdown = [];
 
-  for (const question of quiz.questions) {
-    const userOptionId = validated.jawaban[question.id];
-    const correctOption = question.options.find(o => o.isCorrect);
-    const userOption = question.options.find(o => o.id === userOptionId);
-    const isCorrect = correctOption?.id === userOptionId;
+  for (const question of quiz.pertanyaan) {
+    const userAnswer = validated.jawaban[question.id];
+    const isCorrect = question.jawabanBenar && userAnswer === question.jawabanBenar;
 
     if (isCorrect) correctCount++;
 
     breakdown.push({
       questionId: question.id,
-      pertanyaan: question.pertanyaan,
-      jawabanUser: userOption?.teks || null,
+      pertanyaan: question.teks,
+      jawabanUser: userAnswer || null,
       isCorrect,
-      jawabanBenar: correctOption?.teks,
+      jawabanBenar: question.jawabanBenar,
     });
   }
 
-  const score = Math.round((correctCount / quiz.questions.length) * 100);
+  const score = quiz.pertanyaan.length > 0 ? Math.round((correctCount / quiz.pertanyaan.length) * 100) : 0;
 
   // Save attempt
   const attempt = await prisma.quizAttempt.create({
     data: {
       userId,
       quizId: id,
-      score,
-      jawaban: validated.jawaban,
+      skor: score,
+      jawaban: JSON.stringify(validated.jawaban), // karena field jawaban di schema adalah String
     },
   });
 

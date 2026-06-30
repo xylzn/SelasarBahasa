@@ -4,7 +4,7 @@ interface Package {
   id: string;
   nama: string;
   deskripsi: string;
-  harga: number;
+  harga: any; // Since it's a Decimal from Prisma
   fiturList: string[];
   isPopuler: boolean;
 }
@@ -26,7 +26,7 @@ export default function PackageCard({ pkg }: { pkg: Package }) {
         <p className="text-gray-600 mb-4">{pkg.deskripsi}</p>
         <div className="mb-6">
           <span className="text-4xl font-bold text-gray-900">
-            Rp {pkg.harga.toLocaleString('id-ID')}
+            Rp {pkg.harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
           </span>
         </div>
         <ul className="space-y-3 mb-8">

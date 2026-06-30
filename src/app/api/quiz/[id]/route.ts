@@ -20,14 +20,17 @@ export async function GET(
       select: {
         id: true,
         judul: true,
-        deskripsi: true,
         isPremium: true,
-        questions: {
+        tipe: true,
+        kelas: true,
+        slug: true,
+        pertanyaan: {
           select: {
             id: true,
-            pertanyaan: true,
+            teks: true,
             urutan: true,
-            options: { select: { id: true, teks: true } }, // NO isCorrect!
+            pilihan: true, // NO jawabanBenar!
+            tipe: true,
           },
         },
       },
