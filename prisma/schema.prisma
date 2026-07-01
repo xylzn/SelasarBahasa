@@ -29,11 +29,6 @@ enum VideoProvider {
   VIMEO
 }
 
-enum QuizTipe {
-  PILIHAN_GANDA
-  ESAY
-}
-
 enum UserRole {
   USER
   PREMIUM
@@ -67,59 +62,61 @@ model Materi {
   sumberDokumen SumberDokumen?
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
-  quizzes       Quiz[]
 
   @@index([isPremium, published])
   @@index([kelas])
 }
 
 model Quiz {
-  id            String           @id @default(cuid())
-  judul         String
-  slug          String           @unique
-  materiId      String?
-  materi        Materi?          @relation(fields: [materiId], references: [id], onDelete: Cascade)
-  tipe          QuizTipe         @default(PILIHAN_GANDA)
-  kelas         KelasLevel       @default(DASAR)
-  isPremium     Boolean          @default(false)
-  urutan        Int              @default(0)
-  published     Boolean          @default(true)
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  pertanyaan    Pertanyaan[]
-  attempts      QuizAttempt[]
+  id          String        @id @default(cuid())
+  judul       String
+  deskripsi   String        @db.Text
+  kelas       KelasLevel    @default(DASAR)
+  isPremium   Boolean       @default(false)
+  published   Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  questions   QuizQuestion[]
+  attempts    QuizAttempt[]
 
   @@index([isPremium, published])
   @@index([kelas])
 }
 
-model Pertanyaan {
-  id            String           @id @default(cuid())
-  quizId        String
-  quiz          Quiz             @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  teks          String           @db.Text
-  tipe          QuizTipe         @default(PILIHAN_GANDA)
-  pilihan       String[]
-  jawabanBenar  String?
-  urutan        Int              @default(0)
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
+model QuizQuestion {
+  id          String       @id @default(cuid())
+  quizId      String
+  pertanyaan  String       @db.Text
+  urutan      Int          @default(0)
+  quiz        Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options     QuizOption[]
+
+  @@index([quizId])
+  @@index([urutan])
+}
+
+model QuizOption {
+  id          String       @id @default(cuid())
+  questionId  String
+  teks        String       @db.Text
+  isCorrect   Boolean      @default(false)
+  question    QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([questionId])
 }
 
 model QuizAttempt {
-  id            String           @id @default(cuid())
-  quizId        String
-  userId        String
-  jawaban       String?
-  skor          Int?
-  selesai       Boolean          @default(false)
-  startedAt     DateTime?
-  completedAt   DateTime?
-  quiz          Quiz             @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String    @id @default(cuid())
+  userId      String
+  quizId      String
+  score       Int
+  jawaban     Json
+  completedAt DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz        Quiz      @relation(fields: [quizId], references: [id], onDelete: Cascade)
 
+  @@index([userId, quizId])
   @@index([quizId])
-  @@index([userId])
 }
 
 model Article {

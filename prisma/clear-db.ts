@@ -37,8 +37,11 @@ async function main() {
   await prisma.tugas.deleteMany({})
   console.log('✅ Tugas deleted')
 
-  await prisma.pertanyaan.deleteMany({})
-  console.log('✅ Pertanyaan deleted')
+  await prisma.quizOption.deleteMany({})
+  console.log('✅ QuizOption deleted')
+
+  await prisma.quizQuestion.deleteMany({})
+  console.log('✅ QuizQuestion deleted')
 
   await prisma.quiz.deleteMany({})
   console.log('✅ Quiz deleted')

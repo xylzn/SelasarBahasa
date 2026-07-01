@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import DataTable, { type Column } from './DataTable';
+import DeleteButton from './DeleteButton';
 
 interface TugasWithSubmissions {
   id: string;
@@ -18,7 +19,7 @@ interface TugasTableClientProps {
 }
 
 export default function TugasTableClient({ tugasList }: TugasTableClientProps) {
-  const columns: Column<TugasWithSubmissions>[] = [
+  const columns: Column<any>[] = [
     { key: 'judul', header: 'Judul' },
     { key: 'kelas', header: 'Kelas' },
     {
@@ -44,6 +45,21 @@ export default function TugasTableClient({ tugasList }: TugasTableClientProps) {
         }`}>
           {value ? 'Terbit' : 'Draft'}
         </span>
+      ),
+    },
+    {
+      key: 'actions',
+      header: 'Aksi',
+      render: (value: any, item: any) => (
+        <div className="flex gap-3">
+          <Link
+            href={`/admin/tugas/edit/${item.id}`}
+            className="text-blue-600 hover:text-blue-700 font-medium text-sm"
+          >
+            Edit
+          </Link>
+          <DeleteButton id={item.id} apiPath="/api/tugas" itemName={item.judul} />
+        </div>
       ),
     },
   ];

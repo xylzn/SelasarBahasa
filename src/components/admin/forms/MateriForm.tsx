@@ -1,15 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function MateriForm() {
+interface MateriFormProps {
+  initialData?: any;
+}
+
+export default function MateriForm({ initialData }: MateriFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedTipe, setSelectedTipe] = useState<'TEKS' | 'VIDEO'>('TEKS');
-  const [sumberDokumen, setSumberDokumen] = useState<'LINK' | 'UPLOAD'>('LINK');
+  const [selectedTipe, setSelectedTipe] = useState<'TEKS' | 'VIDEO'>(initialData?.tipe || 'TEKS');
+  const [sumberDokumen, setSumberDokumen] = useState<'LINK' | 'UPLOAD'>(initialData?.sumberDokumen || 'LINK');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [pdfLink, setPdfLink] = useState('');
+  const [pdfLink, setPdfLink] = useState(initialData?.pdfUrl || '');
+  const [keepExistingFile, setKeepExistingFile] = useState(!!initialData?.pdfUrl && initialData?.sumberDokumen === 'UPLOAD');
+
+  useEffect(() => {
+    if (initialData?.pdfUrl) {
+      if (initialData?.sumberDokumen === 'LINK') {
+        setPdfLink(initialData.pdfUrl);
+      }
+    }
+  }, [initialData]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,11 +40,14 @@ export default function MateriForm() {
       const urutan = parseInt(formData.get('urutan') as string) || 0;
       const published = formData.get('published') === 'true';
 
-      let pdfUrl: string | undefined = undefined;
-      let sumber: 'LINK' | 'UPLOAD' | undefined = undefined;
+      let pdfUrl: string | undefined | null = undefined;
+      let sumber: 'LINK' | 'UPLOAD' | undefined | null = undefined;
 
       if (tipe === 'TEKS') {
-        if (sumberDokumen === 'UPLOAD' && selectedFile) {
+        if (initialData && keepExistingFile) {
+          pdfUrl = initialData.pdfUrl;
+          sumber = initialData.sumberDokumen;
+        } else if (sumberDokumen === 'UPLOAD' && selectedFile) {
           // Upload file via API
           const uploadFormData = new FormData();
           uploadFormData.append('file', selectedFile);
@@ -52,6 +68,10 @@ export default function MateriForm() {
           pdfUrl = pdfLink;
           sumber = 'LINK';
         }
+      } else {
+        // For VIDEO type, clear pdf-related fields
+        pdfUrl = null;
+        sumber = null;
       }
 
       const data: any = {
@@ -63,12 +83,15 @@ export default function MateriForm() {
         urutan,
         published,
       };
-      if (pdfUrl) data.pdfUrl = pdfUrl;
+      if (pdfUrl !== undefined) data.pdfUrl = pdfUrl;
       if (videoUrl) data.videoUrl = videoUrl;
-      if (sumber) data.sumberDokumen = sumber;
+      if (sumber !== undefined) data.sumberDokumen = sumber;
 
-      const res = await fetch('/api/materi', {
-        method: 'POST',
+      const url = initialData ? `/api/materi/${initialData.id}` : '/api/materi';
+      const method = initialData ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
@@ -80,11 +103,11 @@ export default function MateriForm() {
         const errorData = await res.json();
         console.error('Error response:', errorData);
         console.error('Status:', res.status);
-        throw new Error(errorData.error || 'Gagal menambah materi');
+        throw new Error(errorData.error || `Gagal ${initialData ? 'update' : 'menambah'} materi`);
       }
     } catch (err: any) {
       console.error(err);
-      alert(err.message || 'Gagal menambah materi');
+      alert(err.message || `Gagal ${initialData ? 'update' : 'menambah'} materi`);
     } finally {
       setIsLoading(false);
     }
@@ -92,7 +115,7 @@ export default function MateriForm() {
 
   return (
     <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl border border-gray-200">
-      <h2 className="text-xl font-bold text-gray-900 mb-6">Tambah Materi Baru</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-6">{initialData ? 'Edit Materi' : 'Tambah Materi Baru'}</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -101,6 +124,7 @@ export default function MateriForm() {
             type="text"
             name="judul"
             required
+            defaultValue={initialData?.judul}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             placeholder="Masukkan judul materi"
           />
@@ -111,6 +135,7 @@ export default function MateriForm() {
           <input
             type="text"
             name="slug"
+            defaultValue={initialData?.slug}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             placeholder="Slug URL (auto-generated jika kosong)"
           />
@@ -133,7 +158,7 @@ export default function MateriForm() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
             <select
               name="kelas"
-              defaultValue="DASAR"
+              defaultValue={initialData?.kelas || 'DASAR'}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             >
               <option value="DASAR">Dasar</option>
@@ -197,31 +222,54 @@ export default function MateriForm() {
 
             {sumberDokumen === 'UPLOAD' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Upload PDF (Maks 2MB)
-                </label>
-                <input
-                  type="file"
-                  accept="application/pdf"
-                  onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                />
-                {selectedFile && (
-                  <div className="mt-2 p-3 bg-gray-50 rounded-lg">
+                {initialData?.sumberDokumen === 'UPLOAD' && initialData?.pdfUrl && (
+                  <div className="mb-3 p-3 bg-gray-50 rounded-lg">
                     <p className="text-sm text-gray-700">
-                      File terpilih: <span className="font-medium">{selectedFile.name}</span>
+                      File saat ini: <span className="font-medium">{initialData.pdfUrl.split('/').pop()}</span>
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Ukuran: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedFile(null)}
-                      className="mt-2 text-sm text-red-600 hover:underline"
-                    >
-                      Ganti file
-                    </button>
+                    <div className="mt-2 flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        id="keepFile"
+                        checked={keepExistingFile}
+                        onChange={(e) => setKeepExistingFile(e.target.checked)}
+                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      />
+                      <label htmlFor="keepFile" className="text-sm text-gray-700">
+                        Pertahankan file ini
+                      </label>
+                    </div>
                   </div>
+                )}
+                {(!initialData || !keepExistingFile) && (
+                  <>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Upload PDF (Maks 2MB)
+                    </label>
+                    <input
+                      type="file"
+                      accept="application/pdf"
+                      onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                    />
+                    {selectedFile && (
+                      <div className="mt-2 p-3 bg-gray-50 rounded-lg">
+                        <p className="text-sm text-gray-700">
+                          File terpilih: <span className="font-medium">{selectedFile.name}</span>
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Ukuran: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedFile(null)}
+                          className="mt-2 text-sm text-red-600 hover:underline"
+                        >
+                          Ganti file
+                        </button>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             )}
@@ -234,6 +282,7 @@ export default function MateriForm() {
             <input
               type="url"
               name="videoUrl"
+              defaultValue={initialData?.videoUrl}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               placeholder="https://www.youtube.com/watch?v=..."
             />
@@ -246,7 +295,7 @@ export default function MateriForm() {
             <input
               type="number"
               name="urutan"
-              defaultValue={0}
+              defaultValue={initialData?.urutan || 0}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               placeholder="0"
             />
@@ -257,6 +306,7 @@ export default function MateriForm() {
               id="isPremium"
               name="isPremium"
               value="true"
+              defaultChecked={initialData?.isPremium}
               className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
             />
             <label htmlFor="isPremium" className="text-sm font-medium text-gray-700">
@@ -271,7 +321,7 @@ export default function MateriForm() {
             id="published"
             name="published"
             value="true"
-            defaultChecked
+            defaultChecked={initialData?.published ?? true}
             className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
           />
           <label htmlFor="published" className="text-sm font-medium text-gray-700">

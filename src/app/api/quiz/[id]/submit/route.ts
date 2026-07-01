@@ -5,7 +5,7 @@ import { checkRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
 
 const submitQuizSchema = z.object({
-  jawaban: z.record(z.string(), z.string()),
+  jawaban: z.record(z.string(), z.string()), // questionId -> optionId
 });
 
 export async function POST(
@@ -36,7 +36,11 @@ export async function POST(
   const quiz = await prisma.quiz.findUnique({
     where: { id, published: true },
     include: {
-      pertanyaan: true,
+      questions: {
+        include: {
+          options: true,
+        },
+      },
     },
   });
 
@@ -56,30 +60,31 @@ export async function POST(
   let correctCount = 0;
   const breakdown = [];
 
-  for (const question of quiz.pertanyaan) {
-    const userAnswer = validated.jawaban[question.id];
-    const isCorrect = question.jawabanBenar && userAnswer === question.jawabanBenar;
+  for (const question of quiz.questions) {
+    const userOptionId = validated.jawaban[question.id];
+    const correctOption = question.options.find((o: any) => o.isCorrect);
+    const isCorrect = userOptionId && userOptionId === correctOption?.id;
 
     if (isCorrect) correctCount++;
 
     breakdown.push({
       questionId: question.id,
-      pertanyaan: question.teks,
-      jawabanUser: userAnswer || null,
+      pertanyaan: question.pertanyaan,
+      jawabanUser: userOptionId || null,
       isCorrect,
-      jawabanBenar: question.jawabanBenar,
+      jawabanBenar: correctOption?.id,
     });
   }
 
-  const score = quiz.pertanyaan.length > 0 ? Math.round((correctCount / quiz.pertanyaan.length) * 100) : 0;
+  const score = quiz.questions.length > 0 ? Math.round((correctCount / quiz.questions.length) * 100) : 0;
 
   // Save attempt
   const attempt = await prisma.quizAttempt.create({
     data: {
       userId,
       quizId: id,
-      skor: score,
-      jawaban: JSON.stringify(validated.jawaban), // karena field jawaban di schema adalah String
+      score,
+      jawaban: validated.jawaban, // now this is Json!
     },
   });
 
