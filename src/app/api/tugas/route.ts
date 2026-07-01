@@ -11,7 +11,11 @@ const slugify = (text: string) =>
     .trim();
 
 export async function GET(request: Request) {
-  const session = await requireAuth();
+  const authResult = await requireAuth();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
+  const session = authResult.session;
   const { searchParams } = new URL(request.url);
   const kelas = searchParams.get('kelas');
 
@@ -42,7 +46,10 @@ const createTugasSchema = z.object({
 });
 
 export async function POST(request: Request) {
-  await requireAdmin();
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
   const body = await request.json();
   const validated = createTugasSchema.parse(body);
 

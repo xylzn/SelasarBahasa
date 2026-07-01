@@ -21,6 +21,11 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
   const MAX_FILE_SIZE_MB = 10;
   const MAX_TOTAL_SIZE_MB = 30;
 
+  const now = new Date();
+  const deadline = tugas.deadline ? new Date(tugas.deadline) : null;
+  const isPastDeadline = deadline ? now > deadline : false;
+  const hasSubmitted = !!submission;
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
@@ -59,6 +64,10 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateFiles()) return;
+    if (isPastDeadline) {
+      setError('Sudah melewati deadline, tidak bisa mengumpulkan tugas');
+      return;
+    }
 
     setIsSubmitting(true);
     setError(null);
@@ -107,14 +116,17 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
             )}
           </div>
           {tugas.deadline && (
-            <div className="text-right">
+            <div className={`text-right p-4 rounded-lg ${isPastDeadline ? 'bg-red-50' : 'bg-gray-50'}`}>
               <p className="text-sm text-gray-500">Deadline</p>
-              <p className="text-gray-900 font-medium">
-                {new Date(tugas.deadline).toLocaleDateString('id-ID', {
+              <p className={`font-medium ${isPastDeadline ? 'text-red-600' : 'text-gray-900'}`}>
+                {new Date(tugas.deadline).toLocaleString('id-ID', {
                   dateStyle: 'medium',
                   timeStyle: 'short',
                 })}
               </p>
+              {isPastDeadline && (
+                <p className="text-xs text-red-600 mt-1">Sudah melewati deadline</p>
+              )}
             </div>
           )}
         </div>
@@ -140,16 +152,18 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
       </div>
 
       <div className="bg-white p-8 rounded-xl border border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Kumpulkan Tugas</h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-6">
+          {isPastDeadline ? (hasSubmitted ? 'Lihat Pengumpulan' : 'Tidak Mengumpulkan Tugas') : (hasSubmitted ? 'Edit Pengumpulan' : 'Kumpulkan Tugas')}
+        </h2>
 
-        {submission && submission.files && submission.files.length > 0 ? (
+        {hasSubmitted && (submission.files && submission.files.length > 0 ? (
           <div className="bg-green-50 p-6 rounded-lg mb-6">
             <div className="flex items-center gap-3 mb-4">
               <FileText size={24} className="text-green-600" />
               <div>
                 <p className="font-medium text-gray-900">Tugas Sudah Dikumpulkan!</p>
                 <p className="text-sm text-gray-600">
-                  Dikumpulkan pada: {new Date(submission.submittedAt).toLocaleDateString('id-ID', {
+                  Dikumpulkan pada: {new Date(submission.submittedAt).toLocaleString('id-ID', {
                     dateStyle: 'medium',
                     timeStyle: 'short',
                   })}
@@ -172,14 +186,14 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
               ))}
             </div>
           </div>
-        ) : submission ? (
+        ) : (
           <div className="bg-green-50 p-6 rounded-lg mb-6">
             <div className="flex items-center gap-3">
               <FileText size={24} className="text-green-600" />
               <div>
                 <p className="font-medium text-gray-900">Tugas Sudah Dikumpulkan!</p>
                 <p className="text-sm text-gray-600">
-                  Dikumpulkan pada: {new Date(submission.submittedAt).toLocaleDateString('id-ID', {
+                  Dikumpulkan pada: {new Date(submission.submittedAt).toLocaleString('id-ID', {
                     dateStyle: 'medium',
                     timeStyle: 'short',
                   })}
@@ -187,82 +201,90 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
               </div>
             </div>
           </div>
-        ) : null}
+        ))}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">File Jawaban (bisa lebih dari satu)</label>
-            <input
-              type="file"
-              accept=".pdf,.doc,.docx"
-              multiple
-              onChange={handleFileChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Maks {MAX_FILE_SIZE_MB}MB per file, total {MAX_TOTAL_SIZE_MB}MB
-            </p>
+        {isPastDeadline && !hasSubmitted && (
+          <div className="bg-gray-100 p-6 rounded-lg mb-6 text-center">
+            <p className="text-gray-600 font-medium">Tidak mengumpulkan tugas</p>
           </div>
+        )}
 
-          {selectedFiles.length > 0 && (
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-700">File terpilih:</p>
-              {selectedFiles.map((file, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <FileText size={16} className="text-gray-600" />
-                    <span className="text-sm text-gray-700">
-                      {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                    </span>
+        {!isPastDeadline && (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">File Jawaban (bisa lebih dari satu)</label>
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx"
+                multiple
+                onChange={handleFileChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Maks {MAX_FILE_SIZE_MB}MB per file, total {MAX_TOTAL_SIZE_MB}MB
+              </p>
+            </div>
+
+            {selectedFiles.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-gray-700">File terpilih:</p>
+                {selectedFiles.map((file, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <FileText size={16} className="text-gray-600" />
+                      <span className="text-sm text-gray-700">
+                        {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeFile(index)}
+                      className="text-red-600 hover:text-red-700"
+                    >
+                      <X size={18} />
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => removeFile(index)}
-                    className="text-red-600 hover:text-red-700"
-                  >
-                    <X size={18} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
 
-          {error && (
-            <div className="bg-red-50 p-4 rounded-lg text-red-700">
-              {error}
-            </div>
-          )}
+            {error && (
+              <div className="bg-red-50 p-4 rounded-lg text-red-700">
+                {error}
+              </div>
+            )}
 
-          {success && (
-            <div className="bg-green-50 p-4 rounded-lg text-green-700">
-              Tugas berhasil dikumpulkan!
-            </div>
-          )}
+            {success && (
+              <div className="bg-green-50 p-4 rounded-lg text-green-700">
+                Tugas berhasil dikumpulkan!
+              </div>
+            )}
 
-          <div className="flex gap-4">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="px-6 py-3 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition"
-            >
-              Batal
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting || selectedFiles.length === 0}
-              className="px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50 flex items-center gap-2"
-            >
-              {isSubmitting ? (
-                <>Mengirim...</>
-              ) : (
-                <>
-                  <Upload size={20} />
-                  {submission ? 'Perbarui Jawaban' : 'Kumpulkan Tugas'}
-                </>
-              )}
-            </button>
-          </div>
-        </form>
+            <div className="flex gap-4">
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="px-6 py-3 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting || selectedFiles.length === 0}
+                className="px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50 flex items-center gap-2"
+              >
+                {isSubmitting ? (
+                  <>Mengirim...</>
+                ) : (
+                  <>
+                    <Upload size={20} />
+                    {hasSubmitted ? 'Perbarui Jawaban' : 'Kumpulkan Tugas'}
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

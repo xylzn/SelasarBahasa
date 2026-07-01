@@ -11,7 +11,10 @@ const packageSchema = z.object({
   deskripsi: z.string().min(1, 'Deskripsi harus diisi'),
   harga: z.number().int().min(0, 'Harga harus positif'),
   durasiBulan: z.number().int().min(1, 'Durasi minimal 1 bulan'),
-  fiturList: z.array(z.string().min(1, 'Fitur harus diisi')).min(1, 'Minimal 1 fitur'),
+  fiturList: z.array(z.string()).min(1, 'Minimal 1 fitur').refine(
+    (arr) => arr.every((item) => item.trim() !== ''),
+    'Semua fitur harus diisi'
+  ),
   isPopuler: z.boolean().default(false),
   urutan: z.number().default(0),
   published: z.boolean().default(true),
@@ -37,15 +40,16 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
     watch,
   } = useForm<any>({
     resolver: zodResolver(packageSchema as any),
+    mode: 'onSubmit', // Only validate on submit, not on load
     defaultValues: {
       nama: initialData?.nama || '',
       deskripsi: initialData?.deskripsi || '',
       harga: initialData?.harga || 0,
       durasiBulan: initialData?.durasiBulan || 1,
-      fiturList: initialData?.fiturList || [''],
+      fiturList: initialData?.fiturList && initialData.fiturList.length > 0 ? initialData.fiturList : [''],
       isPopuler: initialData?.isPopuler || false,
       urutan: initialData?.urutan || 0,
-      published: initialData?.published || true,
+      published: initialData?.published ?? true,
     },
   });
 
@@ -79,16 +83,25 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
   }, [packageId, setValue]);
 
   const onSubmit = async (data: PackageFormValues) => {
+    console.log('Submitting package data:', data);
     setIsLoading(true);
     try {
       // Filter out empty fitur
       const filteredFiturList = data.fiturList.filter((f) => f.trim() !== '');
+      console.log('Filtered fiturList:', filteredFiturList);
+
+      if (filteredFiturList.length === 0) {
+        alert('Minimal 1 fitur harus diisi');
+        setIsLoading(false);
+        return;
+      }
 
       const payload = {
         ...data,
         fiturList: filteredFiturList,
         isActive: true,
       };
+      console.log('Final payload:', payload);
 
       const url = packageId ? `/api/admin/packages/${packageId}` : '/api/admin/packages';
       const method = packageId ? 'PUT' : 'POST';
@@ -99,15 +112,19 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
         body: JSON.stringify(payload),
       });
 
+      console.log('Response status:', res.status);
+
       if (res.ok) {
         router.push('/admin/packages');
         router.refresh();
       } else {
         const errData = await res.json();
+        console.error('Error response:', errData);
         throw new Error(errData.error || 'Gagal menyimpan paket');
       }
     } catch (err) {
-      console.error(err);
+      console.error('Error submitting package:', err);
+      alert(err instanceof Error ? err.message : 'Gagal menyimpan paket');
     } finally {
       setIsLoading(false);
     }
@@ -126,6 +143,19 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
       <h2 className="text-xl font-bold text-gray-900 mb-6">
         {packageId ? 'Edit Paket' : 'Tambah Paket Baru'}
       </h2>
+
+      {/* Error Summary */}
+      {Object.keys(errors).length > 0 && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <h4 className="font-medium text-red-800 mb-2">Ada kesalahan:</h4>
+          <ul className="text-sm text-red-600 list-disc list-inside">
+            {Object.entries(errors).map(([key, value]) => (
+              <li key={key}>{(value as any)?.message || `Kesalahan di ${key}`}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Nama Paket</label>

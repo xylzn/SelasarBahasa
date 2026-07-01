@@ -7,7 +7,11 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await requireAuth();
+  const authResult = await requireAuth();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
+  const session = authResult.session;
   const userId = session.user?.id as string;
   const { id } = await params;
 

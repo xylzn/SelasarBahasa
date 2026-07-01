@@ -16,7 +16,11 @@ function slugify(text: string) {
 
 // GET /api/materi
 export async function GET(request: Request) {
-  const session = await requireAuth();
+  const authResult = await requireAuth();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
+  const session = authResult.session;
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '20');
@@ -47,7 +51,10 @@ export async function GET(request: Request) {
 // POST /api/materi
 export async function POST(request: Request) {
   try {
-    await requireAdmin();
+    const authResult = await requireAdmin();
+    if ('error' in authResult) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+    }
     
     // Cek apakah request adalah form data (untuk upload file)
     const contentType = request.headers.get('content-type');

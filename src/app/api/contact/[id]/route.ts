@@ -7,7 +7,10 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  await requireAdmin();
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
   const { id } = await params;
   const message = await prisma.contactMessage.findUnique({
     where: { id },
@@ -30,7 +33,10 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  await requireAdmin();
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
   const { id } = await params;
 
   await prisma.contactMessage.delete({

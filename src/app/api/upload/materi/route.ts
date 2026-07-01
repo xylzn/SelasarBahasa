@@ -3,7 +3,10 @@ import { requireAdmin } from '@/lib/api-auth';
 import { uploadFile } from '@/lib/supabase-storage';
 
 export async function POST(request: Request) {
-  await requireAdmin();
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
   const formData = await request.formData();
   const file = formData.get('file') as File | null;
 

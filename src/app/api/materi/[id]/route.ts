@@ -8,7 +8,10 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  await requireAdmin();
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
   const { id } = await params;
 
   const materi = await prisma.materi.findUnique({
@@ -41,7 +44,10 @@ export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  await requireAdmin();
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
   const { id } = await params;
   const body = await request.json();
   const validated = updateMateriSchema.parse(body);
@@ -59,7 +65,10 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  await requireAdmin();
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
   const { id } = await params;
 
   await prisma.materi.delete({

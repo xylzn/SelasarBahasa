@@ -36,17 +36,28 @@ interface QuizSubmitResponse {
   breakdown: QuizBreakdownItem[];
 }
 
-export default function QuizDetailPage({ params }: { params: { id: string } }) {
+export default function QuizDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [quiz, setQuiz] = useState<QuizData | null>(null);
   const [result, setResult] = useState<QuizSubmitResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null);
 
   useEffect(() => {
+    const resolveParams = async () => {
+      const p = await params;
+      setResolvedParams(p);
+    };
+    resolveParams();
+  }, [params]);
+
+  useEffect(() => {
+    if (!resolvedParams) return;
+
     const fetchQuiz = async () => {
       try {
-        const res = await fetch(`/api/quiz/${params.id}`);
+        const res = await fetch(`/api/quiz/${resolvedParams.id}`);
         if (!res.ok) throw new Error('Quiz tidak ditemukan');
         const data = await res.json();
         setQuiz(data);
@@ -57,12 +68,13 @@ export default function QuizDetailPage({ params }: { params: { id: string } }) {
       }
     };
     fetchQuiz();
-  }, [params.id]);
+  }, [resolvedParams]);
 
   const handleSubmit = async (answers: Record<string, string>) => {
+    if (!resolvedParams) return;
     setIsSubmitting(true);
     try {
-      const res = await fetch(`/api/quiz/${params.id}/submit`, {
+      const res = await fetch(`/api/quiz/${resolvedParams.id}/submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ jawaban: answers }),

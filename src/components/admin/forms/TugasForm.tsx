@@ -20,19 +20,36 @@ const tugasSchema = z.object({
 
 type TugasFormValues = z.infer<typeof tugasSchema>;
 
-export default function TugasForm() {
+interface TugasFormProps {
+  initialData?: any;
+}
+
+export default function TugasForm({ initialData }: TugasFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState<string>('');
+  const [keepExistingFile, setKeepExistingFile] = useState(!!initialData?.fileInstruksiUrl);
+
+  const isEditing = !!initialData;
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<any>({
     resolver: zodResolver(tugasSchema as any),
-    defaultValues: {
+    defaultValues: initialData ? {
+      judul: initialData.judul,
+      slug: initialData.slug,
+      instruksi: initialData.instruksi,
+      kelas: initialData.kelas,
+      isPremium: initialData.isPremium,
+      deadline: initialData.deadline ? new Date(initialData.deadline).toISOString().slice(0, 16) : '',
+      urutan: initialData.urutan,
+      published: initialData.published,
+    } : {
       kelas: 'DASAR',
       isPremium: false,
       published: true,
@@ -45,9 +62,8 @@ export default function TugasForm() {
     setUploadProgress('Menyiapkan...');
 
     try {
-      let fileInstruksiUrl = null;
-
-      // Upload file if selected
+      let fileInstruksiUrl = initialData?.fileInstruksiUrl || null;
+      
       if (selectedFile) {
         setUploadProgress('Mengunggah file...');
         const uploadFormData = new FormData();
@@ -65,18 +81,18 @@ export default function TugasForm() {
         
         const uploadResult = await uploadRes.json();
         fileInstruksiUrl = uploadResult.url;
+      } else if (!keepExistingFile) {
+        fileInstruksiUrl = null;
       }
 
-      // Prepare data
       const tugasData = {
         ...data,
         deadline: data.deadline ? new Date(data.deadline) : null,
         fileInstruksiUrl,
       };
 
-      // Submit to API
-      const res = await fetch('/api/tugas', {
-        method: 'POST',
+      const res = await fetch(isEditing ? `/api/tugas/${initialData.id}` : '/api/tugas', {
+        method: isEditing ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -89,7 +105,7 @@ export default function TugasForm() {
         router.refresh();
       } else {
         const errData = await res.json();
-        throw new Error(errData.error || 'Gagal menambah tugas');
+        throw new Error(errData.error || `Gagal ${isEditing ? 'mengedit' : 'menambah'} tugas`);
       }
     } catch (err: any) {
       console.error(err);
@@ -102,7 +118,7 @@ export default function TugasForm() {
 
   return (
     <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl border border-gray-200">
-      <h2 className="text-xl font-bold text-gray-900 mb-6">Tambah Tugas Baru</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-6">{isEditing ? 'Edit Tugas' : 'Tambah Tugas Baru'}</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
@@ -164,6 +180,29 @@ export default function TugasForm() {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">File Instruksi (opsional)</label>
+          {initialData?.fileInstruksiUrl && (
+            <div className="mb-2">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={keepExistingFile}
+                  onChange={(e) => setKeepExistingFile(e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-sm text-gray-600">Pertahankan file yang ada</span>
+              </label>
+              {keepExistingFile && (
+                <a
+                  href={initialData.fileInstruksiUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-700 text-sm ml-6"
+                >
+                  Lihat file yang ada
+                </a>
+              )}
+            </div>
+          )}
           <input
             type="file"
             accept=".pdf,.doc,.docx"

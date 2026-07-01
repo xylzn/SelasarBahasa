@@ -5,7 +5,10 @@ import { getCached } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
 
 export async function GET() {
-  await requireAdmin();
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
 
   const cacheKey = CACHE_KEYS.adminStats();
 

@@ -56,7 +56,10 @@ const createArtikelSchema = z.object({
 });
 
 export async function POST(request: Request) {
-  await requireAdmin();
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
   const body = await request.json();
   const validated = createArtikelSchema.parse(body);
 

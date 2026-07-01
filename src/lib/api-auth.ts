@@ -8,15 +8,18 @@ export async function getAuthSession() {
 export async function requireAuth() {
   const session = await getAuthSession();
   if (!session?.user) {
-    throw new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+    return { error: 'Unauthorized', status: 401 };
   }
-  return session;
+  return { session };
 }
 
 export async function requireAdmin() {
-  const session = await requireAuth();
-  if (session.user?.role !== 'ADMIN') {
-    throw new NextResponse(JSON.stringify({ error: 'Forbidden' }), { status: 403 });
+  const authResult = await requireAuth();
+  if ('error' in authResult) {
+    return authResult;
   }
-  return session;
+  if (authResult.session.user?.role !== 'ADMIN') {
+    return { error: 'Forbidden', status: 403 };
+  }
+  return { session: authResult.session };
 }

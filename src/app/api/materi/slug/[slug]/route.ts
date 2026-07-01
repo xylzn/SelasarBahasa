@@ -10,7 +10,11 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const session = await requireAuth();
+  const authResult = await requireAuth();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
+  const session = authResult.session;
   const { slug } = await params;
 
   const cacheKey = CACHE_KEYS.materiDetail(slug);

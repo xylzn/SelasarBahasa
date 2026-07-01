@@ -13,7 +13,10 @@ const createUserSchema = z.object({
 
 // GET /api/admin/users
 export async function GET(request: Request) {
-  await requireAdmin();
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '20');
@@ -43,7 +46,10 @@ export async function GET(request: Request) {
 
 // POST /api/admin/users
 export async function POST(request: Request) {
-  await requireAdmin();
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
   const body = await request.json();
   const validated = createUserSchema.parse(body);
 

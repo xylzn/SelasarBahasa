@@ -34,7 +34,14 @@ export default function TugasTableClient({ tugasList }: TugasTableClientProps) {
     {
       key: '_count',
       header: 'Submissions',
-      render: (value: any) => value.submissions,
+      render: (value: any, item: any) => (
+        <Link
+          href={`/admin/tugas/${item.id}/submissions`}
+          className="text-blue-600 hover:text-blue-700 font-medium"
+        >
+          {value.submissions}
+        </Link>
+      ),
     },
     {
       key: 'published',
@@ -52,6 +59,12 @@ export default function TugasTableClient({ tugasList }: TugasTableClientProps) {
       header: 'Aksi',
       render: (value: any, item: any) => (
         <div className="flex gap-3">
+          <Link
+            href={`/admin/tugas/${item.id}/submissions`}
+            className="text-green-600 hover:text-green-700 font-medium text-sm"
+          >
+            Submissions
+          </Link>
           <Link
             href={`/admin/tugas/edit/${item.id}`}
             className="text-blue-600 hover:text-blue-700 font-medium text-sm"
