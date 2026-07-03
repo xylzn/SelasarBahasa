@@ -1,4 +1,4 @@
-import { redis } from './redis';
+import { redis } from './redis'
 
 export async function getCached<T>(
   key: string,
@@ -6,45 +6,52 @@ export async function getCached<T>(
   fetchFn: () => Promise<T>
 ): Promise<T> {
   try {
-    const cached = await redis.get(key);
+    const cached = await redis.get(key)
     if (cached && typeof cached === 'string') {
       try {
-        return JSON.parse(cached);
+        return JSON.parse(cached)
       } catch (e) {
-        console.error('Cache parse error:', e);
-        await redis.del(key); // Hapus cache yang corrupt
+        console.error('Cache parse error:', e)
+        await redis.del(key) // Hapus cache yang corrupt
       }
     }
   } catch (e) {
-    console.error('Cache get error:', e);
+    console.error('Cache get error:', e)
   }
 
-  const data = await fetchFn();
+  const data = await fetchFn()
 
   try {
-    await redis.setex(key, ttlSeconds, JSON.stringify(data));
+    await redis.setex(key, ttlSeconds, JSON.stringify(data))
   } catch (e) {
-    console.error('Cache set error:', e);
+    console.error('Cache set error:', e)
   }
 
-  return data;
+  return data
 }
 
 export async function invalidateCache(...keys: string[]): Promise<void> {
   try {
-    await redis.del(...keys);
+    await redis.del(...keys)
   } catch (e) {
-    console.error('Cache invalidate error:', e);
+    console.error('Cache invalidate error:', e)
   }
 }
 
+/**
+ * Invalidate cache keys matching a pattern.
+ * 
+ * ⚠️ WARNING: Uses redis.keys() internally, which can be slow for large datasets
+ * as it scans all keys in the database. For production use with large scale,
+ * consider implementing SCAN-based pagination or use a different cache invalidation strategy.
+ */
 export async function invalidateCachePattern(pattern: string): Promise<void> {
   try {
-    const keys = await redis.keys(pattern);
+    const keys = await redis.keys(pattern)
     if (keys.length > 0) {
-      await redis.del(...keys);
+      await redis.del(...keys)
     }
   } catch (e) {
-    console.error('Cache invalidate pattern error:', e);
+    console.error('Cache invalidate pattern error:', e)
   }
 }

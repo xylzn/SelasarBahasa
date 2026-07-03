@@ -1,13 +1,19 @@
 import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
+import { getCached } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
 
 export default async function DashboardPage() {
   const session = await auth();
   const userId = session?.user?.id;
 
   const [totalMateri, totalQuiz, recentAttempts] = await Promise.all([
-    prisma.materi.count({ where: { published: true } }),
-    prisma.quiz.count({ where: { published: true } }),
+    getCached(CACHE_KEYS.materiList(1, true), 1800, async () => {
+      return prisma.materi.count({ where: { published: true } });
+    }),
+    getCached(CACHE_KEYS.quizList(1, true), 1800, async () => {
+      return prisma.quiz.count({ where: { published: true } });
+    }),
     userId
       ? await prisma.quizAttempt.findMany({
           where: { userId },

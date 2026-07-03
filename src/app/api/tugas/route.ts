@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdmin, requireAuth } from '@/lib/api-auth';
 import { z } from 'zod';
+import { getCached, invalidateCachePattern } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
 
 const slugify = (text: string) =>
   text
@@ -17,17 +19,20 @@ export async function GET(request: Request) {
   }
   const session = authResult.session;
   const { searchParams } = new URL(request.url);
-  const kelas = searchParams.get('kelas');
+  const kelas = searchParams.get('kelas') ?? undefined;
 
   const isPremium = session.user?.role === 'ADMIN' || session.user?.role === 'PREMIUM';
+  const cacheKey = CACHE_KEYS.tugasList(1, isPremium, kelas);
 
-  const tugas = await prisma.tugas.findMany({
-    where: {
-      published: true,
-      ...(!isPremium && { isPremium: false }),
-      ...(kelas && { kelas: kelas as any }),
-    },
-    orderBy: { urutan: 'asc' },
+  const tugas = await getCached(cacheKey, 1800, async () => {
+    return prisma.tugas.findMany({
+      where: {
+        published: true,
+        ...(!isPremium && { isPremium: false }),
+        ...(kelas && { kelas: kelas as any }),
+      },
+      orderBy: { urutan: 'asc' },
+    });
   });
 
   return NextResponse.json(tugas);
@@ -75,6 +80,8 @@ export async function POST(request: Request) {
       published: validated.published,
     },
   });
+
+  await invalidateCachePattern('tugas:list:*');
 
   return NextResponse.json(newTugas, { status: 201 });
 }

@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
+import { getCached } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
 
 export default async function TugasListPage({ params }: { params: Promise<{ kelas: string }> }) {
   const session = await auth();
@@ -19,20 +21,32 @@ export default async function TugasListPage({ params }: { params: Promise<{ kela
 
   const isPremium = session?.user?.role === 'ADMIN' || session?.user?.role === 'PREMIUM';
 
-  const tugasList = await prisma.tugas.findMany({
-    where: {
-      kelas: kelasEnum,
-      published: true,
-      ...(!isPremium && { isPremium: false }),
-    },
-    include: {
-      submissions: {
-        where: session?.user?.id ? { userId: session.user.id } : {},
-        take: 1,
+  const cachedTugasList = await getCached(CACHE_KEYS.tugasListByKelas(kelasEnum, isPremium), 1800, async () => {
+    return prisma.tugas.findMany({
+      where: {
+        kelas: kelasEnum,
+        published: true,
+        ...(!isPremium && { isPremium: false }),
       },
-    },
-    orderBy: { urutan: 'asc' },
+      orderBy: { urutan: 'asc' },
+    });
   });
+
+  // Get user submissions separately (per-user, not cached globally)
+  const submissions = session?.user?.id
+    ? await prisma.tugasSubmission.findMany({
+        where: {
+          userId: session.user.id,
+          tugasId: { in: cachedTugasList.map(t => t.id) },
+        },
+      })
+    : [];
+
+  // Merge submissions back into tugasList
+  const tugasList = cachedTugasList.map(tugas => ({
+    ...tugas,
+    submissions: submissions.filter(s => s.tugasId === tugas.id),
+  }));
 
   const now = new Date();
 

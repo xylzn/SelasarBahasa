@@ -20,6 +20,11 @@ const packageSchema = z.object({
 
 // GET /api/admin/packages
 export async function GET() {
+  const authResult = await requireAdmin();
+  if ('error' in authResult) {
+    return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+  }
+  
   const cacheKey = CACHE_KEYS.packageList();
   
   const packages = await getCached(cacheKey, 600, async () => {

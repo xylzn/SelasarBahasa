@@ -1,14 +1,17 @@
 import Link from 'next/link';
 import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
-import { Lock } from 'lucide-react';
+import { getCached } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
 
 export default async function KelasPage() {
   const session = await auth();
   const userRole = session?.user?.role || 'USER';
 
-  const totalMateri = await prisma.materi.count({
-    where: { published: true }
+  const totalMateri = await getCached(CACHE_KEYS.materiList(1, true), 1800, async () => {
+    return prisma.materi.count({
+      where: { published: true }
+    });
   });
 
   return (

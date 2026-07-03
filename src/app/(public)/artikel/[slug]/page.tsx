@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
 import { generateArticleJsonLd } from '@/lib/seo';
 
@@ -94,9 +95,11 @@ export default async function ArticleDetailPage({
           </header>
 
           {article.thumbnailUrl && (
-            <img
+            <Image
               src={article.thumbnailUrl}
               alt={article.judul}
+              width={1200}
+              height={600}
               className="w-full h-64 md:h-96 object-cover rounded-xl mb-8"
             />
           )}

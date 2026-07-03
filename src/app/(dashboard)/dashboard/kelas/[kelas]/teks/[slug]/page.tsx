@@ -3,6 +3,8 @@ import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { PremiumLockModal } from '@/components/shared/PremiumLockModal';
+import { getCached } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
 
 export default async function TeksMateriPage({ params }: { params: Promise<{ kelas: string; slug: string }> }) {
   const session = await auth();
@@ -19,8 +21,10 @@ export default async function TeksMateriPage({ params }: { params: Promise<{ kel
     kelasDisplay = 'Kelas Lanjutan';
   }
 
-  const materi = await prisma.materi.findUnique({
-    where: { slug, published: true },
+  const materi = await getCached(CACHE_KEYS.materiDetail(slug), 1800, async () => {
+    return prisma.materi.findUnique({
+      where: { slug, published: true },
+    });
   });
 
   if (!materi) return notFound();

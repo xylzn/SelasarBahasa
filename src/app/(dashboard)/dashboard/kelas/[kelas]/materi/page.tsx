@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import MateriCard from '@/components/materi/MateriCard';
+import { getCached } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
 
 export default async function MateriListPage({ params }: { params: Promise<{ kelas: string }> }) {
   const session = await auth();
@@ -20,13 +22,16 @@ export default async function MateriListPage({ params }: { params: Promise<{ kel
     kelasDisplay = 'Kelas Lanjutan';
   }
 
-  const materis = await prisma.materi.findMany({
-    where: {
-      kelas: kelasEnum,
-      tipe: 'TEKS',
-      published: true
-    },
-    orderBy: { urutan: 'asc' }
+  const materis = await getCached(CACHE_KEYS.materiListByKelas(kelasEnum, userCanAccessPremium, 'TEKS'), 1800, async () => {
+    return prisma.materi.findMany({
+      where: {
+        kelas: kelasEnum,
+        tipe: 'TEKS',
+        published: true,
+        ...(!userCanAccessPremium && { isPremium: false }),
+      },
+      orderBy: { urutan: 'asc' }
+    });
   });
 
   return (

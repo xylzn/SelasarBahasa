@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import { BookOpen, PlayCircle, ClipboardList } from 'lucide-react';
+import { getCached } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
 
 export default async function KelasDetailPage({ params }: { params: Promise<{ kelas: string }> }) {
   const session = await auth();
@@ -19,14 +21,20 @@ export default async function KelasDetailPage({ params }: { params: Promise<{ ke
   }
 
   const [jumlahTeks, jumlahVideo, jumlahTugas] = await Promise.all([
-    prisma.materi.count({
-      where: { kelas: kelasEnum, tipe: 'TEKS', published: true },
+    getCached(CACHE_KEYS.materiListByKelas(kelasEnum, true, 'TEKS'), 1800, async () => {
+      return prisma.materi.count({
+        where: { kelas: kelasEnum, tipe: 'TEKS', published: true },
+      });
     }),
-    prisma.materi.count({
-      where: { kelas: kelasEnum, tipe: 'VIDEO', published: true },
+    getCached(CACHE_KEYS.materiListByKelas(kelasEnum, true, 'VIDEO'), 1800, async () => {
+      return prisma.materi.count({
+        where: { kelas: kelasEnum, tipe: 'VIDEO', published: true },
+      });
     }),
-    prisma.tugas.count({
-      where: { kelas: kelasEnum, published: true },
+    getCached(CACHE_KEYS.tugasListByKelas(kelasEnum, true), 1800, async () => {
+      return prisma.tugas.count({
+        where: { kelas: kelasEnum, published: true },
+      });
     }),
   ]);
 

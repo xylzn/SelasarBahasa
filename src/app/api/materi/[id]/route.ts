@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/api-auth';
 import { z } from 'zod';
+import { invalidateCachePattern, invalidateCache } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
 
 // GET /api/materi/[id]
 export async function GET(
@@ -52,10 +54,16 @@ export async function PUT(
   const body = await request.json();
   const validated = updateMateriSchema.parse(body);
 
+  const oldMateri = await prisma.materi.findUnique({ where: { id } });
   const materi = await prisma.materi.update({
     where: { id },
     data: validated,
   });
+
+  // Invalidate cache
+  await invalidateCachePattern('materi:list:*');
+  if (oldMateri?.slug) await invalidateCache(CACHE_KEYS.materiDetail(oldMateri.slug));
+  if (materi.slug && materi.slug !== oldMateri?.slug) await invalidateCache(CACHE_KEYS.materiDetail(materi.slug));
 
   return NextResponse.json(materi);
 }
@@ -71,9 +79,14 @@ export async function DELETE(
   }
   const { id } = await params;
 
+  const oldMateri = await prisma.materi.findUnique({ where: { id } });
   await prisma.materi.delete({
     where: { id },
   });
+
+  // Invalidate cache
+  await invalidateCachePattern('materi:list:*');
+  if (oldMateri?.slug) await invalidateCache(CACHE_KEYS.materiDetail(oldMateri.slug));
 
   return NextResponse.json({ success: true });
 }

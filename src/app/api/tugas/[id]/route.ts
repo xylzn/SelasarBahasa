@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdmin, requireAuth } from '@/lib/api-auth';
 import { z } from 'zod';
+import { invalidateCachePattern, invalidateCache } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
 
 const updateTugasSchema = z.object({
   judul: z.string().min(1),
@@ -94,6 +96,10 @@ export async function PUT(
     },
   });
 
+  await invalidateCachePattern('tugas:list:*');
+  if (existingTugas?.slug) await invalidateCache(CACHE_KEYS.tugasDetail(existingTugas.slug));
+  if (updatedTugas.slug && updatedTugas.slug !== existingTugas?.slug) await invalidateCache(CACHE_KEYS.tugasDetail(updatedTugas.slug));
+
   return NextResponse.json(updatedTugas);
 }
 
@@ -107,6 +113,8 @@ export async function DELETE(
   }
   const { id } = await params;
 
+  const existingTugas = await prisma.tugas.findUnique({ where: { id } });
+
   await prisma.tugasSubmissionFile.deleteMany({
     where: { submission: { tugasId: id } },
   });
@@ -116,6 +124,9 @@ export async function DELETE(
   await prisma.tugas.delete({
     where: { id },
   });
+
+  await invalidateCachePattern('tugas:list:*');
+  if (existingTugas?.slug) await invalidateCache(CACHE_KEYS.tugasDetail(existingTugas.slug));
 
   return NextResponse.json({ success: true });
 }

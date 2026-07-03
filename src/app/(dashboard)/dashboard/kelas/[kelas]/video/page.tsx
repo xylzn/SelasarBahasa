@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import MateriCard from '@/components/materi/MateriCard';
+import { getCached } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
 
 export default async function VideoListPage({ params }: { params: Promise<{ kelas: string }> }) {
   const session = await auth();
@@ -20,13 +22,16 @@ export default async function VideoListPage({ params }: { params: Promise<{ kela
     kelasDisplay = 'Kelas Lanjutan';
   }
 
-  const videos = await prisma.materi.findMany({
-    where: {
-      kelas: kelasEnum,
-      tipe: 'VIDEO',
-      published: true
-    },
-    orderBy: { urutan: 'asc' }
+  const videos = await getCached(CACHE_KEYS.materiListByKelas(kelasEnum, userCanAccessPremium, 'VIDEO'), 1800, async () => {
+    return prisma.materi.findMany({
+      where: {
+        kelas: kelasEnum,
+        tipe: 'VIDEO',
+        published: true,
+        ...(!userCanAccessPremium && { isPremium: false }),
+      },
+      orderBy: { urutan: 'asc' }
+    });
   });
 
   return (

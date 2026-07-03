@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar, Tag } from 'lucide-react';
 
 interface Article {
@@ -16,9 +17,11 @@ export default function ArticleCard({ article }: { article: Article }) {
     <Link href={`/artikel/${article.slug}`} className="block">
       <article className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
         {article.thumbnailUrl && (
-          <img
+          <Image
             src={article.thumbnailUrl}
             alt={article.judul}
+            width={400}
+            height={200}
             className="w-full h-48 object-cover"
           />
         )}
