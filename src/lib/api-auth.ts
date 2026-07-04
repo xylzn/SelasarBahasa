@@ -8,9 +8,9 @@ export async function getAuthSession() {
 export async function requireAuth() {
   const session = await getAuthSession();
   if (!session?.user) {
-    return { error: 'Unauthorized', status: 401 };
+    return { error: 'Unauthorized', status: 401 } as const;
   }
-  return { session };
+  return { session: { ...session, user: session.user } };
 }
 
 export async function requireAdmin() {

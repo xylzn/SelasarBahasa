@@ -25,7 +25,7 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
-  const userName = (session?.user as any)?.nama ?? session?.user?.name ?? '';
+  const userName = (session?.user as any)?.nama ?? '';
   const userRole = (session?.user as any)?.role ?? '';
   const fotoProfil = (session?.user as any)?.fotoProfil ?? null;
 

@@ -80,7 +80,7 @@ const config = {
     signIn: '/login',
   },
   events: {
-    async signIn({ user }) {
+    async signIn({ user }: { user?: User }) {
       if (user?.id) {
         await prisma.user.update({
           where: { id: user.id },
