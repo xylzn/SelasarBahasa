@@ -97,6 +97,39 @@ export async function uploadFileToSupabase(
 }
 
 /**
+ * Generate a short-lived signed URL for a private file in Supabase Storage.
+ *
+ * @param publicUrl  The public URL stored in DB (used to extract the file path)
+ * @param bucket     Storage bucket name (e.g., 'materi-files')
+ * @param expiresIn  Seconds until the signed URL expires (default 300 = 5 min)
+ * @returns signed URL string, or throws on error
+ */
+export async function createSignedUrl(
+  publicUrl: string,
+  bucket: string,
+  expiresIn = 300
+): Promise<string> {
+  // Extract the file path from the public URL.
+  // Public URL format: https://<project>.supabase.co/storage/v1/object/public/<bucket>/<path>
+  const url = new URL(publicUrl);
+  const prefix = `/storage/v1/object/public/${bucket}/`;
+  if (!url.pathname.startsWith(prefix)) {
+    throw new Error(`URL does not belong to bucket '${bucket}': ${publicUrl}`);
+  }
+  const filePath = url.pathname.slice(prefix.length);
+
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .createSignedUrl(filePath, expiresIn);
+
+  if (error || !data?.signedUrl) {
+    throw new Error(`Failed to create signed URL: ${error?.message ?? 'unknown error'}`);
+  }
+
+  return data.signedUrl;
+}
+
+/**
  * Delete file from Supabase Storage
  * @param url Full public URL of the file
  * @param bucket Storage bucket name

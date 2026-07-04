@@ -7,6 +7,7 @@ import { getCached } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
 import { hasActivePremiumAccess } from '@/lib/access';
 import MarkCompleteButton from '@/components/materi/MarkCompleteButton';
+import PdfViewer from '@/components/materi/PdfViewer';
 
 export default async function TeksMateriPage({ params }: { params: Promise<{ kelas: string; slug: string }> }) {
   const session = await auth();
@@ -72,13 +73,7 @@ export default async function TeksMateriPage({ params }: { params: Promise<{ kel
       </div>
       
       {materi.pdfUrl ? (
-        <div className="aspect-video w-full rounded-xl overflow-hidden border border-gray-200">
-          <iframe 
-            src={materi.pdfUrl} 
-            className="w-full h-full"
-            title={materi.judul}
-          />
-        </div>
+        <PdfViewer materiId={materi.id} title={materi.judul} />
       ) : (
         <div className="bg-gray-100 p-8 rounded-xl text-center">
           <p className="text-gray-600">Materi teks ini belum tersedia</p>

@@ -32,6 +32,7 @@
     "react-dom": "19",
     "react-easy-crop": "^6.1.0",
     "react-hook-form": "^7.80.0",
+    "react-pdf": "^9.2.1",
     "resend": "^4.1.2",
     "typescript": "5",
     "zod": "^3.24.2"
