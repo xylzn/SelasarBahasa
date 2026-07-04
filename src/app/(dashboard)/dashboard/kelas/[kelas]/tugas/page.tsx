@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import { getCached } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
+import { hasActivePremiumAccess } from '@/lib/access';
 
 export default async function TugasListPage({ params }: { params: Promise<{ kelas: string }> }) {
   const session = await auth();
@@ -19,7 +20,10 @@ export default async function TugasListPage({ params }: { params: Promise<{ kela
     kelasDisplay = 'Kelas Lanjutan';
   }
 
-  const isPremium = session?.user?.role === 'ADMIN' || session?.user?.role === 'PREMIUM';
+  const isPremium = hasActivePremiumAccess({
+    role: session?.user?.role || 'USER',
+    premiumExpiresAt: session?.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
+  });
 
   const cachedTugasList = await getCached(CACHE_KEYS.tugasListByKelas(kelasEnum, isPremium), 1800, async () => {
     return prisma.tugas.findMany({

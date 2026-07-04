@@ -3,11 +3,14 @@ import prisma from '@/lib/prisma';
 import QuizCard from '@/components/quiz/QuizCard';
 import { getCached } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
+import { hasActivePremiumAccess } from '@/lib/access';
 
 export default async function QuizPage() {
   const session = await auth();
-  const userRole = session?.user?.role || 'USER';
-  const userCanAccessPremium = userRole === 'ADMIN' || userRole === 'PREMIUM';
+  const userCanAccessPremium = hasActivePremiumAccess({
+    role: session?.user?.role || 'USER',
+    premiumExpiresAt: session?.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
+  });
 
   const quizList = await getCached(CACHE_KEYS.quizList(1, userCanAccessPremium), 1800, async () => {
     return prisma.quiz.findMany({

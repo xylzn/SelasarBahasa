@@ -9,22 +9,27 @@ export const metadata = {
 };
 
 async function getArticles(searchParams: { kategori?: string }) {
-  return await prisma.article.findMany({
-    where: {
-      published: true,
-      ...(searchParams.kategori && { kategori: searchParams.kategori }),
-    },
-    orderBy: { publishedAt: 'desc' },
-    select: {
-      id: true,
-      judul: true,
-      slug: true,
-      ringkasan: true,
-      thumbnailUrl: true,
-      kategori: true,
-      publishedAt: true,
-    },
-  });
+  try {
+    return await prisma.article.findMany({
+      where: {
+        published: true,
+        ...(searchParams.kategori && { kategori: searchParams.kategori }),
+      },
+      orderBy: { publishedAt: 'desc' },
+      select: {
+        id: true,
+        judul: true,
+        slug: true,
+        ringkasan: true,
+        thumbnailUrl: true,
+        kategori: true,
+        publishedAt: true,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch articles during build/render", error);
+    return [];
+  }
 }
 
 export default async function ArticlesPage({

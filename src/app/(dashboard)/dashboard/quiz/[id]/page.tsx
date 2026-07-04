@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
 import QuizRunner from '@/components/quiz/QuizRunner';
 import QuizResult from '@/components/quiz/QuizResult';
+import { useToast } from '@/components/ui/Toast';
 
 interface QuizOption {
   id: string;
@@ -27,8 +28,10 @@ interface QuizBreakdownItem {
   questionId: string;
   pertanyaan: string;
   jawabanUser: string | null;
+  jawabanUserLabel: string | null;
   isCorrect: boolean;
   jawabanBenar: string;
+  jawabanBenarLabel: string | null;
 }
 
 interface QuizSubmitResponse {
@@ -43,6 +46,7 @@ export default function QuizDetailPage({ params }: { params: Promise<{ id: strin
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const resolveParams = async () => {
@@ -82,8 +86,10 @@ export default function QuizDetailPage({ params }: { params: Promise<{ id: strin
       if (!res.ok) throw new Error('Gagal menyimpan jawaban');
       const data = await res.json();
       setResult(data);
+      showToast('Jawaban quiz berhasil disimpan!', 'success');
     } catch (err) {
-      alert('Gagal menyimpan jawaban, silakan coba lagi');
+      console.error(err);
+      showToast('Gagal menyimpan jawaban, silakan coba lagi', 'error');
     } finally {
       setIsSubmitting(false);
     }

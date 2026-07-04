@@ -4,6 +4,7 @@ import { requireAuth } from '@/lib/api-auth';
 import { getCached, invalidateCache, invalidateCachePattern } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
 import { z } from 'zod';
+import { hasActivePremiumAccess } from '@/lib/access';
 
 // GET /api/materi/slug/[slug]
 export async function GET(
@@ -29,8 +30,11 @@ export async function GET(
     return NextResponse.json({ error: 'Materi tidak ditemukan' }, { status: 404 });
   }
 
-  const isPremium = session.user?.role === 'ADMIN' || session.user?.role === 'PREMIUM';
-  if (materi.isPremium && !isPremium) {
+  const userCanAccessPremium = hasActivePremiumAccess({
+    role: session.user?.role || 'USER',
+    premiumExpiresAt: session.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
+  });
+  if (materi.isPremium && !userCanAccessPremium) {
     return NextResponse.json(
       { error: 'Materi ini membutuhkan akses premium' },
       { status: 403 }

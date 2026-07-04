@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/Toast';
 
 interface DeleteButtonProps {
   id: string;
@@ -13,20 +14,22 @@ export default function DeleteButton({ id, apiPath, itemName = 'item ini' }: Del
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
+  const { showToast } = useToast();
 
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
       const res = await fetch(`${apiPath}/${id}`, { method: 'DELETE' });
       if (res.ok) {
+        showToast('Item berhasil dihapus!', 'success');
         setIsModalOpen(false);
         router.refresh();
       } else {
-        alert('Gagal menghapus item');
+        throw new Error('Gagal menghapus item');
       }
     } catch (err) {
       console.error(err);
-      alert('Gagal menghapus item');
+      showToast('Gagal menghapus item', 'error');
     } finally {
       setIsDeleting(false);
     }

@@ -9,6 +9,7 @@ export default async function AdminUsersPage() {
       email: true,
       role: true,
       createdAt: true,
+      premiumExpiresAt: true,
     },
     orderBy: { createdAt: 'desc' },
   });

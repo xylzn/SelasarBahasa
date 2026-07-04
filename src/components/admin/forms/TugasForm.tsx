@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { uploadFileToSupabase } from '@/lib/supabase-storage';
+import { useToast } from '@/components/ui/Toast';
 
 const tugasSchema = z.object({
   judul: z.string().min(1, 'Judul harus diisi'),
@@ -30,6 +31,7 @@ export default function TugasForm({ initialData }: TugasFormProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState<string>('');
   const [keepExistingFile, setKeepExistingFile] = useState(!!initialData?.fileInstruksiUrl);
+  const { showToast } = useToast();
 
   const isEditing = !!initialData;
 
@@ -101,6 +103,7 @@ export default function TugasForm({ initialData }: TugasFormProps) {
 
       if (res.ok) {
         setUploadProgress('Berhasil!');
+        showToast(isEditing ? 'Tugas berhasil diperbarui!' : 'Tugas berhasil ditambahkan!', 'success');
         router.push('/admin/tugas');
         router.refresh();
       } else {
@@ -109,7 +112,7 @@ export default function TugasForm({ initialData }: TugasFormProps) {
       }
     } catch (err: any) {
       console.error(err);
-      alert(err.message || 'Terjadi kesalahan');
+      showToast(err.message || 'Terjadi kesalahan', 'error');
     } finally {
       setIsLoading(false);
       setUploadProgress('');

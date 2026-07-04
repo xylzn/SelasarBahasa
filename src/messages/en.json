@@ -1,0 +1,91 @@
+{
+  "navbar": {
+    "home": "Home",
+    "articles": "Articles",
+    "login": "Login",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "adminPanel": "Admin Panel",
+    "logout": "Logout"
+  },
+  "hero": {
+    "title1": "Learn Languages",
+    "title2": "Easily",
+    "title3": "and",
+    "title4": "Fun",
+    "subtitle": "Access quality materials, interactive quizzes, and a supportive learning community. Start your learning journey today!",
+    "ctaRegister": "Register for Free",
+    "ctaArticles": "Read Articles",
+    "usersJoined": "{count} people have joined!"
+  },
+  "about": {
+    "title": "Why Choose SelasarBahasa?",
+    "subtitle": "We provide the best language learning experience with a modern and effective approach.",
+    "features": {
+      "materi": {
+        "title": "Complete Materials",
+        "desc": "Various language materials from basic to advanced with text and video."
+      },
+      "sertifikat": {
+        "title": "Certificates",
+        "desc": "Get a certificate after completing each learning level."
+      },
+      "komunitas": {
+        "title": "Community",
+        "desc": "Join a supportive and active learning community."
+      },
+      "quiz": {
+        "title": "Interactive Quizzes",
+        "desc": "Test your understanding with varied quizzes and instant feedback."
+      }
+    }
+  },
+  "package": {
+    "popular": "Most Popular",
+    "contactUs": "Contact Us"
+  },
+  "footer": {
+    "desc": "The best online language learning platform with quality materials and interactive quizzes.",
+    "menu": "Menu",
+    "contact": "Contact",
+    "rights": "All rights reserved."
+  },
+  "login": {
+    "title": "Log in to Your Account",
+    "welcome": "Welcome back!",
+    "email": "Email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter password",
+    "submit": "Log In",
+    "submitting": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "registerNow": "Register now"
+  },
+  "register": {
+    "title": "Register New Account",
+    "subtitle": "Start your learning journey today!",
+    "fullName": "Full Name",
+    "namePlaceholder": "Enter name",
+    "email": "Email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "submit": "Register",
+    "submitting": "Registering...",
+    "hasAccount": "Already have an account?",
+    "login": "Log In"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "classes": "Classes",
+    "quiz": "Quizzes",
+    "grades": "Grades Summary",
+    "articles": "Articles",
+    "materials": "Materi",
+    "tasks": "Tugas",
+    "packages": "Packages",
+    "users": "Users",
+    "logout": "Logout"
+  }
+}

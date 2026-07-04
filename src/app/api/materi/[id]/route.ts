@@ -36,6 +36,7 @@ const updateMateriSchema = z.object({
   pdfUrl: z.string().optional().nullable(),
   videoUrl: z.string().optional().nullable(),
   videoProvider: z.enum(['YOUTUBE', 'VIMEO']).optional().nullable(),
+  deskripsi: z.string().optional().nullable(),
   isPremium: z.boolean().optional(),
   urutan: z.number().optional(),
   published: z.boolean().optional(),
@@ -62,6 +63,7 @@ export async function PUT(
 
   // Invalidate cache
   await invalidateCachePattern('materi:list:*');
+  await invalidateCache(CACHE_KEYS.materiCount());
   if (oldMateri?.slug) await invalidateCache(CACHE_KEYS.materiDetail(oldMateri.slug));
   if (materi.slug && materi.slug !== oldMateri?.slug) await invalidateCache(CACHE_KEYS.materiDetail(materi.slug));
 
@@ -86,6 +88,7 @@ export async function DELETE(
 
   // Invalidate cache
   await invalidateCachePattern('materi:list:*');
+  await invalidateCache(CACHE_KEYS.materiCount());
   if (oldMateri?.slug) await invalidateCache(CACHE_KEYS.materiDetail(oldMateri.slug));
 
   return NextResponse.json({ success: true });

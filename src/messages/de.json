@@ -1,0 +1,91 @@
+{
+  "navbar": {
+    "home": "Startseite",
+    "articles": "Artikel",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "dashboard": "Dashboard",
+    "adminPanel": "Admin-Bereich",
+    "logout": "Abmelden"
+  },
+  "hero": {
+    "title1": "Sprachen lernen",
+    "title2": "Einfach",
+    "title3": "und mit",
+    "title4": "Spaß",
+    "subtitle": "Greifen Sie auf hochwertige Materialien, interaktive Quizfragen und eine unterstützende Lerngemeinschaft zu. Beginnen Sie Ihre Lernreise noch heute!",
+    "ctaRegister": "Kostenlos registrieren",
+    "ctaArticles": "Artikel lesen",
+    "usersJoined": "Bereits {count} Personen beigetreten!"
+  },
+  "about": {
+    "title": "Warum SelasarBahasa wählen?",
+    "subtitle": "Wir bieten die beste Spracherfahrung mit einem modernen und effektiven Ansatz.",
+    "features": {
+      "materi": {
+        "title": "Vollständige Materialien",
+        "desc": "Verschiedene Sprachmaterialien von den Grundlagen bis zum Fortgeschrittenen mit Text und Video."
+      },
+      "sertifikat": {
+        "title": "Zertifikate",
+        "desc": "Erhalten Sie nach Abschluss jeder Lernstufe ein Zertifikat."
+      },
+      "komunitas": {
+        "title": "Gemeinschaft",
+        "desc": "Treten Sie einer unterstützenden und aktiven Lerngemeinschaft bei."
+      },
+      "quiz": {
+        "title": "Interaktive Quiz",
+        "desc": "Testen Sie Ihr Verständnis mit abwechslungsreichen Quizzes und direktem Feedback."
+      }
+    }
+  },
+  "package": {
+    "popular": "Am beliebtesten",
+    "contactUs": "Kontaktiere uns"
+  },
+  "footer": {
+    "desc": "Die beste Online-Sprachlernplattform mit hochwertigen Materialien und interaktiven Quizfragen.",
+    "menu": "Menü",
+    "contact": "Kontakt",
+    "rights": "Alle Rechte vorbehalten."
+  },
+  "login": {
+    "title": "Melden Sie sich in Ihrem Konto an",
+    "welcome": "Willkommen zurück!",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "passwordPlaceholder": "Passwort eingeben",
+    "submit": "Anmelden",
+    "submitting": "Anmelden...",
+    "noAccount": "Haben Sie noch kein Konto?",
+    "registerNow": "Jetzt registrieren"
+  },
+  "register": {
+    "title": "Neues Konto registrieren",
+    "subtitle": "Beginnen Sie noch heute Ihre Lernreise!",
+    "fullName": "Vollständiger Name",
+    "namePlaceholder": "Name eingeben",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "passwordPlaceholder": "Passwort eingeben",
+    "confirmPassword": "Passwort bestätigen",
+    "confirmPasswordPlaceholder": "Passwort erneut eingeben",
+    "submit": "Registrieren",
+    "submitting": "Registrieren...",
+    "hasAccount": "Haben Sie bereits ein Konto?",
+    "login": "Anmelden"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "classes": "Klassen",
+    "quiz": "Quizzes",
+    "grades": "Notenübersicht",
+    "articles": "Artikel",
+    "materials": "Materi",
+    "tasks": "Tugas",
+    "packages": "Pakete",
+    "users": "Benutzer",
+    "logout": "Abmelden"
+  }
+}

@@ -8,10 +8,10 @@ export default async function DashboardPage() {
   const userId = session?.user?.id;
 
   const [totalMateri, totalQuiz, recentAttempts] = await Promise.all([
-    getCached(CACHE_KEYS.materiList(1, true), 1800, async () => {
+    getCached(CACHE_KEYS.materiCount(), 1800, async () => {
       return prisma.materi.count({ where: { published: true } });
     }),
-    getCached(CACHE_KEYS.quizList(1, true), 1800, async () => {
+    getCached(CACHE_KEYS.quizCount(), 1800, async () => {
       return prisma.quiz.count({ where: { published: true } });
     }),
     userId

@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdmin, requireAuth } from '@/lib/api-auth';
-import { invalidateCachePattern } from '@/lib/cache';
+import { invalidateCachePattern, invalidateCache } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
 import { z } from 'zod';
 import { uploadMateriFile } from '@/lib/supabase-materi';
+import { hasActivePremiumAccess } from '@/lib/access';
 
 // Helper slugify
 function slugify(text: string) {
@@ -25,12 +27,15 @@ export async function GET(request: Request) {
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '20');
 
-  const isPremium = session.user?.role === 'ADMIN' || session.user?.role === 'PREMIUM';
+  const userCanAccessPremium = hasActivePremiumAccess({
+    role: session.user?.role || 'USER',
+    premiumExpiresAt: session.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
+  });
 
   const materi = await prisma.materi.findMany({
     where: {
       published: true,
-      ...(!isPremium && { isPremium: false }),
+      ...(!userCanAccessPremium && { isPremium: false }),
     },
     select: {
       id: true,
@@ -92,6 +97,7 @@ export async function POST(request: Request) {
         kelas: z.enum(['DASAR', 'MENENGAH', 'LANJUTAN']).default('DASAR'),
         pdfUrl: z.string().optional().nullable(),
         videoUrl: z.string().optional().nullable(),
+        deskripsi: z.string().optional().nullable(),
         isPremium: z.boolean().default(false),
         urutan: z.number().default(0),
         published: z.boolean().default(true),
@@ -136,6 +142,7 @@ export async function POST(request: Request) {
 
     // Invalidate cache
     await invalidateCachePattern('materi:list:*');
+    await invalidateCache(CACHE_KEYS.materiCount());
 
     return NextResponse.json(materi, { status: 201 });
   } catch (error) {

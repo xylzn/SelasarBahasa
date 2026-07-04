@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { CheckCircle2 } from 'lucide-react';
 import { PremiumLockModal } from '@/components/shared/PremiumLockModal';
 
 interface MateriCardProps {
@@ -12,9 +13,10 @@ interface MateriCardProps {
   kelas: string;
   isPremium: boolean;
   userCanAccess: boolean;
+  isCompleted: boolean;
 }
 
-export default function MateriCard({ id, judul, slug, tipe, kelas, isPremium, userCanAccess }: MateriCardProps) {
+export default function MateriCard({ id, judul, slug, tipe, kelas, isPremium, userCanAccess, isCompleted }: MateriCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleClick = () => {
@@ -28,17 +30,17 @@ export default function MateriCard({ id, judul, slug, tipe, kelas, isPremium, us
       <>
         <div
           onClick={handleClick}
-          className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition cursor-pointer"
+          className="bg-white p-6 rounded-2xl border border-gray-150 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer relative reveal"
         >
-          <div className="flex items-start justify-between mb-3">
-            <span className="text-sm font-medium text-gray-500">
+          <div className="flex items-start justify-between mb-4">
+            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
               {tipe === 'TEKS' ? 'PDF' : 'Video'}
             </span>
-            <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
+            <span className="bg-brand-orange-light text-brand-orange px-3 py-1 rounded-full text-xs font-bold tracking-wide">
               Premium
             </span>
           </div>
-          <h3 className="font-bold text-gray-900 mb-2">{judul}</h3>
+          <h3 className="font-bold text-brand-blue-dark mb-2 text-base leading-snug">{judul}</h3>
         </div>
         <PremiumLockModal open={isModalOpen} onOpenChange={setIsModalOpen} />
       </>
@@ -46,19 +48,24 @@ export default function MateriCard({ id, judul, slug, tipe, kelas, isPremium, us
   }
 
   return (
-    <Link href={`/dashboard/kelas/${kelas.toLowerCase()}/${tipe.toLowerCase()}/${slug}`}>
-      <div className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition cursor-pointer">
-        <div className="flex items-start justify-between mb-3">
-          <span className="text-sm font-medium text-gray-500">
+    <Link href={`/dashboard/kelas/${kelas.toLowerCase()}/${tipe.toLowerCase()}/${slug}`} className="block reveal">
+      <div className="bg-white p-6 rounded-2xl border border-gray-150 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer relative">
+        <div className="flex items-start justify-between mb-4">
+          <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
             {tipe === 'TEKS' ? 'PDF' : 'Video'}
           </span>
-          {isPremium && (
-            <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
-              Premium
-            </span>
-          )}
+          <div className="flex items-center gap-2">
+            {isPremium && (
+              <span className="bg-brand-orange-light text-brand-orange px-3 py-1 rounded-full text-xs font-bold tracking-wide">
+                Premium
+              </span>
+            )}
+            {isCompleted && (
+              <CheckCircle2 size={20} className="text-green-500" />
+            )}
+          </div>
         </div>
-        <h3 className="font-bold text-gray-900">{judul}</h3>
+        <h3 className={`font-bold text-base leading-snug ${isCompleted ? 'text-gray-400 line-through' : 'text-brand-blue-dark'}`}>{judul}</h3>
       </div>
     </Link>
   );

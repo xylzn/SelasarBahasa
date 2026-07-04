@@ -36,21 +36,37 @@ enum UserRole {
 }
 
 model User {
-  id            String           @id @default(cuid())
-  email         String           @unique
-  password      String
-  nama          String
-  role          UserRole         @default(USER)
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  quizAttempts  QuizAttempt[]
+  id               String           @id @default(cuid())
+  email            String           @unique
+  password         String
+  nama             String
+  role             UserRole         @default(USER)
+  premiumExpiresAt DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  quizAttempts     QuizAttempt[]
   tugasSubmissions TugasSubmission[]
+  materiProgress   MateriProgress[]
+}
+
+model MateriProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  materiId    String
+  completedAt DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  materi      Materi   @relation(fields: [materiId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, materiId])
+  @@index([userId])
+  @@index([materiId])
 }
 
 model Materi {
   id            String           @id @default(cuid())
   judul         String
   slug          String           @unique
+  deskripsi     String?          @db.Text
   pdfUrl        String?
   videoUrl      String?
   videoProvider VideoProvider?
@@ -62,6 +78,7 @@ model Materi {
   sumberDokumen SumberDokumen?
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
+  materiProgress MateriProgress[]
 
   @@index([isPremium, published])
   @@index([kelas])

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/Toast';
 
 interface User {
   id: string;
@@ -9,6 +10,7 @@ interface User {
   email: string;
   role: string;
   createdAt: Date;
+  premiumExpiresAt: Date | null;
 }
 
 interface UserTableClientProps {
@@ -19,11 +21,16 @@ export default function UserTableClient({ users }: UserTableClientProps) {
   const router = useRouter();
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState<string>('USER');
+  const [selectedPremiumExpiresAt, setSelectedPremiumExpiresAt] = useState<string>('');
   const [isUpdating, setIsUpdating] = useState(false);
+  const { showToast } = useToast();
 
   const handleEditRole = (user: User) => {
     setEditingUserId(user.id);
     setSelectedRole(user.role);
+    setSelectedPremiumExpiresAt(user.premiumExpiresAt 
+      ? new Date(user.premiumExpiresAt).toISOString().slice(0, 16)
+      : '');
   };
 
   const handleSaveRole = async (userId: string) => {
@@ -32,18 +39,22 @@ export default function UserTableClient({ users }: UserTableClientProps) {
       const res = await fetch(`/api/admin/users/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role: selectedRole }),
+        body: JSON.stringify({ 
+          role: selectedRole,
+          premiumExpiresAt: selectedPremiumExpiresAt || null,
+        }),
       });
 
       if (res.ok) {
+        showToast('Pengguna berhasil diperbarui!', 'success');
         setEditingUserId(null);
         router.refresh();
       } else {
-        alert('Gagal mengubah peran pengguna');
+        throw new Error('Gagal mengubah peran pengguna');
       }
     } catch (err) {
       console.error(err);
-      alert('Gagal mengubah peran pengguna');
+      showToast('Gagal mengubah peran pengguna', 'error');
     } finally {
       setIsUpdating(false);
     }
@@ -55,6 +66,31 @@ export default function UserTableClient({ users }: UserTableClientProps) {
       PREMIUM: 'bg-yellow-100 text-yellow-800',
       USER: 'bg-gray-100 text-gray-800',
     }[role] || 'bg-gray-100 text-gray-800';
+  };
+
+  const getPremiumStatus = (user: User) => {
+    if (user.role !== 'PREMIUM') return null;
+    if (!user.premiumExpiresAt) return 'Tidak ada batas waktu';
+    
+    const expiresAt = new Date(user.premiumExpiresAt);
+    const now = new Date();
+    if (expiresAt < now) {
+      return (
+        <span className="text-xs text-red-600 font-medium">Kadaluarsa</span>
+      );
+    }
+    
+    return (
+      <span className="text-xs text-green-600 font-medium">
+        Sampai {expiresAt.toLocaleDateString('id-ID')}
+      </span>
+    );
+  };
+
+  const handleAddMonths = (months: number) => {
+    const now = new Date();
+    now.setMonth(now.getMonth() + months);
+    setSelectedPremiumExpiresAt(now.toISOString().slice(0, 16));
   };
 
   return (
@@ -71,6 +107,9 @@ export default function UserTableClient({ users }: UserTableClientProps) {
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Peran
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Premium Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Bergabung
@@ -111,6 +150,43 @@ export default function UserTableClient({ users }: UserTableClientProps) {
                       </span>
                     )}
                   </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    {isEditing ? (
+                      <div className="space-y-2">
+                        <input
+                          type="datetime-local"
+                          value={selectedPremiumExpiresAt}
+                          onChange={(e) => setSelectedPremiumExpiresAt(e.target.value)}
+                          className="px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-xs"
+                        />
+                        <div className="flex gap-1">
+                          <button
+                            type="button"
+                            onClick={() => handleAddMonths(1)}
+                            className="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-xs"
+                          >
+                            +1 Bulan
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleAddMonths(3)}
+                            className="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-xs"
+                          >
+                            +3 Bulan
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleAddMonths(6)}
+                            className="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-xs"
+                          >
+                            +6 Bulan
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      getPremiumStatus(user)
+                    )}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {new Date(user.createdAt).toLocaleDateString('id-ID')}
                   </td>
@@ -136,7 +212,7 @@ export default function UserTableClient({ users }: UserTableClientProps) {
                         onClick={() => handleEditRole(user)}
                         className="text-blue-600 hover:text-blue-700 font-medium"
                       >
-                        Ubah Peran
+                        Ubah
                       </button>
                     )}
                   </td>

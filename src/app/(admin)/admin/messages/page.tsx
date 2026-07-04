@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import DataTable, { type Column } from '@/components/admin/DataTable';
+import { useConfirmDialog } from '@/components/ui/ConfirmDialog';
+import { useToast } from '@/components/ui/Toast';
 
 interface ContactMessage {
   id: string;
@@ -15,6 +17,8 @@ interface ContactMessage {
 export default function AdminMessagesPage() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
+  const { showDialog } = useConfirmDialog();
+  const { showToast } = useToast();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -41,22 +45,33 @@ export default function AdminMessagesPage() {
             m.id === message.id ? { ...m, isRead: !m.isRead } : m
           )
         );
+        showToast('Status pesan diperbarui!', 'success');
       }
     } catch (e) {
       console.error(e);
+      showToast('Gagal memperbarui status pesan', 'error');
     }
   };
 
-  const handleDelete = async (message: ContactMessage) => {
-    if (!confirm('Yakin ingin menghapus pesan ini?')) return;
-    try {
-      const res = await fetch(`/api/contact/${message.id}`, { method: 'DELETE' });
-      if (res.ok) {
-        setMessages((prev) => prev.filter((m) => m.id !== message.id));
-      }
-    } catch (e) {
-      console.error(e);
-    }
+  const handleDelete = (message: ContactMessage) => {
+    showDialog({
+      title: 'Hapus Pesan',
+      message: 'Yakin ingin menghapus pesan ini?',
+      confirmText: 'Hapus',
+      cancelText: 'Batal',
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`/api/contact/${message.id}`, { method: 'DELETE' });
+          if (res.ok) {
+            setMessages((prev) => prev.filter((m) => m.id !== message.id));
+            showToast('Pesan berhasil dihapus!', 'success');
+          }
+        } catch (e) {
+          console.error(e);
+          showToast('Gagal menghapus pesan', 'error');
+        }
+      },
+    });
   };
 
   const columns: Column<ContactMessage>[] = [

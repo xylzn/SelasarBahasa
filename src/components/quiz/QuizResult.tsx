@@ -2,8 +2,10 @@ interface QuizBreakdownItem {
   questionId: string;
   pertanyaan: string;
   jawabanUser: string | null;
+  jawabanUserLabel: string | null;
   isCorrect: boolean;
   jawabanBenar: string;
+  jawabanBenarLabel: string | null;
 }
 
 interface QuizResultProps {
@@ -36,14 +38,14 @@ export default function QuizResult({ score, breakdown }: QuizResultProps) {
               </span>
             </div>
             <div className="space-y-2">
-              {item.jawabanUser && (
+              {item.jawabanUser && item.jawabanUserLabel && (
                 <p className="text-sm text-gray-600">
-                  Jawabanmu: <span className={item.isCorrect ? 'text-green-700' : 'text-red-700'}>{item.jawabanUser}</span>
+                  Jawabanmu: <span className={item.isCorrect ? 'text-green-700' : 'text-red-700'}>Opsi {item.jawabanUserLabel}: {item.jawabanUser}</span>
                 </p>
               )}
-              {!item.isCorrect && (
+              {!item.isCorrect && item.jawabanBenar && item.jawabanBenarLabel && (
                 <p className="text-sm text-green-700">
-                  Jawaban benar: {item.jawabanBenar}
+                  Jawaban benar: Opsi {item.jawabanBenarLabel}: {item.jawabanBenar}
                 </p>
               )}
             </div>

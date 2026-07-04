@@ -8,13 +8,19 @@ import { generateArticleJsonLd } from '@/lib/seo';
 export const revalidate = 3600;
 
 async function getArticle(slug: string) {
-  const article = await prisma.article.findUnique({
-    where: { slug, published: true },
-  });
+  try {
+    const article = await prisma.article.findUnique({
+      where: { slug, published: true },
+    });
 
-  if (!article) notFound();
+    if (!article) notFound();
 
-  return article;
+    return article;
+  } catch (error) {
+    console.error("Failed to fetch article during build/render", error);
+    // If DB fails, we can still show 404 to prevent build crash
+    notFound();
+  }
 }
 
 export async function generateMetadata({

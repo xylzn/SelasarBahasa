@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useToast } from '@/components/ui/Toast';
 
 const packageSchema = z.object({
   nama: z.string().min(1, 'Nama harus diisi'),
@@ -30,6 +31,7 @@ interface PackageFormProps {
 export default function PackageForm({ packageId, initialData }: PackageFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { showToast } = useToast();
 
   const {
     register,
@@ -91,7 +93,7 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
       console.log('Filtered fiturList:', filteredFiturList);
 
       if (filteredFiturList.length === 0) {
-        alert('Minimal 1 fitur harus diisi');
+        showToast('Minimal 1 fitur harus diisi', 'error');
         setIsLoading(false);
         return;
       }
@@ -115,6 +117,7 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
       console.log('Response status:', res.status);
 
       if (res.ok) {
+        showToast(packageId ? 'Paket berhasil diperbarui!' : 'Paket berhasil ditambahkan!', 'success');
         router.push('/admin/packages');
         router.refresh();
       } else {
@@ -124,7 +127,7 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
       }
     } catch (err) {
       console.error('Error submitting package:', err);
-      alert(err instanceof Error ? err.message : 'Gagal menyimpan paket');
+      showToast(err instanceof Error ? err.message : 'Gagal menyimpan paket', 'error');
     } finally {
       setIsLoading(false);
     }

@@ -16,6 +16,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.gstatic.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
   },
   async headers() {

@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation';
 import { PremiumLockModal } from '@/components/shared/PremiumLockModal';
 import { getCached } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
+import { hasActivePremiumAccess } from '@/lib/access';
+import MarkCompleteButton from '@/components/materi/MarkCompleteButton';
 
 export default async function TeksMateriPage({ params }: { params: Promise<{ kelas: string; slug: string }> }) {
   const session = await auth();
@@ -29,8 +31,10 @@ export default async function TeksMateriPage({ params }: { params: Promise<{ kel
 
   if (!materi) return notFound();
 
-  const userRole = session?.user?.role || 'USER';
-  const userCanAccessPremium = userRole === 'ADMIN' || userRole === 'PREMIUM';
+  const userCanAccessPremium = hasActivePremiumAccess({
+    role: session?.user?.role || 'USER',
+    premiumExpiresAt: session?.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
+  });
 
   if (materi.isPremium && !userCanAccessPremium) {
     return (
@@ -43,13 +47,28 @@ export default async function TeksMateriPage({ params }: { params: Promise<{ kel
     );
   }
 
+  // Check if user has completed this materi
+  const isCompleted = session?.user?.id
+    ? await prisma.materiProgress.findUnique({
+        where: {
+          userId_materiId: {
+            userId: session.user.id,
+            materiId: materi.id,
+          },
+        },
+      }) !== null
+    : false;
+
   return (
     <div className="p-8">
       <div className="mb-8">
         <Link href={`/dashboard/kelas/${kelasSlug}/materi`} className="text-blue-600 hover:text-blue-700 mb-4 inline-block">
           ← Kembali ke Materi {kelasDisplay}
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900">{materi.judul}</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-gray-900">{materi.judul}</h1>
+          <MarkCompleteButton materiId={materi.id} isCompleted={isCompleted} />
+        </div>
       </div>
       
       {materi.pdfUrl ? (

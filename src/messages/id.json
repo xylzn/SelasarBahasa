@@ -1,0 +1,91 @@
+{
+  "navbar": {
+    "home": "Beranda",
+    "articles": "Artikel",
+    "login": "Masuk",
+    "register": "Daftar",
+    "dashboard": "Dashboard",
+    "adminPanel": "Admin Panel",
+    "logout": "Keluar"
+  },
+  "hero": {
+    "title1": "Belajar Bahasa dengan",
+    "title2": "Mudah",
+    "title3": "dan",
+    "title4": "Menyenangkan",
+    "subtitle": "Akses materi berkualitas, quiz interaktif, dan komunitas belajar yang mendukung. Mulai perjalanan belajarmu hari ini!",
+    "ctaRegister": "Daftar Gratis",
+    "ctaArticles": "Baca Artikel",
+    "usersJoined": "Sudah {count} orang bergabung!"
+  },
+  "about": {
+    "title": "Mengapa Memilih SelasarBahasa?",
+    "subtitle": "Kami menyediakan pengalaman belajar bahasa terbaik dengan pendekatan modern dan efektif.",
+    "features": {
+      "materi": {
+        "title": "Materi Lengkap",
+        "desc": "Berbagai materi bahasa mulai dari dasar hingga mahir dengan teks dan video."
+      },
+      "sertifikat": {
+        "title": "Sertifikat",
+        "desc": "Dapatkan sertifikat setelah menyelesaikan setiap level pembelajaran."
+      },
+      "komunitas": {
+        "title": "Komunitas",
+        "desc": "Bergabung dengan komunitas belajar yang mendukung dan aktif."
+      },
+      "quiz": {
+        "title": "Quiz Interaktif",
+        "desc": "Uji pemahamanmu dengan quiz yang bervariasi dan feedback langsung."
+      }
+    }
+  },
+  "package": {
+    "popular": "Paling Diminati",
+    "contactUs": "Hubungi Kami"
+  },
+  "footer": {
+    "desc": "Platform belajar bahasa online terbaik dengan materi berkualitas dan quiz interaktif.",
+    "menu": "Menu",
+    "contact": "Kontak",
+    "rights": "All rights reserved."
+  },
+  "login": {
+    "title": "Masuk ke Akun Anda",
+    "welcome": "Selamat datang kembali!",
+    "email": "Email",
+    "password": "Password",
+    "passwordPlaceholder": "Masukkan password",
+    "submit": "Masuk",
+    "submitting": "Masuk...",
+    "noAccount": "Belum punya akun?",
+    "registerNow": "Daftar sekarang"
+  },
+  "register": {
+    "title": "Daftar Akun Baru",
+    "subtitle": "Mulai perjalanan belajarmu hari ini!",
+    "fullName": "Nama Lengkap",
+    "namePlaceholder": "Masukkan nama",
+    "email": "Email",
+    "password": "Password",
+    "passwordPlaceholder": "Masukkan password",
+    "confirmPassword": "Konfirmasi Password",
+    "confirmPasswordPlaceholder": "Masukkan password lagi",
+    "submit": "Daftar",
+    "submitting": "Daftar...",
+    "hasAccount": "Sudah punya akun?",
+    "login": "Masuk"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "classes": "Kelas",
+    "quiz": "Quiz",
+    "grades": "Rekap Nilai",
+    "articles": "Artikel",
+    "materials": "Materi",
+    "tasks": "Tugas",
+    "packages": "Paket",
+    "users": "Pengguna",
+    "logout": "Keluar"
+  }
+}

@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-auth';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
+import { hasActivePremiumAccess } from '@/lib/access';
 
 const submitQuizSchema = z.object({
   jawaban: z.record(z.string(), z.string()), // questionId -> optionId
@@ -52,8 +53,11 @@ export async function POST(
     return NextResponse.json({ error: 'Quiz tidak ditemukan' }, { status: 404 });
   }
 
-  const isPremium = session.user?.role === 'ADMIN' || session.user?.role === 'PREMIUM';
-  if (quiz.isPremium && !isPremium) {
+  const userCanAccessPremium = hasActivePremiumAccess({
+    role: session.user?.role || 'USER',
+    premiumExpiresAt: session.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
+  });
+  if (quiz.isPremium && !userCanAccessPremium) {
     return NextResponse.json(
       { error: 'Quiz ini membutuhkan akses premium' },
       { status: 403 }
@@ -67,6 +71,9 @@ export async function POST(
   for (const question of quiz.questions) {
     const userOptionId = validated.jawaban[question.id];
     const correctOption = question.options.find((o: any) => o.isCorrect);
+    const userOption = question.options.find((o: any) => o.id === userOptionId);
+    const correctOptionIndex = question.options.findIndex((o: any) => o.isCorrect);
+    const userOptionIndex = question.options.findIndex((o: any) => o.id === userOptionId);
     const isCorrect = userOptionId && userOptionId === correctOption?.id;
 
     if (isCorrect) correctCount++;
@@ -74,9 +81,11 @@ export async function POST(
     breakdown.push({
       questionId: question.id,
       pertanyaan: question.pertanyaan,
-      jawabanUser: userOptionId || null,
+      jawabanUser: userOption?.teks || null,
+      jawabanUserLabel: userOptionIndex !== -1 ? String.fromCharCode(65 + userOptionIndex) : null,
       isCorrect,
-      jawabanBenar: correctOption?.id,
+      jawabanBenar: correctOption?.teks,
+      jawabanBenarLabel: correctOptionIndex !== -1 ? String.fromCharCode(65 + correctOptionIndex) : null,
     });
   }
 

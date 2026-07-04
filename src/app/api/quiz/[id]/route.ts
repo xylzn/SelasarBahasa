@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth, requireAdmin } from '@/lib/api-auth';
-import { getCached } from '@/lib/cache';
+import { getCached, invalidateCachePattern, invalidateCache } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
 import { z } from 'zod';
+import { hasActivePremiumAccess } from '@/lib/access';
 
 // GET /api/quiz/[id]
 export async function GET(
@@ -54,8 +55,11 @@ export async function GET(
     return NextResponse.json({ error: 'Quiz tidak ditemukan' }, { status: 404 });
   }
 
-  const isPremium = session.user?.role === 'ADMIN' || session.user?.role === 'PREMIUM';
-  if (quiz.isPremium && !isPremium) {
+  const userCanAccessPremium = hasActivePremiumAccess({
+    role: session.user?.role || 'USER',
+    premiumExpiresAt: session.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
+  });
+  if (quiz.isPremium && !userCanAccessPremium) {
     return NextResponse.json(
       { error: 'Quiz ini membutuhkan akses premium' },
       { status: 403 }
@@ -149,8 +153,9 @@ export async function PUT(
   });
 
   // Invalidate cache
-  await require('@/lib/cache').invalidateCachePattern('quiz:list:*');
-  await require('@/lib/cache').invalidateCachePattern(`quiz:detail:${id}`);
+  await invalidateCachePattern('quiz:list:*');
+  await invalidateCache(CACHE_KEYS.quizCount());
+  await invalidateCache(CACHE_KEYS.quizDetail(id));
 
   return NextResponse.json(quiz);
 }
@@ -170,8 +175,9 @@ export async function DELETE(
     where: { id },
   });
 
-  await require('@/lib/cache').invalidateCachePattern('quiz:list:*');
-  await require('@/lib/cache').invalidateCachePattern(`quiz:detail:${id}`);
+  await invalidateCachePattern('quiz:list:*');
+  await invalidateCache(CACHE_KEYS.quizCount());
+  await invalidateCache(CACHE_KEYS.quizDetail(id));
 
   return NextResponse.json({ success: true });
 }

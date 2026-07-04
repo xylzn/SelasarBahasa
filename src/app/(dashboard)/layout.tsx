@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
-import Sidebar from '@/components/dashboard/Sidebar';
+import DashboardLayoutContent from '@/components/dashboard/DashboardLayoutContent';
 
 export default async function DashboardLayout({
   children,
@@ -14,12 +14,11 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar
-        userName={session.user.nama || 'User'}
-        userRole={session.user.role || 'USER'}
-      />
-      <main className="flex-1 bg-gray-50">{children}</main>
-    </div>
+    <DashboardLayoutContent
+      userName={session.user.nama || 'User'}
+      userRole={session.user.role || 'USER'}
+    >
+      {children}
+    </DashboardLayoutContent>
   );
 }

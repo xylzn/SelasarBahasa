@@ -9,6 +9,7 @@ const createUserSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   role: z.enum(['USER', 'PREMIUM', 'ADMIN']).default('USER'),
+  premiumExpiresAt: z.string().optional().nullable(),
 });
 
 // GET /api/admin/users
@@ -35,6 +36,7 @@ export async function GET(request: Request) {
       email: true,
       role: true,
       createdAt: true,
+      premiumExpiresAt: true,
     },
     orderBy: { createdAt: 'desc' },
     skip: (page - 1) * limit,
@@ -72,6 +74,7 @@ export async function POST(request: Request) {
       email: validated.email,
       role: validated.role,
       password,
+      premiumExpiresAt: validated.premiumExpiresAt ? new Date(validated.premiumExpiresAt) : null,
     },
     select: {
       id: true,
@@ -79,6 +82,7 @@ export async function POST(request: Request) {
       email: true,
       role: true,
       createdAt: true,
+      premiumExpiresAt: true,
     },
   });
 

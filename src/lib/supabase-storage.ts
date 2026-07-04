@@ -88,3 +88,35 @@ export async function uploadFileToSupabase(
   }
   return result;
 }
+
+/**
+ * Delete file from Supabase Storage
+ * @param url Full public URL of the file
+ * @param bucket Storage bucket name
+ */
+export async function deleteFile(url: string, bucket: string): Promise<{ success: boolean } | { error: string }> {
+  try {
+    // Extract file path from URL
+    // URL format: https://<supabaseUrl/storage/v1/object/public/<bucket>/<filePath>
+    const urlObj = new URL(url);
+    const pathParts = urlObj.pathname.split('/');
+    const bucketIndex = pathParts.findIndex(part => part === bucket);
+    if (bucketIndex === -1) {
+      return { error: 'Invalid file URL' };
+    }
+    const filePath = pathParts.slice(bucketIndex + 1).join('/');
+
+    const { error } = await supabase.storage
+      .from(bucket)
+      .remove([filePath]);
+
+    if (error) {
+      return { error: `Gagal menghapus file: ${error.message}` };
+    }
+
+    return { success: true };
+  } catch (err) {
+    console.error('Delete file error:', err);
+    return { error: 'Terjadi kesalahan saat menghapus file' };
+  }
+}

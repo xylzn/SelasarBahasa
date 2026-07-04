@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { Eye, EyeOff, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 const registerSchema = z.object({
   nama: z.string().min(3, 'Nama minimal 3 karakter'),
@@ -88,73 +89,80 @@ export default function RegisterPage() {
     return checks;
   };
 
+  const { t } = useLocale();
+
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center py-12">
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center py-12 relative overflow-hidden">
+      {/* Background Decorative Blob */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-orange-light/50 rounded-full blur-3xl pointer-events-none -z-10" />
+
+      <div className="w-full max-w-md bg-white/80 backdrop-blur-md p-10 rounded-3xl shadow-xl border border-white/40 reveal">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Daftar Akun Baru</h1>
-          <p className="text-gray-600">Mulai perjalanan belajarmu hari ini!</p>
+          <h1 className="text-3xl font-extrabold text-brand-blue-dark mb-2 tracking-tight">
+            {t('register.title')}
+          </h1>
+          <p className="text-gray-500 text-sm font-medium">{t('register.subtitle')}</p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg flex items-center gap-2">
-            <AlertCircle size={20} />
+          <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-2xl flex items-center gap-2 border border-red-100 text-sm font-medium">
+            <AlertCircle size={20} className="flex-shrink-0" />
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">{t('register.fullName')}</label>
             <input
               {...register('nama')}
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-              placeholder="Masukkan nama"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none transition-all shadow-sm text-sm"
+              placeholder={t('register.namePlaceholder')}
             />
             {errors.nama && (
-              <p className="text-sm text-red-600 mt-1">{errors.nama.message}</p>
+              <p className="text-xs text-red-600 mt-1 font-medium">{errors.nama.message}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">{t('register.email')}</label>
             <input
               {...register('email')}
               type="email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none transition-all shadow-sm text-sm"
               placeholder="nama@email.com"
             />
             {errors.email && (
-              <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
+              <p className="text-xs text-red-600 mt-1 font-medium">{errors.email.message}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">{t('register.password')}</label>
             <div className="relative">
               <input
                 {...register('password')}
                 type={showPassword ? 'text' : 'password'}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none pr-10"
-                placeholder="Masukkan password"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none pr-11 transition-all shadow-sm text-sm"
+                placeholder={t('register.passwordPlaceholder')}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
               >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
             {errors.password && (
-              <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>
+              <p className="text-xs text-red-600 mt-1 font-medium">{errors.password.message}</p>
             )}
             {password && (
-              <div className="mt-2 space-y-1">
+              <div className="mt-3 space-y-1.5 bg-gray-50/70 p-3.5 rounded-2xl border border-gray-100">
                 {checkPasswordStrength().map((check, i) => (
-                  <div key={i} className={`text-sm flex items-center gap-2 ${check.condition ? 'text-green-600' : 'text-gray-500'}`}>
-                    <CheckCircle2 size={16} />
+                  <div key={i} className={`text-xs flex items-center gap-2 font-medium ${check.condition ? 'text-green-600' : 'text-gray-400'}`}>
+                    <CheckCircle2 size={14} className={check.condition ? 'text-green-500' : 'text-gray-300'} />
                     {check.text}
                   </div>
                 ))}
@@ -163,41 +171,41 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">{t('register.confirmPassword')}</label>
             <div className="relative">
               <input
                 {...register('confirmPassword')}
                 type={showConfirmPassword ? 'text' : 'password'}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none pr-10"
-                placeholder="Masukkan password lagi"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none pr-11 transition-all shadow-sm text-sm"
+                placeholder={t('register.confirmPasswordPlaceholder')}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
               >
-                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
             {errors.confirmPassword && (
-              <p className="text-sm text-red-600 mt-1">{errors.confirmPassword.message}</p>
+              <p className="text-xs text-red-600 mt-1 font-medium">{errors.confirmPassword.message}</p>
             )}
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-brand-blue text-white py-3.5 rounded-xl font-bold btn-animate hover:bg-brand-blue/90 shadow-md hover:shadow-brand-blue/20 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm"
           >
-            {isLoading ? 'Daftar...' : 'Daftar'}
+            {isLoading ? t('register.submitting') : t('register.submit')}
           </button>
         </form>
 
-        <div className="mt-8 text-center text-gray-600">
+        <div className="mt-8 text-center text-sm text-gray-600">
           <p>
-            Sudah punya akun?{' '}
-            <Link href="/login" className="text-blue-600 font-medium hover:text-blue-700">
-              Masuk
+            {t('register.hasAccount')}{' '}
+            <Link href="/login" className="text-brand-orange font-bold hover:text-brand-orange/90 transition-colors">
+              {t('register.login')}
             </Link>
           </p>
         </div>

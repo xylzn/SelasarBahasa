@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getAuthSession, requireAdmin, requireAuth } from '@/lib/api-auth';
-import { getCached, invalidateCachePattern } from '@/lib/cache';
+import { getCached, invalidateCachePattern, invalidateCache } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
 import { z } from 'zod';
+import { hasActivePremiumAccess } from '@/lib/access';
 
 // GET /api/quiz
 export async function GET(request: Request) {
@@ -17,14 +18,17 @@ export async function GET(request: Request) {
   const limit = parseInt(searchParams.get('limit') || '20');
   const isAdmin = session.user?.role === 'ADMIN';
 
-  const isPremium = session.user?.role === 'ADMIN' || session.user?.role === 'PREMIUM';
-  const cacheKey = CACHE_KEYS.quizList(page, isPremium);
+  const userCanAccessPremium = hasActivePremiumAccess({
+    role: session.user?.role || 'USER',
+    premiumExpiresAt: session.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
+  });
+  const cacheKey = CACHE_KEYS.quizList(page, userCanAccessPremium);
 
   const quizzes = await getCached(cacheKey, 1800, async () => {
     return await prisma.quiz.findMany({
       where: isAdmin ? undefined : {
         published: true,
-        ...(!isPremium && { isPremium: false }),
+        ...(!userCanAccessPremium && { isPremium: false }),
       },
       select: {
         id: true,
@@ -118,6 +122,7 @@ export async function POST(request: Request) {
   });
 
   await invalidateCachePattern('quiz:list:*');
+  await invalidateCache(CACHE_KEYS.quizCount());
 
   return NextResponse.json(quiz, { status: 201 });
 }

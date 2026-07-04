@@ -8,7 +8,7 @@ export default async function KelasPage() {
   const session = await auth();
   const userRole = session?.user?.role || 'USER';
 
-  const totalMateri = await getCached(CACHE_KEYS.materiList(1, true), 1800, async () => {
+  const totalMateri = await getCached(CACHE_KEYS.materiCount(), 1800, async () => {
     return prisma.materi.count({
       where: { published: true }
     });

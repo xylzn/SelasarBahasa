@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/Toast';
 
 interface MateriFormProps {
   initialData?: any;
@@ -15,6 +16,8 @@ export default function MateriForm({ initialData }: MateriFormProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [pdfLink, setPdfLink] = useState(initialData?.pdfUrl || '');
   const [keepExistingFile, setKeepExistingFile] = useState(!!initialData?.pdfUrl && initialData?.sumberDokumen === 'UPLOAD');
+  const [deskripsi, setDeskripsi] = useState(initialData?.deskripsi || '');
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (initialData?.pdfUrl) {
@@ -83,6 +86,11 @@ export default function MateriForm({ initialData }: MateriFormProps) {
         urutan,
         published,
       };
+      if (tipe === 'VIDEO') {
+        data.deskripsi = deskripsi || null;
+      } else {
+        data.deskripsi = null;
+      }
       if (pdfUrl !== undefined) data.pdfUrl = pdfUrl;
       if (videoUrl) data.videoUrl = videoUrl;
       if (sumber !== undefined) data.sumberDokumen = sumber;
@@ -97,6 +105,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
       });
 
       if (res.ok) {
+        showToast(initialData ? 'Materi berhasil diperbarui!' : 'Materi berhasil ditambahkan!', 'success');
         router.push('/admin/materi');
         router.refresh();
       } else {
@@ -107,7 +116,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
       }
     } catch (err: any) {
       console.error(err);
-      alert(err.message || `Gagal ${initialData ? 'update' : 'menambah'} materi`);
+      showToast(err.message || `Gagal ${initialData ? 'update' : 'menambah'} materi`, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -277,15 +286,27 @@ export default function MateriForm({ initialData }: MateriFormProps) {
         )}
 
         {selectedTipe === 'VIDEO' && (
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">URL Video</label>
-            <input
-              type="url"
-              name="videoUrl"
-              defaultValue={initialData?.videoUrl}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-              placeholder="https://www.youtube.com/watch?v=..."
-            />
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">URL Video</label>
+              <input
+                type="url"
+                name="videoUrl"
+                defaultValue={initialData?.videoUrl}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                placeholder="https://www.youtube.com/watch?v=..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+              <textarea
+                value={deskripsi}
+                onChange={(e) => setDeskripsi(e.target.value)}
+                rows={4}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
+                placeholder="Masukkan deskripsi materi video..."
+              />
+            </div>
           </div>
         )}
 

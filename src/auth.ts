@@ -34,6 +34,7 @@ const config = {
           nama: user.nama,
           email: user.email,
           role: user.role,
+          premiumExpiresAt: user.premiumExpiresAt?.toISOString() || null,
         };
       },
     }),
@@ -44,6 +45,7 @@ const config = {
         token.id = user.id;
         token.nama = (user as any).nama;
         token.role = (user as any).role;
+        token.premiumExpiresAt = (user as any).premiumExpiresAt || null;
       }
       return token;
     },
@@ -52,6 +54,7 @@ const config = {
         (session.user as any).id = token.id;
         (session.user as any).nama = token.nama;
         (session.user as any).role = token.role;
+        (session.user as any).premiumExpiresAt = token.premiumExpiresAt || null;
       }
       return session;
     },

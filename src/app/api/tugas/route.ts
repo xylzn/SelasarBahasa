@@ -4,6 +4,7 @@ import { requireAdmin, requireAuth } from '@/lib/api-auth';
 import { z } from 'zod';
 import { getCached, invalidateCachePattern } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
+import { hasActivePremiumAccess } from '@/lib/access';
 
 const slugify = (text: string) =>
   text
@@ -21,14 +22,17 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const kelas = searchParams.get('kelas') ?? undefined;
 
-  const isPremium = session.user?.role === 'ADMIN' || session.user?.role === 'PREMIUM';
-  const cacheKey = CACHE_KEYS.tugasList(1, isPremium, kelas);
+  const userCanAccessPremium = hasActivePremiumAccess({
+    role: session.user?.role || 'USER',
+    premiumExpiresAt: session.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
+  });
+  const cacheKey = CACHE_KEYS.tugasList(1, userCanAccessPremium, kelas);
 
   const tugas = await getCached(cacheKey, 1800, async () => {
     return prisma.tugas.findMany({
       where: {
         published: true,
-        ...(!isPremium && { isPremium: false }),
+        ...(!userCanAccessPremium && { isPremium: false }),
         ...(kelas && { kelas: kelas as any }),
       },
       orderBy: { urutan: 'asc' },

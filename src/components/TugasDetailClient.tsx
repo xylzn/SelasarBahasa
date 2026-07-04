@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { FileText, Upload, Download, X } from 'lucide-react';
+import { useToast } from '@/components/ui/Toast';
+import { useConfirmDialog } from '@/components/ui/ConfirmDialog';
 
 interface TugasDetailProps {
   tugas: any;
@@ -13,10 +15,12 @@ interface TugasDetailProps {
 export default function TugasDetailClient({ tugas, submission }: TugasDetailProps) {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const router = useRouter();
   const params = useParams();
+  const { showToast } = useToast();
 
   const MAX_FILE_SIZE_MB = 10;
   const MAX_TOTAL_SIZE_MB = 30;
@@ -35,6 +39,40 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
 
   const removeFile = (index: number) => {
     setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const { showDialog } = useConfirmDialog();
+
+  const handleDeleteFile = (fileId: string) => {
+    showDialog({
+      title: 'Hapus File',
+      message: 'Yakin ingin menghapus file ini?',
+      confirmText: 'Hapus',
+      cancelText: 'Batal',
+      onConfirm: async () => {
+        setIsDeleting(fileId);
+        setError(null);
+
+        try {
+          const res = await fetch(`/api/tugas/submit/files/${fileId}`, {
+            method: 'DELETE',
+          });
+
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Gagal menghapus file');
+          }
+
+          showToast('File berhasil dihapus!', 'success');
+          router.refresh();
+        } catch (err) {
+          setError(err instanceof Error ? err.message : 'Terjadi kesalahan');
+          showToast(err instanceof Error ? err.message : 'Terjadi kesalahan', 'error');
+        } finally {
+          setIsDeleting(null);
+        }
+      },
+    });
   };
 
   const validateFiles = () => {
@@ -173,16 +211,31 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
             <div className="space-y-2">
               <p className="text-sm font-medium text-gray-700">File yang dikumpulkan:</p>
               {submission.files.map((file: any) => (
-                <Link
-                  key={file.id}
-                  href={file.fileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-blue-600 hover:text-blue-700"
-                >
-                  <Download size={16} />
-                  <span>{file.fileName}</span>
-                </Link>
+                <div key={file.id} className="flex items-center justify-between gap-2">
+                  <Link
+                    href={file.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-blue-600 hover:text-blue-700 flex-1"
+                  >
+                    <Download size={16} />
+                    <span>{file.fileName}</span>
+                  </Link>
+                  {!isPastDeadline && (
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteFile(file.id)}
+                      disabled={isDeleting === file.id}
+                      className="text-red-600 hover:text-red-700 disabled:opacity-50"
+                    >
+                      {isDeleting === file.id ? (
+                        <div className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <X size={16} />
+                      )}
+                    </button>
+                  )}
+                </div>
               ))}
             </div>
           </div>
