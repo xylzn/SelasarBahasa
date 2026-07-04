@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/api-auth';
 import { z } from 'zod';
+import { invalidateCachePattern, invalidateCache } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
+import { revalidatePath } from 'next/cache';
 
 // Helper slugify
 function slugify(text: string) {
@@ -103,6 +106,20 @@ export async function PUT(
     data: dataToUpdate,
   });
 
+  // Invalidate article-related caches
+  await Promise.all([
+    invalidateCachePattern('artikel:*'),
+    invalidateCache(CACHE_KEYS.topArticles()),
+  ]);
+
+  // Invalidate Next.js Full Route Cache
+  revalidatePath('/artikel');
+  revalidatePath(`/artikel/${artikel.slug}`);
+  // Also invalidate old slug if it changed
+  if (currentArtikel.slug !== artikel.slug) {
+    revalidatePath(`/artikel/${currentArtikel.slug}`);
+  }
+
   return NextResponse.json(artikel);
 }
 
@@ -117,9 +134,24 @@ export async function DELETE(
   }
   const { id } = await params;
 
+  // Fetch slug before deleting so we can revalidate the path afterwards
+  const articleToDelete = await prisma.article.findUnique({ where: { id }, select: { slug: true } });
+
   await prisma.article.delete({
     where: { id },
   });
+
+  // Invalidate article-related caches
+  await Promise.all([
+    invalidateCachePattern('artikel:*'),
+    invalidateCache(CACHE_KEYS.topArticles()),
+  ]);
+
+  // Invalidate Next.js Full Route Cache
+  revalidatePath('/artikel');
+  if (articleToDelete) {
+    revalidatePath(`/artikel/${articleToDelete.slug}`);
+  }
 
   return NextResponse.json({ success: true });
 }

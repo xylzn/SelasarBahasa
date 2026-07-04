@@ -25,26 +25,22 @@ export default async function MateriListPage({ params }: { params: Promise<{ kel
     kelasDisplay = 'Kelas Lanjutan';
   }
 
-  const materis = await getCached(CACHE_KEYS.materiListByKelas(kelasEnum, userCanAccessPremium, 'TEKS'), 1800, async () => {
-    return prisma.materi.findMany({
-      where: {
-        kelas: kelasEnum,
-        tipe: 'TEKS',
-        published: true,
-        ...(!userCanAccessPremium && { isPremium: false }),
-      },
-      orderBy: { urutan: 'asc' }
-    });
+  // Fetch directly without cache for debugging
+  const materis = await prisma.materi.findMany({
+    where: {
+      kelas: kelasEnum,
+      tipe: 'TEKS',
+      published: true,
+    },
+    orderBy: { urutan: 'asc' }
   });
 
   // Get user's progress
   const userId = session?.user?.id;
   const userProgress = userId
-    ? await getCached(CACHE_KEYS.userMateriProgress(userId), 60, async () => {
-        return prisma.materiProgress.findMany({
-          where: { userId },
-          select: { materiId: true },
-        });
+    ? await prisma.materiProgress.findMany({
+        where: { userId },
+        select: { materiId: true },
       })
     : [];
 
@@ -73,6 +69,12 @@ export default async function MateriListPage({ params }: { params: Promise<{ kel
           )}
         </div>
       </div>
+      
+      {totalCount === 0 && (
+        <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
+          <p className="text-gray-500">Belum ada materi untuk kelas ini.</p>
+        </div>
+      )}
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {materis.map((materi) => (

@@ -2,8 +2,6 @@ import Link from 'next/link';
 import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import MateriCard from '@/components/materi/MateriCard';
-import { getCached } from '@/lib/cache';
-import { CACHE_KEYS } from '@/lib/cache-keys';
 import { hasActivePremiumAccess } from '@/lib/access';
 
 export default async function VideoListPage({ params }: { params: Promise<{ kelas: string }> }) {
@@ -25,26 +23,21 @@ export default async function VideoListPage({ params }: { params: Promise<{ kela
     kelasDisplay = 'Kelas Lanjutan';
   }
 
-  const videos = await getCached(CACHE_KEYS.materiListByKelas(kelasEnum, userCanAccessPremium, 'VIDEO'), 1800, async () => {
-    return prisma.materi.findMany({
-      where: {
-        kelas: kelasEnum,
-        tipe: 'VIDEO',
-        published: true,
-        ...(!userCanAccessPremium && { isPremium: false }),
-      },
-      orderBy: { urutan: 'asc' }
-    });
+  const videos = await prisma.materi.findMany({
+    where: {
+      kelas: kelasEnum,
+      tipe: 'VIDEO',
+      published: true,
+    },
+    orderBy: { urutan: 'asc' }
   });
 
   // Get user's progress
   const userId = session?.user?.id;
   const userProgress = userId
-    ? await getCached(CACHE_KEYS.userMateriProgress(userId), 60, async () => {
-        return prisma.materiProgress.findMany({
-          where: { userId },
-          select: { materiId: true },
-        });
+    ? await prisma.materiProgress.findMany({
+        where: { userId },
+        select: { materiId: true },
       })
     : [];
 
@@ -73,6 +66,12 @@ export default async function VideoListPage({ params }: { params: Promise<{ kela
           )}
         </div>
       </div>
+      
+      {totalCount === 0 && (
+        <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
+          <p className="text-gray-500">Belum ada video untuk kelas ini.</p>
+        </div>
+      )}
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {videos.map((video) => (

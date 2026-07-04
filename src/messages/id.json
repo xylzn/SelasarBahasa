@@ -9,34 +9,34 @@
     "logout": "Keluar"
   },
   "hero": {
-    "title1": "Belajar Bahasa dengan",
-    "title2": "Mudah",
+    "title1": "Bicara Bahasa Baru dengan",
+    "title2": "Percaya Diri",
     "title3": "dan",
-    "title4": "Menyenangkan",
-    "subtitle": "Akses materi berkualitas, quiz interaktif, dan komunitas belajar yang mendukung. Mulai perjalanan belajarmu hari ini!",
-    "ctaRegister": "Daftar Gratis",
-    "ctaArticles": "Baca Artikel",
-    "usersJoined": "Sudah {count} orang bergabung!"
+    "title4": "Tanpa Ribet",
+    "subtitle": "Materi terstruktur, quiz interaktif, dan progres belajar yang bisa kamu pantau sendiri — semua dalam satu platform. Dari nol sampai lancar, kami temani tiap langkahnya.",
+    "ctaRegister": "Mulai Belajar Gratis",
+    "ctaArticles": "Jelajahi Artikel",
+    "usersJoined": "Sudah {count}+ pelajar bergabung dan terus bertambah!"
   },
   "about": {
-    "title": "Mengapa Memilih SelasarBahasa?",
-    "subtitle": "Kami menyediakan pengalaman belajar bahasa terbaik dengan pendekatan modern dan efektif.",
+    "title": "Kenapa Ribuan Pelajar Pilih SelasarBahasa?",
+    "subtitle": "Bukan cuma platform belajar — ini ruang tumbuh bareng, dirancang biar kamu betah belajar sampai benar-benar bisa.",
     "features": {
       "materi": {
-        "title": "Materi Lengkap",
-        "desc": "Berbagai materi bahasa mulai dari dasar hingga mahir dengan teks dan video."
+        "title": "Materi yang Nyambung",
+        "desc": "Dari basic sampai mahir, dikemas dalam teks dan video yang gampang dicerna — bukan sekadar teori kaku."
       },
       "sertifikat": {
-        "title": "Sertifikat",
-        "desc": "Dapatkan sertifikat setelah menyelesaikan setiap level pembelajaran."
+        "title": "Bukti Progres Nyata",
+        "desc": "Selesai satu level, dapet sertifikat. Kelihatan usahamu, bisa dipamerin juga."
       },
       "komunitas": {
-        "title": "Komunitas",
-        "desc": "Bergabung dengan komunitas belajar yang mendukung dan aktif."
+        "title": "Gak Belajar Sendirian",
+        "desc": "Gabung sama sesama pelajar yang saling dukung — jatuh bangun belajar bahasa jadi lebih ringan bareng-bareng."
       },
       "quiz": {
-        "title": "Quiz Interaktif",
-        "desc": "Uji pemahamanmu dengan quiz yang bervariasi dan feedback langsung."
+        "title": "Quiz yang Bikin Nagih",
+        "desc": "Uji pemahamanmu lewat quiz interaktif dengan feedback instan, biar belajar berasa kayak main, bukan ujian."
       }
     }
   },
@@ -45,7 +45,7 @@
     "contactUs": "Hubungi Kami"
   },
   "footer": {
-    "desc": "Platform belajar bahasa online terbaik dengan materi berkualitas dan quiz interaktif.",
+    "desc": "Teman belajar bahasamu, dari basic sampai lancar — kapan pun, di mana pun kamu berada.",
     "menu": "Menu",
     "contact": "Kontak",
     "rights": "All rights reserved."
@@ -87,5 +87,88 @@
     "packages": "Paket",
     "users": "Pengguna",
     "logout": "Keluar"
+  },
+  "dashboard": {
+    "greeting": "Selamat datang,",
+    "title": "Dashboard",
+    "subtitle": "Lanjutkan perjalanan belajarmu.",
+    "totalMaterials": "Total Materi",
+    "totalQuizzes": "Total Quiz",
+    "quizzesTaken": "Quiz Diambil",
+    "completedMaterials": "Materi Selesai",
+    "recentQuizzes": "Quiz Terbaru",
+    "noQuizzes": "Belum ada quiz yang diambil",
+    "takeQuiz": "Ambil Quiz"
+  },
+  "admin": {
+    "title": "Dashboard Admin",
+    "subtitle": "Selamat datang di panel administrasi.",
+    "totalUsers": "Total Pengguna",
+    "totalMaterials": "Total Materi",
+    "totalQuizzes": "Total Quiz",
+    "totalArticles": "Total Artikel",
+    "unreadMessages": "Pesan Belum Dibaca",
+    "quickActions": "Aksi Cepat"
+  },
+  "quickActions": {
+    "materials": "Materi",
+    "quizzes": "Quiz",
+    "tasks": "Tugas",
+    "articles": "Artikel",
+    "packages": "Paket",
+    "users": "Pengguna"
+  },
+  "auth": {
+    "shell": {
+      "loginHeadline": "Satu langkah lagi menuju versi dirimu yang lebih fasih.",
+      "loginSubheadline": "Masuk dan lanjutkan progres belajarmu — jangan putus di tengah jalan.",
+      "registerHeadline": "Perjalanan bahasa barumu dimulai dari sini.",
+      "registerSubheadline": "Daftar sekarang, gratis, dan langsung akses materi serta quiz interaktif kami."
+    },
+    "forgotPassword": {
+      "title": "Lupa Password?",
+      "subtitle": "Masukkan email Anda untuk menerima link reset password",
+      "emailLabel": "Email",
+      "submitButton": "Kirim Link Reset",
+      "successMessage": "Jika email terdaftar, link reset password sudah dikirim",
+      "backToLogin": "Kembali ke Masuk"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "newPasswordLabel": "Password Baru",
+      "confirmPasswordLabel": "Konfirmasi Password Baru",
+      "submitButton": "Reset Password",
+      "passwordMismatch": "Password tidak cocok",
+      "invalidToken": "Link tidak valid atau sudah kedaluwarsa. Minta reset password baru",
+      "successMessage": "Password berhasil direset! Silakan masuk"
+    }
+  },
+  "login": {
+    "forgotPasswordLink": "Lupa password?"
+  },
+  "profile": {
+    "title": "Profil Saya",
+    "changePhoto": "Ganti Foto",
+    "namaLabel": "Nama",
+    "bioLabel": "Bio / Moto Hidup",
+    "bioPlaceholder": "Tulis sedikit tentang dirimu...",
+    "negaraLabel": "Negara",
+    "instansiLabel": "Instansi",
+    "instansiPlaceholder": "Universitas / Sekolah / Perusahaan",
+    "emailReadonly": "Email tidak bisa diubah di sini",
+    "saveButton": "Simpan Perubahan",
+    "saveSuccess": "Perubahan profil berhasil disimpan!",
+    "saveError": "Gagal menyimpan perubahan profil. Silakan coba lagi.",
+    "uploadError": "Gagal mengunggah foto profil. Silakan coba lagi.",
+    "cropTitle": "Sesuaikan Foto",
+    "cropZoomLabel": "Zoom",
+    "cancel": "Batal",
+    "save": "Simpan",
+    "viewDetail": "Lihat Detail",
+    "editProfile": "Edit Profil",
+    "deleteUser": "Hapus",
+    "deleteConfirmTitle": "Konfirmasi Hapus",
+    "deleteConfirmMessage": "Apakah kamu yakin ingin menghapus akun {name}? Tindakan ini tidak bisa dibatalkan, dan user akan menerima email pemberitahuan.",
+    "close": "Tutup"
   }
 }

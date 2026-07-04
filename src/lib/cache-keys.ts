@@ -14,4 +14,5 @@ export const CACHE_KEYS = {
   userQuizAttempts: (userId: string) => `user:${userId}:quiz:attempts`,
   userTugasSubmissions: (userId: string) => `user:${userId}:tugas:submissions`,
   userMateriProgress: (userId: string) => `user:${userId}:materi:progress`,
+  topArticles: () => `artikel:top:views`,
 };

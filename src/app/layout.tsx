@@ -5,6 +5,7 @@ import { Providers } from "./providers";
 import { cookies, headers } from "next/headers";
 import { LocaleProvider } from "@/components/providers/LocaleProvider";
 import { ScrollAnimate } from "@/components/providers/ScrollAnimate";
+import { Analytics } from "@vercel/analytics/next";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -67,6 +68,7 @@ export default async function RootLayout({
         <LocaleProvider locale={locale} dictionary={dictionary}>
           <Providers>{children}</Providers>
           <ScrollAnimate />
+          <Analytics />
         </LocaleProvider>
       </body>
     </html>

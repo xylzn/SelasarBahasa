@@ -8,6 +8,7 @@ declare module "next-auth" {
       nama: string;
       email: string;
       role: UserRole;
+      fotoProfil: string | null;
       premiumExpiresAt: string | null;
     };
   }
@@ -17,6 +18,7 @@ declare module "next-auth" {
     nama: string;
     email: string;
     role: UserRole;
+    fotoProfil?: string | null;
     premiumExpiresAt?: string | null;
   }
 }
@@ -27,6 +29,7 @@ declare module "next-auth/jwt" {
     nama: string;
     email: string;
     role: UserRole;
+    fotoProfil: string | null;
     premiumExpiresAt: string | null;
   }
 }

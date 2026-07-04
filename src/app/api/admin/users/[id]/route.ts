@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/api-auth';
+import { sendAccountDeletedEmail } from '@/lib/email';
 import { z } from 'zod';
 
 const updateUserSchema = z.object({
@@ -8,6 +9,9 @@ const updateUserSchema = z.object({
   email: z.string().email().optional(),
   role: z.enum(['USER', 'PREMIUM', 'ADMIN']).optional(),
   premiumExpiresAt: z.string().optional().nullable(),
+  bio: z.string().max(160).optional().nullable(),
+  negara: z.string().max(50).optional().nullable(),
+  instansi: z.string().max(100).optional().nullable(),
 });
 
 // PUT /api/admin/users/[id]
@@ -28,12 +32,17 @@ export async function PUT(
     data: {
       ...validated,
       premiumExpiresAt: validated.premiumExpiresAt ? new Date(validated.premiumExpiresAt) : null,
+      reminderSentAt: validated.premiumExpiresAt !== undefined ? null : undefined,
     },
     select: {
       id: true,
       nama: true,
       email: true,
       role: true,
+      bio: true,
+      negara: true,
+      instansi: true,
+      fotoProfil: true,
       createdAt: true,
       premiumExpiresAt: true,
     },
@@ -53,8 +62,19 @@ export async function DELETE(
   }
   const { id } = await params;
 
-  await prisma.user.delete({
+  const userToDelete = await prisma.user.findUnique({
     where: { id },
+    select: { email: true, nama: true },
+  });
+
+  if (!userToDelete) {
+    return NextResponse.json({ error: 'User tidak ditemukan' }, { status: 404 });
+  }
+
+  await prisma.user.delete({ where: { id } });
+
+  sendAccountDeletedEmail(userToDelete.email, userToDelete.nama, 'admin').catch((err) => {
+    console.error('Gagal kirim email notifikasi delete:', err);
   });
 
   return NextResponse.json({ message: 'User dihapus' });

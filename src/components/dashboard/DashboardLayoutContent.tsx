@@ -6,25 +6,34 @@ import Sidebar from './Sidebar';
 import SearchBar from '@/components/shared/SearchBar';
 import { MobileDrawer } from '@/components/shared/MobileDrawer';
 import { useSidebarToggle } from '@/hooks/useSidebarToggle';
+import { useLocale } from '@/components/providers/LocaleProvider';
+import PremiumExpiryModal from './PremiumExpiryModal';
 
 interface DashboardLayoutContentProps {
   children: ReactNode;
   userName: string;
   userRole: string;
+  userEmail: string;
+  userFotoProfil: string | null;
 }
 
 export default function DashboardLayoutContent({
   children,
   userName,
   userRole,
+  userEmail,
+  userFotoProfil,
 }: DashboardLayoutContentProps) {
   const { isOpen, toggle, close } = useSidebarToggle();
+  const { t } = useLocale();
 
   return (
     <div className="flex min-h-screen">
+      <PremiumExpiryModal />
+      
       {/* Desktop Sidebar (always visible) */}
       <div className="hidden lg:block">
-        <Sidebar userName={userName} userRole={userRole} />
+        <Sidebar userName={userName} userRole={userRole} userEmail={userEmail} userFotoProfil={userFotoProfil} />
       </div>
 
       {/* Mobile Drawer Sidebar */}
@@ -32,13 +41,15 @@ export default function DashboardLayoutContent({
         <Sidebar
           userName={userName}
           userRole={userRole}
+          userEmail={userEmail}
+          userFotoProfil={userFotoProfil}
           onClose={close}
           className="w-full border-r-0"
         />
       </MobileDrawer>
 
       <div className="flex-1 flex flex-col w-full lg:w-auto">
-        <header className="bg-white border-b border-gray-200 px-6 lg:px-8 py-4 flex items-center justify-between">
+        <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 lg:px-8 py-4 flex items-center gap-4 sticky top-0 z-10">
           {/* Mobile Hamburger Menu */}
           <button
             onClick={toggle}
@@ -47,7 +58,12 @@ export default function DashboardLayoutContent({
             <Menu size={24} className="text-gray-700" />
           </button>
 
-          <div className="flex-1 max-w-lg ml-4 lg:ml-0">
+          {/* Desktop greeting (desktop only) */}
+          <p className="hidden lg:block text-sm text-gray-500">
+            {t('dashboard.greeting')} <span className="font-semibold text-gray-800">{userName}</span>
+          </p>
+
+          <div className="flex-1 max-w-lg ml-auto">
             <SearchBar />
           </div>
         </header>

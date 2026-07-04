@@ -9,34 +9,34 @@
     "logout": "Abmelden"
   },
   "hero": {
-    "title1": "Sprachen lernen",
-    "title2": "Einfach",
-    "title3": "und mit",
-    "title4": "Spaß",
-    "subtitle": "Greifen Sie auf hochwertige Materialien, interaktive Quizfragen und eine unterstützende Lerngemeinschaft zu. Beginnen Sie Ihre Lernreise noch heute!",
-    "ctaRegister": "Kostenlos registrieren",
-    "ctaArticles": "Artikel lesen",
-    "usersJoined": "Bereits {count} Personen beigetreten!"
+    "title1": "Sprich eine neue Sprache mit",
+    "title2": "echtem Selbstvertrauen",
+    "title3": "und",
+    "title4": "ohne Stress",
+    "subtitle": "Strukturierte Lektionen, interaktive Quizze und Fortschritt, den du wirklich verfolgen kannst — alles an einem Ort. Von null bis fließend begleiten wir dich auf jedem Schritt.",
+    "ctaRegister": "Kostenlos starten",
+    "ctaArticles": "Artikel entdecken",
+    "usersJoined": "Schon {count}+ Lernende dabei – und es werden mehr!"
   },
   "about": {
-    "title": "Warum SelasarBahasa wählen?",
-    "subtitle": "Wir bieten die beste Spracherfahrung mit einem modernen und effektiven Ansatz.",
+    "title": "Warum tausende Lernende SelasarBahasa wählen",
+    "subtitle": "Mehr als nur eine Lernplattform — ein Ort zum Wachsen, gemacht, damit du dranbleibst, bis du es wirklich kannst.",
     "features": {
       "materi": {
-        "title": "Vollständige Materialien",
-        "desc": "Verschiedene Sprachmaterialien von den Grundlagen bis zum Fortgeschrittenen mit Text und Video."
+        "title": "Lektionen, die Sinn ergeben",
+        "desc": "Von den Grundlagen bis zur Fließend, verpackt in leicht verständliche Texte und Videos — keine trockene Theorie."
       },
       "sertifikat": {
-        "title": "Zertifikate",
-        "desc": "Erhalten Sie nach Abschluss jeder Lernstufe ein Zertifikat."
+        "title": "Echter Fortschritt, sichtbar",
+        "desc": "Ein Level geschafft, ein Zertifikat verdient. Deine Mühe, sichtbar und teilbar."
       },
       "komunitas": {
-        "title": "Gemeinschaft",
-        "desc": "Treten Sie einer unterstützenden und aktiven Lerngemeinschaft bei."
+        "title": "Du lernst nicht allein",
+        "desc": "Schließ dich Mitlernenden an, die sich gegenseitig unterstützen — die Höhen und Tiefen beim Sprachenlernen fühlen sich gemeinsam leichter an."
       },
       "quiz": {
-        "title": "Interaktive Quiz",
-        "desc": "Testen Sie Ihr Verständnis mit abwechslungsreichen Quizzes und direktem Feedback."
+        "title": "Quizze, die wirklich Spaß machen",
+        "desc": "Teste dich mit interaktiven Quizzen und sofortigem Feedback — Lernen, das sich wie Spielen anfühlt, nicht wie eine Prüfung."
       }
     }
   },
@@ -45,7 +45,7 @@
     "contactUs": "Kontaktiere uns"
   },
   "footer": {
-    "desc": "Die beste Online-Sprachlernplattform mit hochwertigen Materialien und interaktiven Quizfragen.",
+    "desc": "Dein Begleiter beim Sprachenlernen, vom Anfänger bis zur Fließend — jederzeit, überall.",
     "menu": "Menü",
     "contact": "Kontakt",
     "rights": "Alle Rechte vorbehalten."
@@ -84,8 +84,91 @@
     "articles": "Artikel",
     "materials": "Materi",
     "tasks": "Tugas",
-    "packages": "Pakete",
+    "packages": "Paket",
     "users": "Benutzer",
     "logout": "Abmelden"
+  },
+  "dashboard": {
+    "greeting": "Willkommen,",
+    "title": "Dashboard",
+    "subtitle": "Fahre mit deiner Lernreise fort.",
+    "totalMaterials": "Gesamtmaterialien",
+    "totalQuizzes": "Gesamt-Quizzes",
+    "quizzesTaken": "Genommene Quizzes",
+    "completedMaterials": "Abgeschlossene Materialien",
+    "recentQuizzes": "Letzte Quizzes",
+    "noQuizzes": "Noch keine Quizzes gemacht",
+    "takeQuiz": "Quiz machen"
+  },
+  "admin": {
+    "title": "Admin-Dashboard",
+    "subtitle": "Willkommen im Administrationspanel.",
+    "totalUsers": "Gesamtbenutzer",
+    "totalMaterials": "Gesamtmaterialien",
+    "totalQuizzes": "Gesamt-Quizzes",
+    "totalArticles": "Gesamtartikel",
+    "unreadMessages": "Ungelesene Nachrichten",
+    "quickActions": "Schnellaktionen"
+  },
+  "quickActions": {
+    "materials": "Materialien",
+    "quizzes": "Quizzes",
+    "tasks": "Aufgaben",
+    "articles": "Artikel",
+    "packages": "Pakete",
+    "users": "Benutzer"
+  },
+  "auth": {
+    "shell": {
+      "loginHeadline": "Nur noch ein Schritt zu einem selbstbewussteren Dir.",
+      "loginSubheadline": "Melde dich an und mach genau da weiter, wo du aufgehört hast.",
+      "registerHeadline": "Deine neue Sprachreise beginnt hier.",
+      "registerSubheadline": "Jetzt kostenlos registrieren und sofort Zugriff auf unsere Lektionen und interaktiven Quizze erhalten."
+    },
+    "forgotPassword": {
+      "title": "Passwort vergessen?",
+      "subtitle": "Geben Sie Ihre E-Mail ein, um einen Passwort-Reset-Link zu erhalten",
+      "emailLabel": "E-Mail",
+      "submitButton": "Reset-Link senden",
+      "successMessage": "Wenn die E-Mail registriert ist, wurde ein Reset-Link gesendet",
+      "backToLogin": "Zurück zur Anmeldung"
+    },
+    "resetPassword": {
+      "title": "Passwort zurücksetzen",
+      "newPasswordLabel": "Neues Passwort",
+      "confirmPasswordLabel": "Neues Passwort bestätigen",
+      "submitButton": "Passwort zurücksetzen",
+      "passwordMismatch": "Passwörter stimmen nicht überein",
+      "invalidToken": "Link ist ungültig oder abgelaufen. Fordern Sie einen neuen Passwort-Reset an",
+      "successMessage": "Passwort erfolgreich zurückgesetzt! Bitte melden Sie sich an"
+    }
+  },
+  "login": {
+    "forgotPasswordLink": "Passwort vergessen?"
+  },
+  "profile": {
+    "title": "Mein Profil",
+    "changePhoto": "Foto ändern",
+    "namaLabel": "Name",
+    "bioLabel": "Bio / Lebensmotto",
+    "bioPlaceholder": "Schreibe etwas über dich...",
+    "negaraLabel": "Land",
+    "instansiLabel": "Institution",
+    "instansiPlaceholder": "Universität / Schule / Unternehmen",
+    "emailReadonly": "E-Mail kann hier nicht geändert werden",
+    "saveButton": "Änderungen speichern",
+    "saveSuccess": "Profiländerungen erfolgreich gespeichert!",
+    "saveError": "Fehler beim Speichern der Profiländerungen. Bitte versuche es erneut.",
+    "uploadError": "Fehler beim Hochladen des Profilfotos. Bitte versuche es erneut.",
+    "cropTitle": "Foto anpassen",
+    "cropZoomLabel": "Zoom",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "viewDetail": "Details anzeigen",
+    "editProfile": "Profil bearbeiten",
+    "deleteUser": "Löschen",
+    "deleteConfirmTitle": "Löschbestätigung",
+    "deleteConfirmMessage": "Möchtest du das Konto {name} wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden und der Benutzer erhält eine Benachrichtigungs-E-Mail.",
+    "close": "Schließen"
   }
 }

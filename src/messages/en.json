@@ -9,34 +9,34 @@
     "logout": "Logout"
   },
   "hero": {
-    "title1": "Learn Languages",
-    "title2": "Easily",
+    "title1": "Speak a New Language with",
+    "title2": "Real Confidence",
     "title3": "and",
-    "title4": "Fun",
-    "subtitle": "Access quality materials, interactive quizzes, and a supportive learning community. Start your learning journey today!",
-    "ctaRegister": "Register for Free",
-    "ctaArticles": "Read Articles",
-    "usersJoined": "{count} people have joined!"
+    "title4": "Zero Hassle",
+    "subtitle": "Structured lessons, interactive quizzes, and progress you can actually track — all in one place. From zero to fluent, we've got you every step of the way.",
+    "ctaRegister": "Start Learning Free",
+    "ctaArticles": "Explore Articles",
+    "usersJoined": "{count}+ learners already on board and counting!"
   },
   "about": {
-    "title": "Why Choose SelasarBahasa?",
-    "subtitle": "We provide the best language learning experience with a modern and effective approach.",
+    "title": "Why Thousands of Learners Choose SelasarBahasa",
+    "subtitle": "More than just a learning platform — a space to grow, built to keep you coming back until you truly get it.",
     "features": {
       "materi": {
-        "title": "Complete Materials",
-        "desc": "Various language materials from basic to advanced with text and video."
+        "title": "Lessons That Click",
+        "desc": "From basics to fluency, packed into easy-to-digest text and video — not stiff theory."
       },
       "sertifikat": {
-        "title": "Certificates",
-        "desc": "Get a certificate after completing each learning level."
+        "title": "Real Proof of Progress",
+        "desc": "Finish a level, earn a certificate. Your effort, visible and shareable."
       },
       "komunitas": {
-        "title": "Community",
-        "desc": "Join a supportive and active learning community."
+        "title": "You're Not Learning Alone",
+        "desc": "Join fellow learners who cheer each other on — the ups and downs of learning a language feel lighter together."
       },
       "quiz": {
-        "title": "Interactive Quizzes",
-        "desc": "Test your understanding with varied quizzes and instant feedback."
+        "title": "Quizzes You'll Actually Enjoy",
+        "desc": "Test yourself with interactive quizzes and instant feedback — learning that feels like play, not a test."
       }
     }
   },
@@ -45,7 +45,7 @@
     "contactUs": "Contact Us"
   },
   "footer": {
-    "desc": "The best online language learning platform with quality materials and interactive quizzes.",
+    "desc": "Your language-learning companion, from beginner to fluent — anytime, anywhere.",
     "menu": "Menu",
     "contact": "Contact",
     "rights": "All rights reserved."
@@ -87,5 +87,88 @@
     "packages": "Packages",
     "users": "Users",
     "logout": "Logout"
+  },
+  "dashboard": {
+    "greeting": "Welcome,",
+    "title": "Dashboard",
+    "subtitle": "Continue your learning journey.",
+    "totalMaterials": "Total Materials",
+    "totalQuizzes": "Total Quizzes",
+    "quizzesTaken": "Quizzes Taken",
+    "completedMaterials": "Completed Materials",
+    "recentQuizzes": "Recent Quizzes",
+    "noQuizzes": "No quizzes taken yet",
+    "takeQuiz": "Take Quiz"
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "subtitle": "Welcome to the administration panel.",
+    "totalUsers": "Total Users",
+    "totalMaterials": "Total Materials",
+    "totalQuizzes": "Total Quizzes",
+    "totalArticles": "Total Articles",
+    "unreadMessages": "Unread Messages",
+    "quickActions": "Quick Actions"
+  },
+  "quickActions": {
+    "materials": "Materials",
+    "quizzes": "Quizzes",
+    "tasks": "Tasks",
+    "articles": "Articles",
+    "packages": "Packages",
+    "users": "Users"
+  },
+  "auth": {
+    "shell": {
+      "loginHeadline": "One step closer to a more fluent you.",
+      "loginSubheadline": "Sign in and pick up right where you left off.",
+      "registerHeadline": "Your new language journey starts here.",
+      "registerSubheadline": "Sign up now, free, and get instant access to our lessons and interactive quizzes."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password?",
+      "subtitle": "Enter your email to receive a password reset link",
+      "emailLabel": "Email",
+      "submitButton": "Send Reset Link",
+      "successMessage": "If the email is registered, a reset link has been sent",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "newPasswordLabel": "New Password",
+      "confirmPasswordLabel": "Confirm New Password",
+      "submitButton": "Reset Password",
+      "passwordMismatch": "Passwords do not match",
+      "invalidToken": "Link is invalid or expired. Request a new password reset",
+      "successMessage": "Password reset successfully! Please log in"
+    }
+  },
+  "login": {
+    "forgotPasswordLink": "Forgot password?"
+  },
+  "profile": {
+    "title": "My Profile",
+    "changePhoto": "Change Photo",
+    "namaLabel": "Name",
+    "bioLabel": "Bio / Life Motto",
+    "bioPlaceholder": "Write a little about yourself...",
+    "negaraLabel": "Country",
+    "instansiLabel": "Institution",
+    "instansiPlaceholder": "University / School / Company",
+    "emailReadonly": "Email cannot be changed here",
+    "saveButton": "Save Changes",
+    "saveSuccess": "Profile changes saved successfully!",
+    "saveError": "Failed to save profile changes. Please try again.",
+    "uploadError": "Failed to upload profile photo. Please try again.",
+    "cropTitle": "Adjust Photo",
+    "cropZoomLabel": "Zoom",
+    "cancel": "Cancel",
+    "save": "Save",
+    "viewDetail": "View Detail",
+    "editProfile": "Edit Profile",
+    "deleteUser": "Delete",
+    "deleteConfirmTitle": "Delete Confirmation",
+    "deleteConfirmMessage": "Are you sure you want to delete account {name}? This action cannot be undone, and the user will receive a notification email.",
+    "close": "Close"
   }
 }

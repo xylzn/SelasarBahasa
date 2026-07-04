@@ -14,7 +14,11 @@ export default async function AdminLayout({
   }
 
   return (
-    <AdminLayoutContent userName={session.user.nama || 'Admin'}>
+    <AdminLayoutContent
+      userName={session.user.nama || 'Admin'}
+      userEmail={session.user.email || ''}
+      userFotoProfil={(session.user as any).fotoProfil || null}
+    >
       {children}
     </AdminLayoutContent>
   );

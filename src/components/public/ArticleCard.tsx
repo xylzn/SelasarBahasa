@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
+import SafeImage from '@/components/shared/SafeImage';
 import { Calendar, Tag } from 'lucide-react';
 import { useLocale } from '@/components/providers/LocaleProvider';
 
@@ -23,12 +23,13 @@ export default function ArticleCard({ article }: { article: Article }) {
       <article className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:border-brand-blue-light transition-all duration-300 h-full flex flex-col">
         {article.thumbnailUrl && (
           <div className="relative h-48 w-full overflow-hidden">
-            <Image
+            <SafeImage
               src={article.thumbnailUrl}
               alt={article.judul}
               width={400}
               height={200}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              placeholderClassName="w-full h-full bg-gray-100"
             />
           </div>
         )}

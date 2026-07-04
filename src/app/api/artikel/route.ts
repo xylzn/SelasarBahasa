@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/api-auth';
 import { z } from 'zod';
+import { invalidateCachePattern, invalidateCache } from '@/lib/cache';
+import { CACHE_KEYS } from '@/lib/cache-keys';
+import { revalidatePath } from 'next/cache';
 
 // Helper slugify
 function slugify(text: string) {
@@ -89,6 +92,16 @@ export async function POST(request: Request) {
       publishedAt: validated.published ? new Date() : null,
     },
   });
+
+  // Invalidate article-related caches
+  await Promise.all([
+    invalidateCachePattern('artikel:*'),
+    invalidateCache(CACHE_KEYS.topArticles()),
+  ]);
+
+  // Invalidate Next.js Full Route Cache
+  revalidatePath('/artikel');
+  revalidatePath(`/artikel/${artikel.slug}`);
 
   return NextResponse.json(artikel, { status: 201 });
 }

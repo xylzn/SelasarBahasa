@@ -7,6 +7,7 @@ import PackageCard from '@/components/public/PackageCard';
 import ContactForm from '@/components/public/ContactForm';
 import { HorizontalScrollContainer } from '@/components/shared/HorizontalScrollContainer';
 import { getExchangeRates } from '@/lib/currency';
+import { trackHomepageVisit } from '@/lib/pageview-tracker';
 
 export const revalidate = 3600;
 
@@ -65,6 +66,9 @@ export default async function HomePage() {
     getPackages(),
     getExchangeRates(),
   ]);
+
+  // Fire-and-forget: track homepage visit without blocking render
+  trackHomepageVisit().catch((err) => console.error('Failed to track homepage visit:', err));
 
   return (
     <div>

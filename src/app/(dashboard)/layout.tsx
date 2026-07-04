@@ -17,6 +17,8 @@ export default async function DashboardLayout({
     <DashboardLayoutContent
       userName={session.user.nama || 'User'}
       userRole={session.user.role || 'USER'}
+      userEmail={session.user.email || ''}
+      userFotoProfil={session.user.fotoProfil || null}
     >
       {children}
     </DashboardLayoutContent>

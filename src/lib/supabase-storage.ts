@@ -35,6 +35,13 @@ export async function uploadFile(
       if (file.size > 10 * 1024 * 1024) { // 10MB per file
         return { error: 'Ukuran file tugas tidak boleh lebih dari 10MB' };
       }
+    } else if (bucket === 'profile-photos') {
+      if (file.size > 1 * 1024 * 1024) { // 1MB
+        return { error: 'Ukuran foto profil tidak boleh lebih dari 1MB' };
+      }
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+        return { error: 'Foto profil harus berupa JPG, PNG, atau WEBP' };
+      }
     }
 
     const fileExt = file.name.split('.').pop();

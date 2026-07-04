@@ -43,10 +43,14 @@ export default function ArticleTableClient({ articles }: ArticleTableClientProps
             {articles.map((item) => (
               <tr key={item.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {item.judul}
+                  <span title={item.judul}>
+                    {item.judul.length > 30 ? item.judul.slice(0, 30) + '…' : item.judul}
+                  </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {item.slug}
+                  <span title={item.slug}>
+                    {item.slug.length > 30 ? item.slug.slice(0, 30) + '…' : item.slug}
+                  </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${

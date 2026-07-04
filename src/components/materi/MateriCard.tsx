@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Lock } from 'lucide-react';
 import { PremiumLockModal } from '@/components/shared/PremiumLockModal';
 
 interface MateriCardProps {
@@ -30,15 +30,18 @@ export default function MateriCard({ id, judul, slug, tipe, kelas, isPremium, us
       <>
         <div
           onClick={handleClick}
-          className="bg-white p-6 rounded-2xl border border-gray-150 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer relative reveal"
+          className="bg-white p-6 rounded-2xl border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer relative"
         >
           <div className="flex items-start justify-between mb-4">
             <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
               {tipe === 'TEKS' ? 'PDF' : 'Video'}
             </span>
-            <span className="bg-brand-orange-light text-brand-orange px-3 py-1 rounded-full text-xs font-bold tracking-wide">
-              Premium
-            </span>
+            <div className="flex items-center gap-2">
+              <Lock size={16} className="text-brand-orange" />
+              <span className="bg-brand-orange-light text-brand-orange px-3 py-1 rounded-full text-xs font-bold tracking-wide">
+                Premium
+              </span>
+            </div>
           </div>
           <h3 className="font-bold text-brand-blue-dark mb-2 text-base leading-snug">{judul}</h3>
         </div>
@@ -48,8 +51,8 @@ export default function MateriCard({ id, judul, slug, tipe, kelas, isPremium, us
   }
 
   return (
-    <Link href={`/dashboard/kelas/${kelas.toLowerCase()}/${tipe.toLowerCase()}/${slug}`} className="block reveal">
-      <div className="bg-white p-6 rounded-2xl border border-gray-150 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer relative">
+    <Link href={`/dashboard/kelas/${kelas.toLowerCase()}/${tipe.toLowerCase()}/${slug}`} className="block">
+      <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer relative">
         <div className="flex items-start justify-between mb-4">
           <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
             {tipe === 'TEKS' ? 'PDF' : 'Video'}
