@@ -59,7 +59,8 @@
     "submit": "Masuk",
     "submitting": "Masuk...",
     "noAccount": "Belum punya akun?",
-    "registerNow": "Daftar sekarang"
+    "registerNow": "Daftar sekarang",
+    "forgotPasswordLink": "Lupa password?"
   },
   "register": {
     "title": "Daftar Akun Baru",
@@ -143,9 +144,7 @@
       "successMessage": "Password berhasil direset! Silakan masuk"
     }
   },
-  "login": {
-    "forgotPasswordLink": "Lupa password?"
-  },
+
   "profile": {
     "title": "Profil Saya",
     "changePhoto": "Ganti Foto",

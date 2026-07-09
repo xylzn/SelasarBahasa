@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { signOut } from '@/auth';
+import { signOut } from 'next-auth/react';
 import { Home, BookOpen, FileText, Package, Users, LogOut, ClipboardList } from 'lucide-react';
 import { useLocale } from '@/components/providers/LocaleProvider';
 
@@ -29,7 +29,7 @@ export default function AdminSidebar({ userName, userEmail, userFotoProfil, onCl
   ];
 
   const handleSignOut = async () => {
-    await signOut({ redirectTo: '/' });
+    await signOut({ callbackUrl: '/' });
   };
 
   const handleLinkClick = () => {

@@ -71,6 +71,7 @@ export default function LoginPage() {
     <AuthShell
       headline={t('auth.shell.loginHeadline')}
       subheadline={t('auth.shell.loginSubheadline')}
+      
     >
       <div className="mb-8">
         <h1 className="text-3xl font-extrabold text-brand-blue-dark mb-2 tracking-tight">

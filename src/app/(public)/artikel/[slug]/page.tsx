@@ -60,9 +60,10 @@ async function getRelatedArticles(articleId: string, slug: string, kategori: str
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const article = await getArticle(params.slug);
+  const { slug } = await params;
+  const article = await getArticle(slug);
 
   return {
     title: article.metaTitle || article.judul,
@@ -92,9 +93,10 @@ export async function generateMetadata({
 export default async function ArticleDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const article = await getArticle(params.slug);
+  const { slug } = await params;
+  const article = await getArticle(slug);
   const jsonLd = generateArticleJsonLd(article);
   const relatedArticles = await getRelatedArticles(article.id, article.slug, article.kategori);
 

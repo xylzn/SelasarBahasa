@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { useLocale } from '@/components/providers/LocaleProvider';
 import { LOCALE_TO_CURRENCY, formatCurrency } from '@/lib/currency';
@@ -22,6 +23,7 @@ export default function PackageCard({
 }) {
   const { locale, t } = useLocale();
   const targetCurrency = LOCALE_TO_CURRENCY[locale] || 'IDR';
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const formattedPrice = formatCurrency(pkg.harga, targetCurrency, exchangeRates);
   const formattedIdr = new Intl.NumberFormat('id-ID', {
@@ -30,8 +32,11 @@ export default function PackageCard({
     minimumFractionDigits: 0,
   }).format(pkg.harga);
 
+
+
   return (
     <div
+      ref={cardRef}
       className={`bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between reveal ${
         pkg.isPopuler ? 'border-brand-blue ring-4 ring-brand-blue-light/50' : 'border-gray-100'
       }`}
