@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     url: "https://selasar-bahasa.vercel.app",
     images: [
       {
-        url: "public/og-image.png", // Taruh file 1200×630px di public/og-image.png
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Selasar Bahasa",
