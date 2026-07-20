@@ -37,7 +37,7 @@ const artikelSchema = z.object({
   kategori: z.string().optional(),
   metaTitle: z.string().max(60, 'Meta title maksimal 60 karakter').optional(),
   metaDescription: z.string().max(160, 'Meta description maksimal 160 karakter').optional(),
-  published: z.boolean().default(false),
+  published: z.boolean().optional().default(false),
 });
 
 type ArtikelFormValues = z.infer<typeof artikelSchema>;
