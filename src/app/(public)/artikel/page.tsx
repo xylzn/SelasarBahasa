@@ -53,9 +53,10 @@ async function getCategories(): Promise<string[]> {
 export default async function ArticlesPage({
   searchParams,
 }: {
-  searchParams: { kategori?: string };
+  searchParams: Promise<{ kategori?: string }>;
 }) {
-  const activeCategory = searchParams.kategori ?? null;
+  const { kategori } = await searchParams;
+  const activeCategory = kategori ?? null;
 
   const [articles, categories] = await Promise.all([
     getArticles(activeCategory ?? undefined),

@@ -2,9 +2,9 @@ import { Suspense } from 'react';
 import prisma from '@/lib/prisma';
 import HeroSection from '@/components/public/HeroSection';
 import AboutSection from '@/components/public/AboutSection';
-import ArticleCard from '@/components/public/ArticleCard';
+import ArticleSlidesSection from '@/components/public/ArticleSlidesSection';
 import PackageCard from '@/components/public/PackageCard';
-import ContactForm from '@/components/public/ContactForm';
+import ContactSection from '@/components/public/ContactSection';
 import { HorizontalScrollContainer } from '@/components/shared/HorizontalScrollContainer';
 import { getExchangeRates } from '@/lib/currency';
 import { trackHomepageVisit } from '@/lib/pageview-tracker';
@@ -72,47 +72,16 @@ export default async function HomePage() {
 
   return (
     <div>
+      {/* 1. Hero */}
       <HeroSection totalUsers={totalUsers} />
+
+      {/* 2. Article Slides */}
+      <ArticleSlidesSection articles={articles} />
+
+      {/* 3. About — "Kenapa Ribuan Pelajar Pilih SelasarBahasa?" */}
       <AboutSection />
 
-      {/* Article Preview */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Artikel Terbaru
-            </h2>
-            <p className="text-gray-600">Baca tips dan trik belajar bahasa dari kami</p>
-          </div>
-
-          {/* Mobile: Horizontal Scroll */}
-          <HorizontalScrollContainer className="lg:hidden">
-            {articles.map((article) => (
-              <div key={article.id} className="flex-shrink-0 w-[85%] snap-center">
-                <ArticleCard article={article} />
-              </div>
-            ))}
-          </HorizontalScrollContainer>
-
-          {/* Desktop: Grid */}
-          <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <a
-              href="/artikel"
-              className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
-            >
-              Lihat Semua Artikel
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Packages */}
+      {/* 4. Packages — "Paket Belajar Kami" */}
       <section className="py-20" id="packages">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -140,22 +109,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Contact */}
-      <section className="py-20 bg-gray-50" id="contact">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Kontak Kami
-            </h2>
-            <p className="text-gray-600">
-              Ada pertanyaan? Silakan hubungi kami dan kami akan segera merespon
-            </p>
-          </div>
-          <Suspense fallback={<div>Loading form...</div>}>
-            <ContactForm />
-          </Suspense>
-        </div>
-      </section>
+      {/* 5. Contact */}
+      <Suspense fallback={<div className="py-20 text-center text-gray-400">Loading...</div>}>
+        <ContactSection />
+      </Suspense>
     </div>
   );
 }

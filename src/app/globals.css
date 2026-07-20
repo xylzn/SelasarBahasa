@@ -87,3 +87,21 @@ body {
     opacity: 1;
   }
 }
+
+/* Tiptap editor: restore list styling stripped by Tailwind preflight.
+   Must be outside @layer utilities so it has higher specificity than the reset. */
+.ProseMirror ul {
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
+  margin: 0.5rem 0;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5rem !important;
+  margin: 0.5rem 0;
+}
+
+.ProseMirror li {
+  margin: 0.25rem 0;
+}
