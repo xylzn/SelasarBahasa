@@ -15,10 +15,35 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Selasar Bahasa",
-  description: "Platform belajar bahasa online",
+  title: {
+    default: "Selasar Bahasa",
+    template: "%s | Selasar Bahasa",
+  },
+  description: "Platform belajar bahasa online — materi terstruktur, quiz interaktif, dan progres belajar yang bisa kamu pantau sendiri.",
+  metadataBase: new URL("https://selasar-bahasa.vercel.app"),
   icons: {
     icon: "/favicon.svg",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "Selasar Bahasa",
+    title: "Selasar Bahasa — Belajar Bahasa Lebih Mudah",
+    description: "Platform belajar bahasa online — materi terstruktur, quiz interaktif, dan progres belajar yang bisa kamu pantau sendiri.",
+    url: "https://selasar-bahasa.vercel.app",
+    images: [
+      {
+        url: "/og-image.png", // Taruh file 1200×630px di public/og-image.png
+        width: 1200,
+        height: 630,
+        alt: "Selasar Bahasa",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Selasar Bahasa — Belajar Bahasa Lebih Mudah",
+    description: "Platform belajar bahasa online — materi terstruktur, quiz interaktif, dan progres belajar yang bisa kamu pantau sendiri.",
+    images: ["/og-image.png"],
   },
 };
 
