@@ -54,7 +54,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
     // Only reset if the editor is empty and value has actual content
     const currentHTML = editor.getHTML();
     if (value && value !== '<p></p>' && currentHTML !== value) {
-      editor.commands.setContent(value, false);
+      editor.commands.setContent(value, { emitUpdate: false });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, editor]);
