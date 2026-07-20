@@ -75,7 +75,7 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
     setValue,
     watch,
   } = useForm<ArtikelFormValues>({
-    resolver: zodResolver(artikelSchema),
+    resolver: zodResolver(artikelSchema) as any,
     defaultValues: {
       judul: initialData?.judul || '',
       slug: initialData?.slug || '',
