@@ -51,7 +51,7 @@ export default function MarkCompleteButton({ materiId, isCompleted }: MarkComple
     <button
       onClick={handleClick}
       disabled={isUpdating}
-      className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition"
+      className="px-6 py-3 bg-brand-blue text-white rounded-lg hover:bg-brand-blue/90 disabled:opacity-50 transition"
     >
       {isUpdating ? 'Menyimpan...' : 'Tandai Selesai'}
     </button>

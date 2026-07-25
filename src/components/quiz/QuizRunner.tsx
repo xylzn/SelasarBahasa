@@ -53,7 +53,7 @@ export default function QuizRunner({ questions, onSubmit, isLoading }: QuizRunne
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
-            className="bg-blue-600 h-2 rounded-full transition-all"
+            className="bg-brand-blue h-2 rounded-full transition-all"
             style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
           />
         </div>
@@ -71,7 +71,7 @@ export default function QuizRunner({ questions, onSubmit, isLoading }: QuizRunne
               disabled={isLoading}
               className={`w-full text-left p-4 rounded-lg border-2 transition ${
                 answers[currentQuestion.id] === option.id
-                  ? 'border-blue-500 bg-blue-50'
+                  ? 'border-brand-blue bg-brand-blue-light'
                   : 'border-gray-200 hover:border-gray-300'
               } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
@@ -93,15 +93,15 @@ export default function QuizRunner({ questions, onSubmit, isLoading }: QuizRunne
           <button
             onClick={handleSubmit}
             disabled={isLoading}
-            className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+            className="px-8 py-3 bg-brand-blue text-white rounded-lg hover:bg-brand-blue/90 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
           >
             {isLoading ? 'Menyimpan...' : 'Selesai'}
           </button>
         ) : (
           <button
             onClick={handleNext}
-            disabled={isLoading}
-            className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+            disabled={isLoading || !answers[currentQuestion.id]}
+            className="px-8 py-3 bg-brand-blue text-white rounded-lg hover:bg-brand-blue/90 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
           >
             Selanjutnya
           </button>

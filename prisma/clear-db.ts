@@ -9,7 +9,6 @@ async function main() {
   console.log('📊 Current data count:')
   const counts = await Promise.all([
     prisma.article.count().then(c => ({ table: 'Article', count: c })),
-    prisma.package.count().then(c => ({ table: 'Package', count: c })),
     prisma.contactMessage.count().then(c => ({ table: 'ContactMessage', count: c })),
     prisma.materi.count().then(c => ({ table: 'Materi', count: c })),
     prisma.quiz.count().then(c => ({ table: 'Quiz', count: c })),
@@ -51,9 +50,6 @@ async function main() {
 
   await prisma.contactMessage.deleteMany({})
   console.log('✅ ContactMessage deleted')
-
-  await prisma.package.deleteMany({})
-  console.log('✅ Package deleted')
 
   await prisma.article.deleteMany({})
   console.log('✅ Article deleted')

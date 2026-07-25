@@ -17,7 +17,7 @@ export default function QuizResult({ score, breakdown }: QuizResultProps) {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="text-center mb-12">
-        <div className="text-7xl font-bold text-blue-600 mb-4">{score}</div>
+        <div className="text-7xl font-bold text-brand-blue mb-4">{score}</div>
         <p className="text-xl text-gray-600">
           {score >= 80 ? 'Luar biasa!' : score >= 60 ? 'Bagus!' : score >= 40 ? 'Lumayan!' : 'Masih bisa belajar lebih lagi!'}
         </p>

@@ -44,7 +44,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 ? 'bg-green-50 border-green-200 text-green-800'
                 : toast.type === 'error'
                 ? 'bg-red-50 border-red-200 text-red-800'
-                : 'bg-blue-50 border-blue-200 text-blue-800'
+                : 'bg-brand-blue-light border-brand-blue/20 text-brand-blue-dark'
             }`}
           >
             {toast.type === 'success' && <CheckCircle size={20} />}

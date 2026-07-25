@@ -71,7 +71,7 @@ export default async function TingkatDetailPage({ params }: { params: Promise<{ 
   return (
     <div className="p-8">
       <div className="mb-8">
-        <Link href="/dashboard/kelas" className="text-blue-600 hover:text-blue-700 mb-4 inline-block">
+        <Link href="/dashboard/kelas" className="text-brand-blue hover:text-brand-blue-dark mb-4 inline-block">
           ← Kembali ke Pilih Kelas
         </Link>
         <h1 className="text-2xl font-bold text-gray-900">{displayTipe} — {displayTingkat}</h1>
@@ -82,15 +82,15 @@ export default async function TingkatDetailPage({ params }: { params: Promise<{ 
         <Link href={`/dashboard/kelas/${tingkatSlug}/materi`}>
           <div className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition cursor-pointer">
             <div className="text-4xl mb-4">
-              <BookOpen className="text-blue-600" />
+              <BookOpen className="text-brand-blue" />
             </div>
             <h2 className="text-xl font-bold text-gray-900 mb-2">Materi</h2>
             <p className="text-gray-600 mb-4">Baca materi pembelajaran</p>
             <div className="flex items-center gap-2">
-              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+              <span className="bg-brand-blue-light text-brand-blue-dark px-3 py-1 rounded-full text-sm font-medium">
                 {jumlahTeks} Materi
               </span>
-              <span className="text-blue-600">Lihat →</span>
+              <span className="text-brand-blue">Lihat →</span>
             </div>
           </div>
         </Link>

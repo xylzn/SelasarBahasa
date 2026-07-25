@@ -60,7 +60,7 @@ export default function QuizTableClient({ quizzes }: QuizTableClientProps) {
           placeholder={t('admin.quizTable.searchPlaceholder')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
         />
       </div>
       {Object.keys(groupedQuizzes).length === 0 ? (
@@ -116,7 +116,7 @@ export default function QuizTableClient({ quizzes }: QuizTableClientProps) {
                       <td className="px-6 py-4 whitespace-nowrap text-sm flex gap-3">
                         <Link
                           href={`/admin/quiz/edit/${item.id}`}
-                          className="text-blue-600 hover:text-blue-700 font-medium"
+                          className="text-brand-blue hover:text-brand-blue-dark font-medium"
                         >
                           Edit
                         </Link>

@@ -76,7 +76,7 @@ export default async function TugasListPage({ params }: { params: Promise<{ ting
             ? <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Sudah Dikumpulkan</span>
             : isPastDeadline
               ? <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">Tidak Mengumpulkan</span>
-              : <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Belum Dikumpulkan</span>;
+              : <span className="bg-brand-blue-light text-brand-blue-dark px-3 py-1 rounded-full text-sm font-medium">Belum Dikumpulkan</span>;
 
           return (
             <Link key={tugas.id} href={`/dashboard/kelas/${tingkatSlug}/tugas/${tugas.slug}`}>

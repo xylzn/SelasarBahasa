@@ -60,7 +60,7 @@ export default function TugasTableClient({ tugasList }: TugasTableClientProps) {
       render: (value: any, item: any) => (
         <Link
           href={`/admin/tugas/${item.id}/submissions`}
-          className="text-blue-600 hover:text-blue-700 font-medium"
+          className="text-brand-blue hover:text-brand-blue-dark font-medium"
         >
           {value.submissions}
         </Link>
@@ -90,7 +90,7 @@ export default function TugasTableClient({ tugasList }: TugasTableClientProps) {
           </Link>
           <Link
             href={`/admin/tugas/edit/${item.id}`}
-            className="text-blue-600 hover:text-blue-700 font-medium text-sm"
+            className="text-brand-blue hover:text-brand-blue-dark font-medium text-sm"
           >
             Edit
           </Link>
@@ -108,7 +108,7 @@ export default function TugasTableClient({ tugasList }: TugasTableClientProps) {
           placeholder={t('admin.tugasTable.searchPlaceholder')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
         />
       </div>
       {Object.keys(groupedTugas).length === 0 ? (

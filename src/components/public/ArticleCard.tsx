@@ -12,7 +12,7 @@ interface Article {
   ringkasan: string;
   thumbnailUrl: string | null;
   kategori: string | null;
-  publishedAt: Date | null;
+  publishedAt: Date | string | null;
 }
 
 export default function ArticleCard({ article }: { article: Article }) {

@@ -28,7 +28,7 @@ export default async function TugasSubmissionsPage({ params }: { params: Promise
   return (
     <div className="p-8">
       <div className="mb-8">
-        <Link href="/admin/tugas" className="text-blue-600 hover:text-blue-700 mb-4 inline-block">
+        <Link href="/admin/tugas" className="text-brand-blue hover:text-brand-blue-dark mb-4 inline-block">
           ← Kembali ke Daftar Tugas
         </Link>
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Submissions: {tugas.judul}</h1>
@@ -94,7 +94,7 @@ export default async function TugasSubmissionsPage({ params }: { params: Promise
                                 href={file.fileUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-1 text-blue-600 hover:text-blue-700"
+                                className="flex items-center gap-1 text-brand-blue hover:text-brand-blue-dark"
                               >
                                 <Download size={14} />
                                 <span className="truncate max-w-xs">{file.fileName}</span>

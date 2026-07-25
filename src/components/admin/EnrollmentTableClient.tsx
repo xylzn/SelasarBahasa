@@ -31,7 +31,7 @@ interface Enrollment {
 
 const STATUS_STYLE: Record<EnrollmentStatus, string> = {
   PENDING_PAYMENT:   'bg-amber-100 text-amber-800',
-  WAITING:           'bg-blue-100 text-blue-800',
+  WAITING:           'bg-brand-blue-light text-brand-blue-dark',
   ACTIVE:            'bg-green-100 text-green-800',
   COMPLETED:         'bg-gray-100 text-gray-600',
   REFUND_REQUESTED:  'bg-orange-100 text-orange-800',

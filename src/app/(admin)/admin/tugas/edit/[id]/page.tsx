@@ -15,7 +15,7 @@ export default async function EditTugasPage({ params }: { params: Promise<{ id: 
   return (
     <div className="p-8">
       <div className="mb-8">
-        <Link href="/admin/tugas" className="text-blue-600 hover:text-blue-700 mb-4 inline-block">
+        <Link href="/admin/tugas" className="text-brand-blue hover:text-brand-blue-dark mb-4 inline-block">
           ← Kembali ke Daftar Tugas
         </Link>
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Edit Tugas</h1>

@@ -136,7 +136,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
             name="judul"
             required
             defaultValue={initialData?.judul}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
             placeholder={t('admin.forms.materi.judulPlaceholder')}
           />
         </div>
@@ -147,7 +147,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
             type="text"
             name="slug"
             defaultValue={initialData?.slug}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
             placeholder={t('admin.forms.materi.slugPlaceholder')}
           />
         </div>
@@ -159,7 +159,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
               name="tipe"
               value={selectedTipe}
               onChange={(e) => setSelectedTipe(e.target.value as 'TEKS' | 'VIDEO')}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
             >
               <option value="TEKS">{t('admin.forms.materi.pdf')}</option>
               <option value="VIDEO">{t('admin.forms.materi.video')}</option>
@@ -170,7 +170,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
             <select
               name="tipeKelas"
               defaultValue={initialData?.tipeKelas || 'REGULER'}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
             >
               <option value="REGULER">{t('adminShared.reguler')}</option>
               <option value="PRIVAT">{t('adminShared.privat')}</option>
@@ -182,7 +182,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
             <select
               name="tingkatBIPA"
               defaultValue={initialData?.tingkatBIPA || 'BIPA_1'}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
             >
               <option value="BIPA_1">{t('adminShared.bipa1')}</option>
               <option value="BIPA_2">{t('adminShared.bipa2')}</option>
@@ -202,7 +202,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
                 onClick={() => setSumberDokumen('LINK')}
                 className={`flex-1 px-4 py-2 rounded-lg border transition ${
                   sumberDokumen === 'LINK'
-                    ? 'bg-blue-600 text-white border-blue-600'
+                    ? 'bg-brand-blue text-white border-brand-blue'
                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                 }`}
               >
@@ -213,7 +213,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
                 onClick={() => setSumberDokumen('UPLOAD')}
                 className={`flex-1 px-4 py-2 rounded-lg border transition ${
                   sumberDokumen === 'UPLOAD'
-                    ? 'bg-blue-600 text-white border-blue-600'
+                    ? 'bg-brand-blue text-white border-brand-blue'
                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                 }`}
               >
@@ -228,7 +228,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
                   type="url"
                   value={pdfLink}
                   onChange={(e) => setPdfLink(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
                   placeholder={t('admin.forms.materi.pdfUrlPlaceholder')}
                 />
                 {pdfLink && (
@@ -237,7 +237,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
                       href={pdfLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-blue-600 hover:underline"
+                      className="text-sm text-brand-blue hover:underline"
                     >
                       Buka link di tab baru untuk testing →
                     </a>
@@ -259,7 +259,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
                         id="keepFile"
                         checked={keepExistingFile}
                         onChange={(e) => setKeepExistingFile(e.target.checked)}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-gray-300 text-brand-blue focus:ring-brand-blue"
                       />
                       <label htmlFor="keepFile" className="text-sm text-gray-700">
                         Pertahankan file ini
@@ -276,7 +276,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
                       type="file"
                       accept="application/pdf"
                       onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
                     />
                     {selectedFile && (
                       <div className="mt-2 p-3 bg-gray-50 rounded-lg">
@@ -310,7 +310,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
                 type="url"
                 name="videoUrl"
                 defaultValue={initialData?.videoUrl}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
                 placeholder={t('admin.forms.materi.videoUrlPlaceholder')}
               />
             </div>
@@ -334,7 +334,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
               type="number"
               name="urutan"
               defaultValue={initialData?.urutan || 0}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
               placeholder="0"
             />
           </div>
@@ -347,7 +347,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
             name="published"
             value="true"
             defaultChecked={initialData?.published ?? true}
-            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            className="rounded border-gray-300 text-brand-blue focus:ring-brand-blue"
           />
           <label htmlFor="published" className="text-sm font-medium text-gray-700">
             Terbitkan
@@ -365,7 +365,7 @@ export default function MateriForm({ initialData }: MateriFormProps) {
           <button
             type="submit"
             disabled={isLoading}
-            className="px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50"
+            className="px-6 py-3 rounded-lg bg-brand-blue text-white hover:bg-brand-blue/90 transition disabled:opacity-50"
           >
             {isLoading ? 'Saving...' : 'Simpan Materi'}
           </button>

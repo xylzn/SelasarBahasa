@@ -138,7 +138,7 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
     <div className="p-8 max-w-4xl mx-auto">
       <Link
         href={`/dashboard/kelas/${params.tingkatSlug}/tugas`}
-        className="text-blue-600 hover:text-blue-700 mb-4 inline-block"
+        className="text-brand-blue hover:text-brand-blue-dark mb-4 inline-block"
       >
         ← Kembali ke Daftar Tugas
       </Link>
@@ -175,7 +175,7 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
               href={tugas.fileInstruksiUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-blue-600 hover:text-blue-700"
+              className="flex items-center gap-2 text-brand-blue hover:text-brand-blue-dark"
             >
               <Download size={20} />
               <span>Download File Instruksi</span>
@@ -211,7 +211,7 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
                     href={file.fileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-blue-600 hover:text-blue-700 flex-1"
+                    className="flex items-center gap-2 text-brand-blue hover:text-brand-blue-dark flex-1"
                   >
                     <Download size={16} />
                     <span>{file.fileName}</span>
@@ -266,7 +266,7 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
                 accept=".pdf,.doc,.docx"
                 multiple
                 onChange={handleFileChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
               />
               <p className="text-xs text-gray-500 mt-1">
                 Maks {MAX_FILE_SIZE_MB}MB per file, total {MAX_TOTAL_SIZE_MB}MB
@@ -319,7 +319,7 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
               <button
                 type="submit"
                 disabled={isSubmitting || selectedFiles.length === 0}
-                className="px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50 flex items-center gap-2"
+                className="px-6 py-3 rounded-lg bg-brand-blue text-white hover:bg-brand-blue/90 transition disabled:opacity-50 flex items-center gap-2"
               >
                 {isSubmitting ? (
                   <>Mengirim...</>
