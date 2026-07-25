@@ -15,6 +15,7 @@ interface UserProfile {
   instansi?: string | null;
   fotoProfil?: string | null;
   role: string;
+  noWhatsapp?: string | null;
 }
 
 export default function ProfilePage() {
@@ -39,6 +40,7 @@ export default function ProfilePage() {
     bio: '',
     negara: '',
     instansi: '',
+    noWhatsapp: '',
   });
 
   useEffect(() => {
@@ -53,6 +55,7 @@ export default function ProfilePage() {
             bio: data.bio || '',
             negara: data.negara || '',
             instansi: data.instansi || '',
+            noWhatsapp: data.noWhatsapp || '',
           });
         }
       } catch (err) {
@@ -309,6 +312,17 @@ export default function ProfilePage() {
               value={formData.instansi}
               onChange={(e) => setFormData({ ...formData, instansi: e.target.value })}
               placeholder={t('profile.instansiPlaceholder')}
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">No WhatsApp</label>
+            <input
+              type="tel"
+              value={formData.noWhatsapp}
+              onChange={(e) => setFormData({ ...formData, noWhatsapp: e.target.value })}
+              placeholder="08xx-xxxx-xxxx"
               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
             />
           </div>

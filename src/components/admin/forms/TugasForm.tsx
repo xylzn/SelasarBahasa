@@ -7,13 +7,14 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { uploadFileToSupabase } from '@/lib/supabase-storage';
 import { useToast } from '@/components/ui/Toast';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 const tugasSchema = z.object({
   judul: z.string().min(1, 'Judul harus diisi'),
   slug: z.string().optional(),
   instruksi: z.string().min(1, 'Instruksi harus diisi'),
-  kelas: z.enum(['DASAR', 'MENENGAH', 'LANJUTAN']).default('DASAR'),
-  isPremium: z.boolean().default(false),
+  tipeKelas: z.enum(['REGULER', 'PRIVAT', 'ANAK_REMAJA']).default('REGULER'),
+  tingkatBIPA: z.enum(['BIPA_1', 'BIPA_2', 'BIPA_3', 'BIPA_4', 'BIPA_5', 'BIPA_6']).default('BIPA_1'),
   deadline: z.string().optional(),
   urutan: z.number().default(0),
   published: z.boolean().default(true),
@@ -27,6 +28,7 @@ interface TugasFormProps {
 
 export default function TugasForm({ initialData }: TugasFormProps) {
   const router = useRouter();
+  const { t } = useLocale();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState<string>('');
@@ -46,14 +48,14 @@ export default function TugasForm({ initialData }: TugasFormProps) {
       judul: initialData.judul,
       slug: initialData.slug,
       instruksi: initialData.instruksi,
-      kelas: initialData.kelas,
-      isPremium: initialData.isPremium,
+      tipeKelas: initialData.tipeKelas,
+      tingkatBIPA: initialData.tingkatBIPA,
       deadline: initialData.deadline ? new Date(initialData.deadline).toISOString().slice(0, 16) : '',
       urutan: initialData.urutan,
       published: initialData.published,
     } : {
-      kelas: 'DASAR',
-      isPremium: false,
+      tipeKelas: 'REGULER',
+      tingkatBIPA: 'BIPA_1',
       published: true,
       urutan: 0,
     },
@@ -107,8 +109,14 @@ export default function TugasForm({ initialData }: TugasFormProps) {
         router.push('/admin/tugas');
         router.refresh();
       } else {
-        const errData = await res.json();
-        throw new Error(errData.error || `Gagal ${isEditing ? 'mengedit' : 'menambah'} tugas`);
+        let errMsg = `Gagal ${isEditing ? 'mengedit' : 'menambah'} tugas`;
+        try {
+          const errData = await res.json();
+          errMsg = errData.error || errMsg;
+        } catch {
+          // Jika res.json() gagal, pakai pesan default
+        }
+        throw new Error(errMsg);
       }
     } catch (err: any) {
       console.error(err);
@@ -125,12 +133,12 @@ export default function TugasForm({ initialData }: TugasFormProps) {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Judul</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.artikel.judul')}</label>
           <input
             type="text"
             {...register('judul')}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            placeholder="Masukkan judul tugas"
+            placeholder={t('admin.forms.tugas.judulPlaceholder')}
           />
           {errors.judul && (
             <p className="text-sm text-red-600 mt-1">{(errors.judul as any).message}</p>
@@ -138,29 +146,43 @@ export default function TugasForm({ initialData }: TugasFormProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Slug (opsional)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.tugas.slugOpsional')}</label>
           <input
             type="text"
             {...register('slug')}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            placeholder="Slug URL (auto-generated jika kosong)"
+            placeholder={t('admin.forms.tugas.slugPlaceholder')}
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('adminShared.tipeKelas')}</label>
             <select
-              {...register('kelas')}
+              {...register('tipeKelas')}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             >
-              <option value="DASAR">Dasar</option>
-              <option value="MENENGAH">Menengah</option>
-              <option value="LANJUTAN">Lanjutan</option>
+              <option value="REGULER">{t('adminShared.reguler')}</option>
+              <option value="PRIVAT">{t('adminShared.privat')}</option>
+              <option value="ANAK_REMAJA">{t('adminShared.anakRemaja')}</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Deadline (opsional)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('adminShared.tingkatBipa')}</label>
+            <select
+              {...register('tingkatBIPA')}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            >
+              <option value="BIPA_1">{t('adminShared.bipa1')}</option>
+              <option value="BIPA_2">{t('adminShared.bipa2')}</option>
+              <option value="BIPA_3">{t('adminShared.bipa3')}</option>
+              <option value="BIPA_4">{t('adminShared.bipa4')}</option>
+              <option value="BIPA_5">{t('adminShared.bipa5')}</option>
+              <option value="BIPA_6">{t('adminShared.bipa6')}</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.tugas.deadlineOpsional')}</label>
             <input
               type="datetime-local"
               {...register('deadline')}
@@ -170,11 +192,11 @@ export default function TugasForm({ initialData }: TugasFormProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Instruksi</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.tugas.instruksi')}</label>
           <textarea
             {...register('instruksi')}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none min-h-32"
-            placeholder="Masukkan instruksi tugas"
+            placeholder={t('admin.forms.tugas.instruksiPlaceholder')}
           ></textarea>
           {errors.instruksi && (
             <p className="text-sm text-red-600 mt-1">{(errors.instruksi as any).message}</p>
@@ -182,7 +204,7 @@ export default function TugasForm({ initialData }: TugasFormProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">File Instruksi (opsional)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.tugas.fileInstruksiOpsional')}</label>
           {initialData?.fileInstruksiUrl && (
             <div className="mb-2">
               <label className="flex items-center gap-2">
@@ -192,7 +214,7 @@ export default function TugasForm({ initialData }: TugasFormProps) {
                   onChange={(e) => setKeepExistingFile(e.target.checked)}
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
-                <span className="text-sm text-gray-600">Pertahankan file yang ada</span>
+                <span className="text-sm text-gray-600">{t('admin.forms.tugas.pertahankanFile')}</span>
               </label>
               {keepExistingFile && (
                 <a
@@ -217,26 +239,15 @@ export default function TugasForm({ initialData }: TugasFormProps) {
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Urutan</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.materi.urutan')}</label>
             <input
               type="number"
               {...register('urutan', { valueAsNumber: true })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               placeholder="0"
             />
-          </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="premium"
-              {...register('isPremium')}
-              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />
-            <label htmlFor="premium" className="text-sm font-medium text-gray-700">
-              Tugas Premium
-            </label>
           </div>
         </div>
 

@@ -1,5 +1,7 @@
 'use client';
 
+import { useLocale } from '@/components/providers/LocaleProvider';
+
 interface DailyVisit {
   date: string;
   count: number;
@@ -13,6 +15,7 @@ const BRAND_BLUE = '#0E46A3';
 const BRAND_BLUE_LIGHT = 'rgba(14,70,163,0.35)';
 
 export default function HomepageVisitsChart({ data }: HomepageVisitsChartProps) {
+  const { t } = useLocale();
   const maxCount = Math.max(...data.map((d) => d.count), 1);
   const chartHeight = 120;
   const barWidth = 28;
@@ -23,7 +26,7 @@ export default function HomepageVisitsChart({ data }: HomepageVisitsChartProps) 
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 h-full">
       <div className="flex items-center gap-2 mb-5">
         <div className="w-3 h-3 rounded-full" style={{ background: BRAND_BLUE }} />
-        <h2 className="text-lg font-semibold text-gray-900">Kunjungan Homepage (7 Hari)</h2>
+        <h2 className="text-lg font-semibold text-gray-900">{t('admin.homepageChart.title')}</h2>
       </div>
 
       {data.every((d) => d.count === 0) ? (
@@ -95,7 +98,7 @@ export default function HomepageVisitsChart({ data }: HomepageVisitsChartProps) 
         </div>
       )}
 
-      <p className="mt-3 text-xs text-gray-400 text-right">Bar biru tua = hari ini</p>
+      <p className="mt-3 text-xs text-gray-400 text-right">{t('admin.homepageChart.todayLegend')}</p>
     </div>
   );
 }

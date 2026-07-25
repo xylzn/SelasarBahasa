@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import DeleteButton from '@/components/admin/DeleteButton';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 interface Package {
   id: string;
@@ -18,6 +19,7 @@ interface PackageTableClientProps {
 }
 
 export default function PackageTableClient({ packages }: PackageTableClientProps) {
+  const { t } = useLocale();
   const formatRupiah = (num: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -70,7 +72,7 @@ export default function PackageTableClient({ packages }: PackageTableClientProps
                       Ya
                     </span>
                   ) : (
-                    <span className="text-gray-500">Tidak</span>
+                    <span className="text-gray-500">{t('common.no')}</span>
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

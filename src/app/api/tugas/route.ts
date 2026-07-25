@@ -2,9 +2,8 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdmin, requireAuth } from '@/lib/api-auth';
 import { z } from 'zod';
-import { getCached, invalidateCachePattern } from '@/lib/cache';
-import { CACHE_KEYS } from '@/lib/cache-keys';
-import { hasActivePremiumAccess } from '@/lib/access';
+import { invalidateCachePattern } from '@/lib/cache';
+import { getEnrollmentAccess } from '@/lib/access';
 
 const slugify = (text: string) =>
   text
@@ -18,25 +17,25 @@ export async function GET(request: Request) {
   if ('error' in authResult) {
     return NextResponse.json({ error: authResult.error }, { status: authResult.status });
   }
-  const session = authResult.session;
-  const { searchParams } = new URL(request.url);
-  const kelas = searchParams.get('kelas') ?? undefined;
+  const userId = authResult.session.user.id as string;
+  const isAdmin = authResult.session.user?.role === 'ADMIN';
 
-  const userCanAccessPremium = hasActivePremiumAccess({
-    role: session.user?.role || 'USER',
-    premiumExpiresAt: session.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
-  });
-  const cacheKey = CACHE_KEYS.tugasList(1, userCanAccessPremium, kelas);
+  let contentFilter = {};
+  if (!isAdmin) {
+    const enrollment = await getEnrollmentAccess(userId);
+    if (!enrollment) return NextResponse.json([]);
+    contentFilter = {
+      tingkatBIPA: enrollment.kelas.tingkat,
+      OR: [
+        { tipeKelas: enrollment.kelas.tipe },
+        ...(enrollment.kelas.tipe === 'PRIVAT' ? [{ tipeKelas: 'REGULER' }] : []),
+      ],
+    };
+  }
 
-  const tugas = await getCached(cacheKey, 1800, async () => {
-    return prisma.tugas.findMany({
-      where: {
-        published: true,
-        ...(!userCanAccessPremium && { isPremium: false }),
-        ...(kelas && { kelas: kelas as any }),
-      },
-      orderBy: { urutan: 'asc' },
-    });
+  const tugas = await prisma.tugas.findMany({
+    where: { published: true, ...contentFilter },
+    orderBy: { urutan: 'asc' },
   });
 
   return NextResponse.json(tugas);
@@ -47,8 +46,8 @@ const createTugasSchema = z.object({
   slug: z.string().optional(),
   instruksi: z.string().min(1),
   fileInstruksiUrl: z.string().optional(),
-  kelas: z.enum(['DASAR', 'MENENGAH', 'LANJUTAN']).default('DASAR'),
-  isPremium: z.boolean().default(false),
+  tipeKelas: z.enum(['REGULER', 'PRIVAT', 'ANAK_REMAJA']).default('REGULER'),
+  tingkatBIPA: z.enum(['BIPA_1', 'BIPA_2', 'BIPA_3', 'BIPA_4', 'BIPA_5', 'BIPA_6']).default('BIPA_1'),
   deadline: z.string().optional(),
   urutan: z.number().default(0),
   published: z.boolean().default(true),
@@ -77,8 +76,8 @@ export async function POST(request: Request) {
       slug,
       instruksi: validated.instruksi,
       fileInstruksiUrl: validated.fileInstruksiUrl,
-      kelas: validated.kelas,
-      isPremium: validated.isPremium,
+      tipeKelas: validated.tipeKelas,
+      tingkatBIPA: validated.tingkatBIPA,
       deadline: validated.deadline ? new Date(validated.deadline) : null,
       urutan: validated.urutan,
       published: validated.published,

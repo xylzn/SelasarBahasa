@@ -14,13 +14,11 @@ export async function GET() {
     select: {
       id: true, nama: true, email: true, bio: true,
       negara: true, instansi: true, fotoProfil: true, role: true,
+      noWhatsapp: true,
     },
   });
 
-  if (!user) {
-    return NextResponse.json({ error: 'User tidak ditemukan' }, { status: 404 });
-  }
-
+  if (!user) return NextResponse.json({ error: 'User tidak ditemukan' }, { status: 404 });
   return NextResponse.json(user);
 }
 
@@ -36,12 +34,23 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: parsed.error.errors[0].message }, { status: 400 });
   }
 
+  const { email, ...rest } = parsed.data;
+
+  // Email uniqueness check — exclude self
+  if (email) {
+    const existing = await prisma.user.findUnique({ where: { email } });
+    if (existing && existing.id !== authResult.session.user.id) {
+      return NextResponse.json({ error: 'Email sudah digunakan' }, { status: 400 });
+    }
+  }
+
   const updated = await prisma.user.update({
     where: { id: authResult.session.user.id },
-    data: parsed.data,
+    data: { ...rest, ...(email ? { email } : {}) },
     select: {
       id: true, nama: true, email: true, bio: true,
       negara: true, instansi: true, fotoProfil: true, role: true,
+      noWhatsapp: true,
     },
   });
 

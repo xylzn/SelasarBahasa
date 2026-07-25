@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { AlertCircle, Upload, Link2, X } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 // Dynamically import Tiptap editor to avoid SSR issues
 const RichTextEditor = dynamic(() => import('@/components/admin/RichTextEditor'), {
@@ -57,6 +58,7 @@ interface ArtikelFormProps {
 
 export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps) {
   const router = useRouter();
+  const { t } = useLocale();
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -183,7 +185,7 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
         <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-2xl flex items-start gap-2 border border-red-100 text-sm font-medium">
           <AlertCircle size={18} className="flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold mb-1">Mohon lengkapi semua field yang wajib diisi:</p>
+            <p className="font-semibold mb-1">{t('admin.forms.artikel.validationError')}</p>
             <ul className="list-disc list-inside space-y-0.5 text-xs">
               {fieldErrors.map((msg, i) => (
                 <li key={i}>{msg}</li>
@@ -206,12 +208,12 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
 
         {/* Judul */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Judul</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.artikel.judul')}</label>
           <input
             type="text"
             {...register('judul')}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
-            placeholder="Masukkan judul artikel"
+            placeholder={t('admin.forms.artikel.judulPlaceholder')}
           />
           {errors.judul && (
             <p className="text-sm text-red-600 mt-1">{(errors.judul as any)?.message}</p>
@@ -220,14 +222,14 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
 
         {/* Slug */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Slug</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.artikel.slug')}</label>
           <div className="flex gap-2">
             <input
               type="text"
               {...register('slug')}
               disabled={slugLocked}
               className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none disabled:opacity-50"
-              placeholder="slug-artikel"
+              placeholder={t('admin.forms.artikel.slugPlaceholder')}
             />
             <button
               type="button"
@@ -244,12 +246,12 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
 
         {/* Ringkasan */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Ringkasan</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.artikel.ringkasan')}</label>
           <textarea
             {...register('ringkasan')}
             maxLength={300}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none min-h-24 resize-none"
-            placeholder="Ringkasan artikel (max 300 karakter)"
+            placeholder={t('admin.forms.artikel.ringkasanPlaceholder')}
           />
           {errors.ringkasan && (
             <p className="text-sm text-red-600 mt-1">{(errors.ringkasan as any)?.message}</p>
@@ -258,7 +260,7 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
 
         {/* Isi Artikel — RichTextEditor (Tiptap) */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Isi Artikel</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.artikel.isiArtikel')}</label>
           <RichTextEditor
             value={isiValue}
             onChange={(html) => setValue('isi', html, { shouldValidate: true })}
@@ -281,7 +283,7 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
             <div className="relative w-full h-48 rounded-xl overflow-hidden border border-gray-200 mb-3">
               <Image
                 src={thumbnailPreview}
-                alt="Preview thumbnail"
+                alt={t('admin.forms.artikel.previewThumbnail')}
                 fill
                 className="object-cover"
                 unoptimized
@@ -293,7 +295,7 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
                   setThumbnailPreview('');
                 }}
                 className="absolute top-2 right-2 bg-white rounded-full p-1 shadow border border-gray-200 hover:bg-red-50 transition"
-                aria-label="Hapus gambar"
+                aria-label={t('admin.forms.artikel.hapusGambar')}
               >
                 <X size={14} className="text-red-500" />
               </button>
@@ -315,7 +317,7 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
             <p className="text-sm font-medium text-gray-700">
               {isUploading ? 'Mengupload...' : 'Drag & drop atau klik untuk pilih gambar'}
             </p>
-            <p className="text-xs text-gray-400 mt-1">JPG, PNG, WEBP — maks. 2MB</p>
+            <p className="text-xs text-gray-400 mt-1">{t('admin.forms.artikel.imageHint')}</p>
             <input
               ref={fileInputRef}
               type="file"
@@ -332,7 +334,7 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
               type="text"
               {...register('thumbnailUrl')}
               className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
-              placeholder="Atau paste URL gambar langsung (opsional)"
+              placeholder={t('admin.forms.artikel.imageUrlHint')}
             />
           </div>
           {uploadError && (
@@ -342,18 +344,18 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
 
         {/* Kategori */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.artikel.kategori')}</label>
           <input
             type="text"
             {...register('kategori')}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
-            placeholder="Kategori artikel"
+            placeholder={t('admin.forms.artikel.kategoriPlaceholder')}
           />
         </div>
 
         {/* SEO */}
         <div className="border border-gray-200 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">SEO</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('admin.forms.artikel.seo')}</h3>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -369,7 +371,7 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
                 {...register('metaTitle')}
                 maxLength={60}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
-                placeholder="Meta title untuk SEO"
+                placeholder={t('admin.forms.artikel.metaTitlePlaceholder')}
               />
               {errors.metaTitle && (
                 <p className="text-sm text-red-600 mt-1">{(errors.metaTitle as any)?.message}</p>
@@ -388,7 +390,7 @@ export default function ArtikelForm({ articleId, initialData }: ArtikelFormProps
                 {...register('metaDescription')}
                 maxLength={160}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none resize-none"
-                placeholder="Meta description untuk SEO"
+                placeholder={t('admin.forms.artikel.metaDescPlaceholder')}
               />
               {errors.metaDescription && (
                 <p className="text-sm text-red-600 mt-1">

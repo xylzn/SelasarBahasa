@@ -81,3 +81,104 @@ export async function sendPremiumExpiryReminderEmail(to: string, nama: string, e
     `,
   });
 }
+
+export async function sendRefundRequestEmail(
+  adminEmail: string,
+  siswaEmail: string,
+  siswaNama: string,
+  kelasInfo: string,
+  alasan: string
+) {
+  await resend.emails.send({
+    from: 'SelasarBahasa <onboarding@resend.dev>',
+    to: adminEmail,
+    subject: `Pengajuan Refund: ${siswaNama}`,
+    html: `
+      <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
+        <h2 style="color: #0F9488;">Pengajuan Refund Baru</h2>
+        <p><strong>Nama Siswa:</strong> ${siswaNama}</p>
+        <p><strong>Email Siswa:</strong> ${siswaEmail}</p>
+        <p><strong>Kelas:</strong> ${kelasInfo}</p>
+        <p><strong>Alasan Refund:</strong></p>
+        <blockquote style="border-left:4px solid #0F9488;padding:8px 16px;color:#444;">${alasan}</blockquote>
+        <p style="margin-top:24px;color:#666;font-size:13px;">
+          Silakan tindak lanjuti di Admin Panel SelasarBahasa.
+        </p>
+      </div>
+    `,
+  });
+}
+
+export async function sendEnrollmentNotificationEmail(data: {
+  // Identity
+  nama: string;
+  email: string;
+  noWhatsapp?: string | null;
+  // Enrollment
+  tipeKelas: string;
+  tingkat: string;
+  notes: Record<string, unknown>;
+}) {
+  const notesRows = Object.entries(data.notes)
+    .map(([k, v]) => `<tr><td style="padding:4px 12px;color:#555;font-size:13px;">${k}</td><td style="padding:4px 12px;font-size:13px;">${v}</td></tr>`)
+    .join('');
+
+  await resend.emails.send({
+    from: 'SelasarBahasa <onboarding@resend.dev>',
+    to: 'gowkancompany@gmail.com',
+    subject: `Pendaftaran Baru: ${data.tipeKelas} ${data.tingkat} — ${data.nama}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;">
+        <h2 style="color:#0F9488;">Pendaftaran Kelas Baru</h2>
+        <h3 style="margin-bottom:4px;">Data Peserta</h3>
+        <table style="width:100%;border-collapse:collapse;">
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Nama</td><td style="padding:4px 12px;font-size:13px;">${data.nama}</td></tr>
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Email</td><td style="padding:4px 12px;font-size:13px;">${data.email}</td></tr>
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">WhatsApp</td><td style="padding:4px 12px;font-size:13px;">${data.noWhatsapp || '-'}</td></tr>
+        </table>
+        <h3 style="margin-top:16px;margin-bottom:4px;">Detail Kelas</h3>
+        <table style="width:100%;border-collapse:collapse;">
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Tipe</td><td style="padding:4px 12px;font-size:13px;">${data.tipeKelas}</td></tr>
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Tingkat</td><td style="padding:4px 12px;font-size:13px;">${data.tingkat}</td></tr>
+          ${notesRows}
+        </table>
+        <p style="margin-top:24px;color:#888;font-size:12px;">Dikirim otomatis dari SelasarBahasa.</p>
+      </div>
+    `,
+  });
+}
+
+export const sendRefundNotificationEmail = async (
+  userName: string,
+  userEmail: string,
+  alasan: string,
+  rekening: string
+): Promise<{ success: boolean; error?: string }> => {
+  try {
+    const result = await resend.emails.send({
+      from: 'SelasarBahasa <onboarding@resend.dev>',
+      to: process.env.ADMIN_EMAIL ?? 'gowkancompany@gmail.com',
+      subject: `⚠️ Pengajuan Refund Baru - ${userName}`,
+      html: `
+        <h2>Ada Pengajuan Refund Baru!</h2>
+        <p><strong>Nama Siswa:</strong> ${userName}</p>
+        <p><strong>Email Siswa:</strong> ${userEmail}</p>
+        <hr />
+        <h3>Detail Pengajuan:</h3>
+        <p><strong>Alasan Refund:</strong><br/> ${alasan}</p>
+        <p><strong>Informasi Rekening / E-Wallet:</strong><br/> ${rekening}</p>
+        <br/>
+        <p>Silakan cek dashboard Admin untuk mengubah status pendaftaran jika dana sudah ditransfer.</p>
+      `,
+    });
+    if (result.error) {
+      console.error('[Refund Email] Resend error:', result.error);
+      return { success: false, error: result.error.message };
+    }
+    console.log('[Refund Email] Sent successfully, id:', result.data?.id);
+    return { success: true };
+  } catch (err) {
+    console.error('[Refund Email] Exception:', err);
+    return { success: false, error: String(err) };
+  }
+};

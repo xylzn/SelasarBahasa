@@ -4,7 +4,7 @@ import { requireAuth, requireAdmin } from '@/lib/api-auth';
 import { getCached, invalidateCachePattern, invalidateCache } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
 import { z } from 'zod';
-import { hasActivePremiumAccess } from '@/lib/access';
+import { canAccessContent } from '@/lib/access';
 
 // GET /api/quiz/[id]
 export async function GET(
@@ -28,22 +28,14 @@ export async function GET(
         id: true,
         judul: true,
         deskripsi: true,
-        isPremium: true,
-        kelas: true,
+        tipeKelas: true,
+        tingkatBIPA: true,
         published: true,
         createdAt: true,
         questions: {
           select: {
-            id: true,
-            pertanyaan: true,
-            urutan: true,
-            options: {
-              select: {
-                id: true,
-                teks: true,
-                // IMPORTANT: NO isCorrect!
-              },
-            },
+            id: true, pertanyaan: true, urutan: true,
+            options: { select: { id: true, teks: true } },
           },
           orderBy: { urutan: 'asc' },
         },
@@ -55,15 +47,13 @@ export async function GET(
     return NextResponse.json({ error: 'Quiz tidak ditemukan' }, { status: 404 });
   }
 
-  const userCanAccessPremium = hasActivePremiumAccess({
-    role: session.user?.role || 'USER',
-    premiumExpiresAt: session.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
-  });
-  if (quiz.isPremium && !userCanAccessPremium) {
-    return NextResponse.json(
-      { error: 'Quiz ini membutuhkan akses premium' },
-      { status: 403 }
-    );
+  const userId = session.user?.id as string;
+  const allowed = isAdmin
+    ? true
+    : await canAccessContent(userId, { tipeKelas: quiz.tipeKelas ?? null, tingkatBIPA: quiz.tingkatBIPA ?? null });
+
+  if (!allowed) {
+    return NextResponse.json({ error: 'Kamu tidak memiliki akses ke quiz ini.' }, { status: 403 });
   }
 
   return NextResponse.json(quiz);
@@ -73,8 +63,8 @@ export async function GET(
 const updateQuizSchema = z.object({
   judul: z.string().min(1).optional(),
   deskripsi: z.string().min(1).optional(),
-  kelas: z.enum(['DASAR', 'MENENGAH', 'LANJUTAN']).optional(),
-  isPremium: z.boolean().optional(),
+  tipeKelas: z.enum(['REGULER', 'PRIVAT', 'ANAK_REMAJA']).optional().nullable(),
+  tingkatBIPA: z.enum(['BIPA_1', 'BIPA_2', 'BIPA_3', 'BIPA_4', 'BIPA_5', 'BIPA_6']).optional().nullable(),
   published: z.boolean().optional(),
   questions: z.array(
     z.object({
@@ -112,41 +102,25 @@ export async function PUT(
     data: {
       judul: validated.judul,
       deskripsi: validated.deskripsi,
-      kelas: validated.kelas,
-      isPremium: validated.isPremium,
+      tipeKelas: validated.tipeKelas ?? undefined,
+      tingkatBIPA: validated.tingkatBIPA ?? undefined,
       published: validated.published,
       ...(validated.questions && {
         questions: {
           deleteMany: {},
           create: validated.questions.map((q) => ({
-            pertanyaan: q.pertanyaan,
-            urutan: q.urutan,
-            options: {
-              create: q.options,
-            },
+            pertanyaan: q.pertanyaan, urutan: q.urutan,
+            options: { create: q.options },
           })),
         },
       }),
     },
     select: {
-      id: true,
-      judul: true,
-      deskripsi: true,
-      isPremium: true,
-      kelas: true,
-      published: true,
+      id: true, judul: true, deskripsi: true, tipeKelas: true, tingkatBIPA: true, published: true,
       questions: {
         select: {
-          id: true,
-          pertanyaan: true,
-          urutan: true,
-          options: {
-            select: {
-              id: true,
-              teks: true,
-              isCorrect: true,
-            },
-          },
+          id: true, pertanyaan: true, urutan: true,
+          options: { select: { id: true, teks: true, isCorrect: true } },
         },
       },
     },

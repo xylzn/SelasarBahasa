@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
+import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
 import { useLocale } from '@/components/providers/LocaleProvider';
 import { LOCALE_TO_CURRENCY, formatCurrency } from '@/lib/currency';
@@ -12,6 +13,14 @@ interface Package {
   harga: number;
   fiturList: string[];
   isPopuler: boolean;
+}
+
+// Map package name to registration route
+function getRegisterRoute(nama: string): string {
+  const n = nama.toLowerCase();
+  if (n.includes('anak') || n.includes('remaja')) return '/register-package/anak';
+  if (n.includes('privat')) return '/register-package/privat';
+  return '/register-package/reguler';
 }
 
 export default function PackageCard({
@@ -31,8 +40,6 @@ export default function PackageCard({
     currency: 'IDR',
     minimumFractionDigits: 0,
   }).format(pkg.harga);
-
-
 
   return (
     <div
@@ -57,7 +64,7 @@ export default function PackageCard({
             {targetCurrency !== 'IDR' && (
               <div className="text-xs text-gray-500 space-y-1">
                 <div>≈ {formattedIdr}</div>
-                <div className="text-gray-400">Kurs saat ini, bisa berubah</div>
+                <div className="text-gray-400">{t('publicPages.packageCard.exchangeRateNote')}</div>
               </div>
             )}
           </div>
@@ -70,18 +77,16 @@ export default function PackageCard({
             ))}
           </ul>
         </div>
-        <a
-          href="https://wa.me/6281234567890"
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          href={getRegisterRoute(pkg.nama)}
           className={`block w-full text-center py-3.5 rounded-xl font-bold transition-all text-sm ${
             pkg.isPopuler
               ? 'bg-brand-orange text-white hover:bg-brand-orange/95 btn-orange-animate'
               : 'bg-brand-blue-light text-brand-blue hover:bg-brand-blue-light/80 btn-animate'
           }`}
         >
-          {t('package.contactUs')}
-        </a>
+          {t('package.daftar')}
+        </Link>
       </div>
     </div>
   );

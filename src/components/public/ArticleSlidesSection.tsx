@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 type Article = {
   id: string;
@@ -22,6 +23,7 @@ interface ArticleSlidesSectionProps {
 const AUTO_ADVANCE_MS = 5000;
 
 export default function ArticleSlidesSection({ articles }: ArticleSlidesSectionProps) {
+  const { t } = useLocale();
   const [current, setCurrent] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -67,7 +69,7 @@ export default function ArticleSlidesSection({ articles }: ArticleSlidesSectionP
           <span className="inline-block bg-brand-blue-light text-brand-blue text-xs font-semibold uppercase tracking-widest rounded-full px-4 py-1.5 mb-3">
             Artikel
           </span>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Baca Artikel Pilihan</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">{t('publicPages.articleSlides.title')}</h2>
         </div>
 
         {/* Carousel */}
@@ -144,14 +146,14 @@ export default function ArticleSlidesSection({ articles }: ArticleSlidesSectionP
             <>
               <button
                 onClick={prev}
-                aria-label="Artikel sebelumnya"
+                aria-label={t('publicPages.articleSlides.prevArticle')}
                 className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 shadow-sm rounded-full p-2 hover:bg-brand-blue-light transition"
               >
                 <ChevronLeft size={20} className="text-brand-blue" />
               </button>
               <button
                 onClick={next}
-                aria-label="Artikel berikutnya"
+                aria-label={t('publicPages.articleSlides.nextArticle')}
                 className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 shadow-sm rounded-full p-2 hover:bg-brand-blue-light transition"
               >
                 <ChevronRight size={20} className="text-brand-blue" />
@@ -162,7 +164,7 @@ export default function ArticleSlidesSection({ articles }: ArticleSlidesSectionP
 
         {/* Dots indicator */}
         {total > 1 && (
-          <div className="flex justify-center gap-2 mt-5" role="tablist" aria-label="Navigasi slide artikel">
+          <div className="flex justify-center gap-2 mt-5" role="tablist" aria-label={t('publicPages.articleSlides.navLabel')}>
             {articles.map((_, i) => (
               <button
                 key={i}

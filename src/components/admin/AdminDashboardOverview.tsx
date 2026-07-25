@@ -1,6 +1,6 @@
 'use client';
 
-import { Users, BookOpen, FileQuestion, FileText, MessageSquare, TrendingUp, ExternalLink } from 'lucide-react';
+import { Users, BookOpen, FileQuestion, FileText, TrendingUp, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useLocale } from '@/components/providers/LocaleProvider';
 import HomepageVisitsChart from './HomepageVisitsChart';
@@ -22,7 +22,6 @@ interface AdminDashboardOverviewProps {
   totalMateri: number;
   totalQuiz: number;
   totalArtikel: number;
-  unreadMessages: number;
   topArticles: TopArticle[];
   homepageVisits: DailyVisit[];
 }
@@ -32,7 +31,6 @@ export default function AdminDashboardOverview({
   totalMateri,
   totalQuiz,
   totalArtikel,
-  unreadMessages,
   topArticles,
   homepageVisits,
 }: AdminDashboardOverviewProps) {
@@ -46,7 +44,7 @@ export default function AdminDashboardOverview({
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         {/* Total Pengguna */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
           <div className="flex items-start justify-between mb-4">
@@ -90,17 +88,6 @@ export default function AdminDashboardOverview({
           <p className="text-3xl font-extrabold text-gray-900">{totalArtikel}</p>
           <p className="text-sm text-gray-500 mt-1">{t('admin.totalArticles')}</p>
         </div>
-
-        {/* Pesan Belum Dibaca (clickable) */}
-        <Link href="/admin/messages" className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-          <div className="flex items-start justify-between mb-4">
-            <div className="p-3 rounded-xl bg-red-100">
-              <MessageSquare size={24} className="text-red-600" />
-            </div>
-          </div>
-          <p className="text-3xl font-extrabold text-gray-900">{unreadMessages}</p>
-          <p className="text-sm text-gray-500 mt-1">{t('admin.unreadMessages')}</p>
-        </Link>
       </div>
 
       {/* 50/50 Grid: Chart + Top Articles */}

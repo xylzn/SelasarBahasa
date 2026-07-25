@@ -42,6 +42,13 @@ export async function uploadFile(
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
         return { error: 'Foto profil harus berupa JPG, PNG, atau WEBP' };
       }
+    } else if (bucket === 'pengumuman') {
+      if (file.size > 2 * 1024 * 1024) { // 2MB
+        return { error: 'Ukuran foto dokumentasi tidak boleh lebih dari 2MB' };
+      }
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+        return { error: 'Foto dokumentasi harus berupa JPG, PNG, atau WEBP' };
+      }
     }
 
     const fileExt = file.name.split('.').pop();

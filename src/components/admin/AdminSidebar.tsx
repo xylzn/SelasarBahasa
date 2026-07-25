@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import { Home, BookOpen, FileText, Package, Users, LogOut, ClipboardList } from 'lucide-react';
+import { Home, BookOpen, FileText, Users, LogOut, ClipboardList, Camera, GraduationCap, ClipboardCheck, Megaphone } from 'lucide-react';
 import { useLocale } from '@/components/providers/LocaleProvider';
 
 interface AdminSidebarProps {
@@ -20,11 +21,13 @@ export default function AdminSidebar({ userName, userEmail, userFotoProfil, onCl
 
   const navItems = [
     { href: '/admin', icon: Home, label: t('sidebar.dashboard') },
+    { href: '/admin/kelas', icon: GraduationCap, label: 'Manajemen Kelas' },
+    { href: '/admin/pendaftaran', icon: ClipboardCheck, label: 'Kelola Pendaftaran' },
     { href: '/admin/artikel', icon: FileText, label: t('sidebar.articles') },
     { href: '/admin/materi', icon: BookOpen, label: t('sidebar.materials') },
     { href: '/admin/quiz', icon: BookOpen, label: t('sidebar.quiz') },
     { href: '/admin/tugas', icon: ClipboardList, label: t('sidebar.tasks') },
-    { href: '/admin/packages', icon: Package, label: t('sidebar.packages') },
+    { href: '/admin/aktivitas-kita', icon: Megaphone, label: 'Pengumuman' },
     { href: '/admin/users', icon: Users, label: t('sidebar.users') },
   ];
 
@@ -49,8 +52,19 @@ export default function AdminSidebar({ userName, userEmail, userFotoProfil, onCl
   return (
     <div className={`w-64 bg-brand-blue-dark text-white flex flex-col ${className}`}>
       <div className="p-6 border-b border-gray-800">
-        <Link href="/" onClick={handleLinkClick} className="text-xl font-bold text-brand-orange hover:scale-105 transition-transform duration-200 block">
-          SelasarBahasa Admin
+        <Link href="/" onClick={handleLinkClick} className="hover:scale-105 transition-transform duration-200 block">
+          <div className="flex items-center gap-2">
+            <Image
+              src="/images/brand/logo-selasar-bahasa.png"
+              alt={t('common.brandName')}
+              width={136}
+              height={52}
+              className="w-auto h-10 object-contain"
+            />
+            <span className="text-xs font-bold text-brand-orange uppercase tracking-wider whitespace-nowrap">
+              Admin
+            </span>
+          </div>
         </Link>
       </div>
 

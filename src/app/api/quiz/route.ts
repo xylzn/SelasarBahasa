@@ -4,7 +4,7 @@ import { getAuthSession, requireAdmin, requireAuth } from '@/lib/api-auth';
 import { getCached, invalidateCachePattern, invalidateCache } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
 import { z } from 'zod';
-import { hasActivePremiumAccess } from '@/lib/access';
+import { canReadContent } from '@/lib/access';
 
 // GET /api/quiz
 export async function GET(request: Request) {
@@ -18,31 +18,18 @@ export async function GET(request: Request) {
   const limit = parseInt(searchParams.get('limit') || '20');
   const isAdmin = session.user?.role === 'ADMIN';
 
-  const userCanAccessPremium = hasActivePremiumAccess({
-    role: session.user?.role || 'USER',
-    premiumExpiresAt: session.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
-  });
-  const cacheKey = CACHE_KEYS.quizList(page, userCanAccessPremium);
+  const userId = session.user?.id as string;
+  const hasAccess = isAdmin ? true : await canReadContent(userId);
+  const cacheKey = CACHE_KEYS.quizList(page);
 
   const quizzes = await getCached(cacheKey, 1800, async () => {
     return await prisma.quiz.findMany({
-      where: isAdmin ? undefined : {
-        published: true,
-        ...(!userCanAccessPremium && { isPremium: false }),
-      },
+      where: isAdmin ? undefined : (hasAccess ? { published: true } : { id: '' }),
       select: {
-        id: true,
-        judul: true,
-        deskripsi: true,
-        isPremium: true,
-        kelas: true,
-        published: true,
-        createdAt: true,
-        _count: { select: { questions: true } }
+        id: true, judul: true, deskripsi: true, tipeKelas: true, tingkatBIPA: true,
+        published: true, createdAt: true, _count: { select: { questions: true } },
       },
-      skip: (page - 1) * limit,
-      take: limit,
-      orderBy: { createdAt: 'desc' }
+      skip: (page - 1) * limit, take: limit, orderBy: { createdAt: 'desc' },
     });
   });
 
@@ -53,8 +40,8 @@ export async function GET(request: Request) {
 const createQuizSchema = z.object({
   judul: z.string().min(1),
   deskripsi: z.string().min(1),
-  kelas: z.enum(['DASAR', 'MENENGAH', 'LANJUTAN']).default('DASAR'),
-  isPremium: z.boolean().default(false),
+  tipeKelas: z.enum(['REGULER', 'PRIVAT', 'ANAK_REMAJA']).optional().nullable(),
+  tingkatBIPA: z.enum(['BIPA_1', 'BIPA_2', 'BIPA_3', 'BIPA_4', 'BIPA_5', 'BIPA_6']).optional().nullable(),
   published: z.boolean().default(true),
   questions: z.array(
     z.object({
@@ -84,38 +71,24 @@ export async function POST(request: Request) {
     data: {
       judul: validated.judul,
       deskripsi: validated.deskripsi,
-      kelas: validated.kelas,
-      isPremium: validated.isPremium,
+      tipeKelas: validated.tipeKelas ?? null,
+      tingkatBIPA: validated.tingkatBIPA ?? null,
       published: validated.published,
       questions: {
         create: validated.questions.map((q) => ({
           pertanyaan: q.pertanyaan,
           urutan: q.urutan,
-          options: {
-            create: q.options,
-          },
+          options: { create: q.options },
         })),
       },
     },
     select: {
-      id: true,
-      judul: true,
-      deskripsi: true,
-      isPremium: true,
-      kelas: true,
-      published: true,
-      createdAt: true,
+      id: true, judul: true, deskripsi: true, tipeKelas: true, tingkatBIPA: true,
+      published: true, createdAt: true,
       questions: {
         select: {
-          id: true,
-          pertanyaan: true,
-          urutan: true,
-          options: {
-            select: {
-              id: true,
-              teks: true,
-            },
-          },
+          id: true, pertanyaan: true, urutan: true,
+          options: { select: { id: true, teks: true } },
         },
       },
     },

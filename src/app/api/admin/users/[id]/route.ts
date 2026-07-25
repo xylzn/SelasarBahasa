@@ -7,8 +7,7 @@ import { z } from 'zod';
 const updateUserSchema = z.object({
   nama: z.string().min(1).optional(),
   email: z.string().email().optional(),
-  role: z.enum(['USER', 'PREMIUM', 'ADMIN']).optional(),
-  premiumExpiresAt: z.string().optional().nullable(),
+  role: z.enum(['STUDENT', 'ADMIN']).optional(),
   bio: z.string().max(160).optional().nullable(),
   negara: z.string().max(50).optional().nullable(),
   instansi: z.string().max(100).optional().nullable(),
@@ -29,11 +28,7 @@ export async function PUT(
 
   const user = await prisma.user.update({
     where: { id },
-    data: {
-      ...validated,
-      premiumExpiresAt: validated.premiumExpiresAt ? new Date(validated.premiumExpiresAt) : null,
-      reminderSentAt: validated.premiumExpiresAt !== undefined ? null : undefined,
-    },
+    data: validated,
     select: {
       id: true,
       nama: true,
@@ -44,7 +39,6 @@ export async function PUT(
       instansi: true,
       fotoProfil: true,
       createdAt: true,
-      premiumExpiresAt: true,
     },
   });
 

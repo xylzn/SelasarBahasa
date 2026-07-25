@@ -137,7 +137,7 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <Link
-        href={`/dashboard/kelas/${params.kelas}/tugas`}
+        href={`/dashboard/kelas/${params.tingkatSlug}/tugas`}
         className="text-blue-600 hover:text-blue-700 mb-4 inline-block"
       >
         ← Kembali ke Daftar Tugas
@@ -147,11 +147,6 @@ export default function TugasDetailClient({ tugas, submission }: TugasDetailProp
         <div className="flex items-start justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">{tugas.judul}</h1>
-            {tugas.isPremium && (
-              <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-                Premium
-              </span>
-            )}
           </div>
           {tugas.deadline && (
             <div className={`text-right p-4 rounded-lg ${isPastDeadline ? 'bg-red-50' : 'bg-gray-50'}`}>

@@ -1,41 +1,32 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
 import { Lock } from 'lucide-react';
-import { PremiumLockModal } from '@/components/shared/PremiumLockModal';
+import Link from 'next/link';
 
 interface KelasCardProps {
   nama: string;
   deskripsi: string;
   icon: string;
   badge: string;
-  isPremium: boolean;
+  badgeStyle?: string;
   href: string;
+  locked?: boolean;
 }
 
-export default function KelasCardClient({ nama, deskripsi, icon, badge, isPremium, href }: KelasCardProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  if (isPremium) {
+export default function KelasCardClient({ nama, deskripsi, icon, badge, badgeStyle, href, locked = false }: KelasCardProps) {
+  if (locked) {
     return (
-      <>
-        <div
-          onClick={() => setIsModalOpen(true)}
-          className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition cursor-pointer opacity-80"
-        >
-          <div className="text-4xl mb-4 flex items-center gap-2">
-            {icon}
-            <Lock className="text-gray-400" size={20} />
-          </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">{nama}</h2>
-          <p className="text-gray-600 mb-4">{deskripsi}</p>
-          <div className="inline-block bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
-            Premium
-          </div>
+      <div className="bg-white p-6 rounded-xl border border-gray-200 opacity-80">
+        <div className="text-4xl mb-4 flex items-center gap-2">
+          {icon}
+          <Lock className="text-yellow-500" size={20} />
         </div>
-        <PremiumLockModal open={isModalOpen} onOpenChange={setIsModalOpen} />
-      </>
+        <h2 className="text-xl font-bold text-gray-900 mb-2">{nama}</h2>
+        <p className="text-gray-600 mb-4">{deskripsi}</p>
+        <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${badgeStyle ?? 'bg-blue-100 text-blue-800'}`}>
+          {badge}
+        </div>
+      </div>
     );
   }
 
@@ -45,7 +36,7 @@ export default function KelasCardClient({ nama, deskripsi, icon, badge, isPremiu
         <div className="text-4xl mb-4">{icon}</div>
         <h2 className="text-xl font-bold text-gray-900 mb-2">{nama}</h2>
         <p className="text-gray-600 mb-4">{deskripsi}</p>
-        <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+        <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${badgeStyle ?? 'bg-blue-100 text-blue-800'}`}>
           {badge}
         </div>
       </div>

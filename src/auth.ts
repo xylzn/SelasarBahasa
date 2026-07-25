@@ -35,7 +35,6 @@ const config = {
           email: user.email,
           role: user.role,
           fotoProfil: user.fotoProfil,
-          premiumExpiresAt: user.premiumExpiresAt?.toISOString() || null,
         };
       },
     }),
@@ -47,19 +46,17 @@ const config = {
         token.nama = (user as any).nama;
         token.role = (user as any).role;
         token.fotoProfil = (user as any).fotoProfil || null;
-        token.premiumExpiresAt = (user as any).premiumExpiresAt || null;
       }
 
       if (trigger === 'update') {
         const freshUser = await prisma.user.findUnique({
           where: { id: token.id as string },
-          select: { nama: true, role: true, fotoProfil: true, premiumExpiresAt: true },
+          select: { nama: true, role: true, fotoProfil: true },
         });
         if (freshUser) {
           token.nama = freshUser.nama;
           token.role = freshUser.role;
           token.fotoProfil = freshUser.fotoProfil || null;
-          token.premiumExpiresAt = freshUser.premiumExpiresAt?.toISOString() || null;
         }
       }
 
@@ -71,7 +68,6 @@ const config = {
         (session.user as any).nama = token.nama;
         (session.user as any).role = token.role;
         (session.user as any).fotoProfil = token.fotoProfil || null;
-        (session.user as any).premiumExpiresAt = token.premiumExpiresAt || null;
       }
       return session;
     },
@@ -84,7 +80,7 @@ const config = {
       if (user?.id) {
         await prisma.user.update({
           where: { id: user.id },
-          data: { lastLoginAt: new Date(), warningSentAt: null },
+          data: { lastLoginAt: new Date() },
         });
       }
     },

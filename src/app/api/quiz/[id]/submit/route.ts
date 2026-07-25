@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-auth';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { canSubmitContent } from '@/lib/access';
 import { z } from 'zod';
-import { hasActivePremiumAccess } from '@/lib/access';
 
 const submitQuizSchema = z.object({
   jawaban: z.record(z.string(), z.string()), // questionId -> optionId
@@ -22,12 +22,12 @@ export async function POST(
   const { id } = await params;
 
   // Rate limit: max 10 per minute per user
-  const { allowed } = await checkRateLimit(
+  const { allowed: rateLimitAllowed } = await checkRateLimit(
     `quiz-submit:${userId}`,
     10,
     60
   );
-  if (!allowed) {
+  if (!rateLimitAllowed) {
     return NextResponse.json(
       { error: 'Terlalu banyak permintaan, coba lagi nanti' },
       { status: 429 }
@@ -53,13 +53,15 @@ export async function POST(
     return NextResponse.json({ error: 'Quiz tidak ditemukan' }, { status: 404 });
   }
 
-  const userCanAccessPremium = hasActivePremiumAccess({
-    role: session.user?.role || 'USER',
-    premiumExpiresAt: session.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
-  });
-  if (quiz.isPremium && !userCanAccessPremium) {
+  // Enrollment gate: submit requires ACTIVE only
+  const { allowed: submitAllowed, completed } = await canSubmitContent(userId);
+  if (!submitAllowed) {
     return NextResponse.json(
-      { error: 'Quiz ini membutuhkan akses premium' },
+      {
+        error: completed
+          ? 'Kelas ini telah selesai. Anda tidak dapat lagi mengirimkan kuis.'
+          : 'Kamu harus terdaftar dan aktif di kelas untuk mengerjakan kuis.',
+      },
       { status: 403 }
     );
   }

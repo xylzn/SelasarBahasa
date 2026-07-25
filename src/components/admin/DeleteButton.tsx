@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/Toast';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 interface DeleteButtonProps {
   id: string;
@@ -15,6 +16,7 @@ export default function DeleteButton({ id, apiPath, itemName = 'item ini' }: Del
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
   const { showToast } = useToast();
+  const { t } = useLocale();
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -47,7 +49,7 @@ export default function DeleteButton({ id, apiPath, itemName = 'item ini' }: Del
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl p-6 w-full max-w-md">
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Konfirmasi Hapus</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">{t('common.confirmDelete')}</h3>
             <p className="text-gray-600 mb-6 break-words">
               Apakah kamu yakin ingin menghapus <span className="font-medium text-gray-900">{itemName}</span>? Tindakan ini tidak bisa dibatalkan.
             </p>

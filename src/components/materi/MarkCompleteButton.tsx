@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { useToast } from '@/components/ui/Toast';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 interface MarkCompleteButtonProps {
   materiId: string;
@@ -10,6 +11,7 @@ interface MarkCompleteButtonProps {
 }
 
 export default function MarkCompleteButton({ materiId, isCompleted }: MarkCompleteButtonProps) {
+  const { t } = useLocale();
   const [isUpdating, setIsUpdating] = useState(false);
   const [isCompletedLocal, setIsCompletedLocal] = useState(isCompleted);
   const { showToast } = useToast();
@@ -40,7 +42,7 @@ export default function MarkCompleteButton({ materiId, isCompleted }: MarkComple
     return (
       <div className="flex items-center gap-2 text-green-600 bg-green-50 px-4 py-2 rounded-lg">
         <CheckCircle2 size={20} />
-        <span className="font-medium">Selesai</span>
+        <span className="font-medium">{t('materi.markComplete')}</span>
       </div>
     );
   }

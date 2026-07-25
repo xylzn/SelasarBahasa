@@ -8,6 +8,7 @@ import { MobileDrawer } from '@/components/shared/MobileDrawer';
 import { useSidebarToggle } from '@/hooks/useSidebarToggle';
 import { useLocale } from '@/components/providers/LocaleProvider';
 import PremiumExpiryModal from './PremiumExpiryModal';
+import ContentProtectionWrapper from '@/components/shared/ContentProtectionWrapper';
 
 interface DashboardLayoutContentProps {
   children: ReactNode;
@@ -67,7 +68,11 @@ export default function DashboardLayoutContent({
             <SearchBar />
           </div>
         </header>
-        <main className="flex-1 bg-gray-50">{children}</main>
+        <main className="flex-1 bg-gray-50">
+          <ContentProtectionWrapper>
+            {children}
+          </ContentProtectionWrapper>
+        </main>
       </div>
     </div>
   );

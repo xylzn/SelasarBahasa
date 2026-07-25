@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-auth';
+import { canSubmitContent } from '@/lib/access';
 import { uploadFile } from '@/lib/supabase-storage';
 
 export async function POST(
@@ -18,6 +19,19 @@ export async function POST(
   const tugas = await prisma.tugas.findUnique({ where: { id } });
   if (!tugas) {
     return NextResponse.json({ error: 'Tugas not found' }, { status: 404 });
+  }
+
+  // Enrollment gate: submit requires ACTIVE only (not COMPLETED)
+  const { allowed, completed } = await canSubmitContent(userId);
+  if (!allowed) {
+    return NextResponse.json(
+      {
+        error: completed
+          ? 'Kelas ini telah selesai. Anda tidak dapat lagi mengirimkan tugas.'
+          : 'Kamu harus terdaftar dan aktif di kelas untuk mengumpulkan tugas.',
+      },
+      { status: 403 }
+    );
   }
 
   const formData = await request.formData();

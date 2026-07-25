@@ -2,6 +2,8 @@
   "navbar": {
     "home": "Startseite",
     "articles": "Artikel",
+    "activities": "Unsere Aktivitäten",
+    "classes": "Klassen",
     "login": "Anmelden",
     "register": "Registrieren",
     "dashboard": "Dashboard",
@@ -9,17 +11,17 @@
     "logout": "Abmelden"
   },
   "hero": {
-    "title1": "Sprich eine neue Sprache mit",
-    "title2": "echtem Selbstvertrauen",
-    "title3": "und",
-    "title4": "ohne Stress",
+    "title1": "Willkommen bei Selasar Bahasa!",
+    "title2": "Lerne Indonesisch zu sprechen mit",
+    "title3": "",
+    "title4": "Wahrem Selbstvertrauen",
     "subtitle": "Strukturierte Lektionen, interaktive Quizze und Fortschritt, den du wirklich verfolgen kannst — alles an einem Ort. Von null bis fließend begleiten wir dich auf jedem Schritt.",
-    "ctaRegister": "Kostenlos starten",
+    "ctaRegister": "Jetzt registrieren",
     "ctaArticles": "Artikel entdecken",
     "usersJoined": "Schon {count}+ Lernende dabei – und es werden mehr!"
   },
   "about": {
-    "title": "Warum tausende Lernende SelasarBahasa wählen",
+    "title": "Warum Menschen Selasar Bahasa wählen",
     "subtitle": "Mehr als nur eine Lernplattform — ein Ort zum Wachsen, gemacht, damit du dranbleibst, bis du es wirklich kannst.",
     "features": {
       "materi": {
@@ -40,9 +42,19 @@
       }
     }
   },
+  "aboutUs": {
+    "eyebrow": "Über uns",
+    "title": "Über Selasar Bahasa",
+    "paragraph1": "Selasar Bahasa ist ein Fremdspracheninstitut, das sich auf die Verbesserung sprachlicher Fertigkeiten und das Verständnis fremder Kulturen spezialisiert. Wir gestalten abwechslungsreichen Unterricht mit passenden Lehrmedien und authentischen Lernmaterialien. Darüber hinaus passen wir unsere Methoden und Inhalte immer an die individuellen Bedürfnisse und Lernziele unserer Teilnehmer*innen an.",
+    "paragraph2": "Darüber hinaus bietet Selasar Bahasa gezielte Schulungen und Begleitprogramme für Fremdsprachenlehrkräfte an, um deren Unterrichtskompetenzen zu stärken. Zusätzlich stellen wir umfassende Lehrmaterialien zur Verfügung — sowohl kostenlos als auch kostenpflichtig — die offen für alle Lernenden und Lehrenden zugänglich sind, nicht nur für Menschen, die direkt bei uns eingeschrieben sind.",
+    "paragraph3": "Selasar Bahasa ist bestrebt, stets den bestmöglichen Service zu bieten, damit Sie Ihre Lernziele nachhaltig erreichen und dabei auch richtig Freude am Lernen haben.",
+    "signOff": "Mit freundlichen Grüßen,",
+    "signOffName": "Das Team von Selasar Bahasa"
+  },
   "package": {
     "popular": "Am beliebtesten",
-    "contactUs": "Kontaktiere uns"
+    "contactUs": "Kontaktiere uns",
+    "daftar": "Jetzt anmelden"
   },
   "footer": {
     "desc": "Dein Begleiter beim Sprachenlernen, vom Anfänger bis zur Fließend — jederzeit, überall.",
@@ -51,15 +63,16 @@
     "rights": "Alle Rechte vorbehalten."
   },
   "login": {
-    "title": "Melden Sie sich in Ihrem Konto an",
+    "title": "In dein Konto einloggen",
     "welcome": "Willkommen zurück!",
     "email": "E-Mail",
     "password": "Passwort",
     "passwordPlaceholder": "Passwort eingeben",
-    "submit": "Anmelden",
-    "submitting": "Anmelden...",
-    "noAccount": "Haben Sie noch kein Konto?",
-    "registerNow": "Jetzt registrieren"
+    "submit": "Einloggen",
+    "submitting": "Anmeldung läuft...",
+    "noAccount": "Noch kein Konto?",
+    "registerNow": "Jetzt registrieren",
+    "forgotPasswordLink": "Passwort vergessen?"
   },
   "register": {
     "title": "Neues Konto registrieren",
@@ -86,6 +99,8 @@
     "tasks": "Tugas",
     "packages": "Paket",
     "users": "Benutzer",
+    "activities": "Unsere Aktivitäten",
+    "refund": "Rückerstattung beantragen",
     "logout": "Abmelden"
   },
   "dashboard": {
@@ -98,7 +113,131 @@
     "completedMaterials": "Abgeschlossene Materialien",
     "recentQuizzes": "Letzte Quizzes",
     "noQuizzes": "Noch keine Quizzes gemacht",
-    "takeQuiz": "Quiz machen"
+    "takeQuiz": "Quiz machen",
+    "overview": {
+      "waitingPayment": "Zahlungsverifizierung ausstehend",
+      "lifetimeAccess": "lebenslanger Lesezugriff auf Materialien",
+      "completedTitle": "Glückwunsch! Du hast diesen Kurs abgeschlossen.",
+      "completedDesc": "Abgabe von Aufgaben und Quizzen ist nun geschlossen.",
+      "completedButton": "Möchtest du einsteigen?",
+      "waitingPaymentDesc": "Deine Anmeldung ist eingegangen. Nachdem die Zahlung vom Admin bestätigt wurde, wirst du zur Warteliste hinzugefügt.",
+      "notFinished": "Nicht abgeschlossen"
+    },
+    "kelasList": {
+      "choose": "Klasse wählen"
+    },
+    "kelas": {
+      "notEnrolled": "Du bist noch nicht in einer aktiven Klasse eingeschrieben.",
+      "pilihProgram": "Programm wählen →",
+      "notFoundTitle": "Stufe nicht gefunden",
+      "materiTeks": "Textmaterial",
+      "materi": {
+        "title": "Materialien",
+        "desc": "Lernmaterial lesen",
+        "empty": "Noch keine Materialien für deine Klasse.",
+        "lihat": "Ansehen →"
+      },
+      "video": {
+        "title": "Video",
+        "desc": "Lernvideo ansehen",
+        "empty": "Noch keine Videos für deine Klasse.",
+        "lihat": "Ansehen →",
+        "modul": "Videomodul"
+      },
+      "tugas": {
+        "title": "Aufgaben",
+        "desc": "Lernaufgabe bearbeiten",
+        "lihat": "Ansehen →",
+        "empty": "Noch keine Aufgaben für deine Klasse.",
+        "sudahDikumpulkan": "Eingereicht",
+        "tidakMengumpulkan": "Nicht eingereicht",
+        "belumDikumpulkan": "Noch nicht eingereicht"
+      },
+      "teksDetail": {
+        "noAccess": "Du hast keinen Zugriff auf dieses Material.",
+        "notInClass": "Dieses Material gehört nicht zu deiner Klasse.",
+        "notAvailable": "Dieses Textmaterial ist noch nicht verfügbar."
+      },
+      "videoDetail": {
+        "noAccess": "Du hast keinen Zugriff auf dieses Video.",
+        "notInClass": "Dieses Video gehört nicht zu deiner Klasse.",
+        "notAvailable": "Dieses Videomaterial ist noch nicht verfügbar.",
+        "deskripsi": "Beschreibung"
+      }
+    },
+    "nilai": {
+      "title": "Notenübersicht",
+      "subtitle": "Sieh dir alle deine Quizergebnisse und Aufgabeneinreichungen an",
+      "hasilQuiz": "Quizergebnisse",
+      "noQuiz": "Noch keine Quiz absolviert",
+      "pengumpulanTugas": "Aufgabeneinreichungen",
+      "noTugas": "Noch keine Aufgaben eingereicht"
+    },
+    "profile": {
+      "whatsappLabel": "WhatsApp-Nummer",
+      "whatsappPlaceholder": "08xx-xxxx-xxxx"
+    },
+    "quiz": {
+      "loginFirst": "Bitte melde dich zuerst an.",
+      "notEnrolled": "Du bist noch nicht in einer aktiven Klasse eingeschrieben.",
+      "pilihProgram": "Programm wählen →",
+      "title": "Quiz",
+      "subtitle": "Teste dein Können mit interaktiven Quiz.",
+      "empty": "Noch keine Quiz für deine Klasse verfügbar."
+    },
+    "refund": {
+      "successTitle": "Rückerstattungsantrag erfolgreich gesendet",
+      "title": "Rückerstattung beantragen",
+      "reasonPlaceholder": "Erkläre den Grund für deinen Rückerstattungsantrag...",
+      "accountPlaceholder": "Beispiel: BCA 1234567890 a.n. Vollständiger Name"
+    },
+    "error": {
+      "title": "Im Dashboard ist ein Fehler aufgetreten"
+    },
+    "registration": {
+      "classInfoPanel": {
+        "regularTitle": "Reguläre Klasse",
+        "regularDesc": "Semi-intensiv, vor Ort oder online",
+        "privateTitle": "Privatklasse",
+        "privateDesc": "Flexibler Zeitplan, 1–4 Personen",
+        "people": "Personen",
+        "weekdays": "Wochentage",
+        "weekend": "Wochenende",
+        "registrationFee": "+ 100.000 IDR Anmeldegebühr",
+        "childrenTitle": "Kinder- & Jugendklasse",
+        "childrenDesc": "Vor Ort oder online, Material an Alter und Stufe angepasst",
+        "program": "Programm",
+        "classSize": "Klassengröße",
+        "fees": "Gebühren",
+        "refundPolicy": "Rückerstattungsrichtlinie",
+        "pricingPerHour": "Preise (pro Stunde)",
+        "ageCategories": "Altersgruppen",
+        "reg_levels": "6 Stufen (Pre-Beginner bis Fortgeschrittene)",
+        "reg_hoursPerLevel": "40 Stunden pro Stufe",
+        "reg_schedule": "Zeitplan: Mo–Fr, 09.30–11.30 oder 12.30–14.30 WIB",
+        "reg_minStudents": "Mindestens 3 Lernende zum Start",
+        "reg_maxStudents": "Maximal 20 Lernende",
+        "reg_tuition": "Kursgebühr: 5.000.000 IDR pro Stufe",
+        "reg_registrationFee": "Anmeldegebühr: 100.000 IDR (einmalig)",
+        "reg_placementTest": "Einstufungstest: 100.000 IDR (falls Vorkenntnisse vorhanden)",
+        "reg_refund70": "70 % Rückerstattung bei Abmeldung vor Kursbeginn",
+        "reg_refund0": "0 % Rückerstattung nach Kursbeginn",
+        "priv_minHours": "Mindestens 10 Stunden gesamt, mindestens 1 Stunde pro Sitzung",
+        "priv_weekdaySchedule": "Wochentage & Wochenende: 08.00–16.00 WIB",
+        "priv_onlineSchedule": "Online: alle Tage, 08.00–20.30 WIB",
+        "priv_refund70": "70 % Rückerstattung bei Abmeldung vor Kursbeginn",
+        "priv_refund0": "0 % Rückerstattung nach Kursbeginn",
+        "child_classA": "Klasse A: 5–10 Jahre",
+        "child_classB": "Klasse B: 11–15 Jahre",
+        "child_classC": "Klasse C: 16–18 Jahre",
+        "child_levels": "4 Stufen (Pre-Beginner bis Mittelstufe)",
+        "child_schedule": "Mo, Mi, Fr — 10.00–11.00 / 13.00–14.00 / 15.00–16.00 WIB",
+        "child_minStudents": "Mindestens 3 Lernende zum Start",
+        "child_maxStudents": "Maximal 10 (vor Ort) oder 6 (online)",
+        "child_tuition": "Kursgebühr: 4.800.000 IDR pro Stufe",
+        "child_registrationFee": "Anmeldegebühr: 100.000 IDR (einmalig)"
+      }
+    }
   },
   "admin": {
     "title": "Admin-Dashboard",
@@ -108,7 +247,180 @@
     "totalQuizzes": "Gesamt-Quizzes",
     "totalArticles": "Gesamtartikel",
     "unreadMessages": "Ungelesene Nachrichten",
-    "quickActions": "Schnellaktionen"
+    "quickActions": "Schnellaktionen",
+    "error": {
+      "title": "Im Admin-Bereich ist ein Fehler aufgetreten"
+    },
+    "pages": {
+      "aktivitasKita": {
+        "title": "Unsere Aktivitäten verwalten",
+        "subtitle": "Fotos und Videos von Aktivitäten hinzufügen."
+      },
+      "artikel": {
+        "title": "Artikel verwalten",
+        "subtitle": "Artikel hinzufügen, bearbeiten oder löschen."
+      },
+      "kelas": {
+        "title": "Klassenverwaltung",
+        "subtitle": "BIPA-Klassenkohorten verwalten."
+      },
+      "materi": {
+        "title": "Materialien verwalten",
+        "subtitle": "Materialien hinzufügen, bearbeiten oder löschen.",
+        "empty": "Keine Materialien gefunden.",
+        "searchPlaceholder": "Materialien suchen..."
+      },
+      "messages": {
+        "title": "Kontaktnachrichten",
+        "subtitle": "Nachrichten von Nutzern ansehen und verwalten."
+      },
+      "pendaftaran": {
+        "title": "Anmeldungen verwalten",
+        "subtitle": "Zahlungen verifizieren und den Einschreibungsstatus der Schüler verwalten."
+      },
+      "quiz": {
+        "title": "Quiz verwalten",
+        "subtitle": "Quiz hinzufügen, bearbeiten oder löschen."
+      },
+      "tugas": {
+        "title": "Aufgaben verwalten",
+        "subtitle": "Aufgaben hinzufügen, bearbeiten oder löschen.",
+        "createTitle": "Neue Aufgabe hinzufügen",
+        "editTitle": "Aufgabe bearbeiten",
+        "submissions": {
+          "namaUser": "Nutzername",
+          "dikumpulkanPada": "Eingereicht am",
+          "file": "Datei",
+          "tidakAdaFile": "Keine Datei"
+        }
+      },
+      "users": {
+        "title": "Nutzer verwalten",
+        "subtitle": "Plattformnutzer ansehen und verwalten."
+      }
+    },
+    "dashboardOverview": {
+      "topArticles": "Meistgelesene Artikel",
+      "noArticles": "Es wurden noch keine Artikel aufgerufen.",
+      "openArticle": "Artikel öffnen"
+    },
+    "homepageChart": {
+      "title": "Homepage-Besuche (7 Tage)",
+      "todayLegend": "Dunkelblauer Balken = heute"
+    },
+    "enrollment": {
+      "detailTitle": "Anmeldedetails",
+      "siswa": "Schüler",
+      "kelas": "Klasse",
+      "detailLengkap": "Vollständige Details",
+      "searchPlaceholder": "Nach Schülername, E-Mail, Klassentyp oder Status suchen..."
+    },
+    "kelasTable": {
+      "empty": "Keine Klassen gefunden.",
+      "startClassConfirmTitle": "Klasse starten?",
+      "waitingToActive": "WAITING → ACTIVE",
+      "searchPlaceholder": "Nach Klassenname, Typ, Stufe, Status oder Teilnehmerzahl suchen..."
+    },
+    "quizTable": {
+      "empty": "Keine Quiz gefunden.",
+      "searchPlaceholder": "Quiz suchen..."
+    },
+    "tugasTable": {
+      "empty": "Keine Aufgaben gefunden.",
+      "searchPlaceholder": "Aufgaben suchen..."
+    },
+    "userTable": {
+      "detailTitle": "Nutzerdetails",
+      "editRole": "Rolle bearbeiten",
+      "roleStudent": "STUDENT",
+      "roleAdmin": "ADMIN",
+      "searchPlaceholder": "Nach Name, E-Mail, Rolle, Land, Institution suchen..."
+    },
+    "forms": {
+      "aktivitas": {
+        "judul": "Titel",
+        "media": "Medien",
+        "tambahFoto": "Foto hinzufügen",
+        "tambahLinkVideo": "Video-Link hinzufügen",
+        "judulPlaceholder": "Titel der Aktivität",
+        "deskripsiPlaceholder": "Beschreibe diese Aktivität...",
+        "preview": "Vorschau",
+        "videoPreview": "Videovorschau",
+        "videoUrlPlaceholder": "https://youtube.com/watch?v=..."
+      },
+      "artikel": {
+        "validationError": "Bitte fülle alle Pflichtfelder aus:",
+        "judul": "Titel",
+        "slug": "Slug",
+        "ringkasan": "Zusammenfassung",
+        "isiArtikel": "Artikelinhalt",
+        "imageHint": "JPG, PNG, WEBP — max. 2MB",
+        "kategori": "Kategorie",
+        "seo": "SEO",
+        "judulPlaceholder": "Artikeltitel eingeben",
+        "slugPlaceholder": "artikel-slug",
+        "ringkasanPlaceholder": "Artikelzusammenfassung (max. 300 Zeichen)",
+        "previewThumbnail": "Vorschaubild",
+        "hapusGambar": "Bild entfernen",
+        "imageUrlHint": "Oder direkt eine Bild-URL einfügen (optional)",
+        "kategoriPlaceholder": "Artikelkategorie",
+        "metaTitlePlaceholder": "Meta-Titel für SEO",
+        "metaDescPlaceholder": "Meta-Beschreibung für SEO"
+      },
+      "kelas": {
+        "namaKelas": "Klassenname / Kohorte",
+        "waitingList": "Warteliste",
+        "ongoing": "Laufend",
+        "completed": "Abgeschlossen",
+        "minimumKuota": "Mindestteilnehmerzahl",
+        "tutupKelasConfirm": "Klasse schließen?",
+        "lulusCompleted": "Abgeschlossen (COMPLETED)",
+        "namaKelasPlaceholder": "z. B. Kohorte 1 - August 2026"
+      },
+      "materi": {
+        "slugOpsional": "Slug (optional)",
+        "tipe": "Typ",
+        "pdf": "PDF",
+        "video": "Video",
+        "linkPdf": "PDF-Link",
+        "urlVideo": "Video-URL",
+        "urutan": "Reihenfolge",
+        "judulPlaceholder": "Materialtitel eingeben",
+        "slugPlaceholder": "URL-Slug (automatisch generiert, falls leer)",
+        "pdfUrlPlaceholder": "https://example.com/material.pdf",
+        "videoUrlPlaceholder": "https://www.youtube.com/watch?v=...",
+        "deskripsiPlaceholder": "Beschreibung des Videomaterials eingeben..."
+      },
+      "package": {
+        "validationError": "Es liegt ein Fehler vor:",
+        "namaPaket": "Paketname",
+        "harga": "Preis",
+        "durasiBulan": "Dauer (Monate)",
+        "fitur": "Funktionen",
+        "urutan": "Reihenfolge",
+        "namaPaketPlaceholder": "Paketname",
+        "deskripsiPlaceholder": "Paketbeschreibung"
+      },
+      "quiz": {
+        "pertanyaan": "Fragen",
+        "teksPertanyaan": "Fragetext",
+        "opsiJawaban": "Antwortoptionen",
+        "judulPlaceholder": "Quiztitel eingeben",
+        "deskripsiPlaceholder": "Quizbeschreibung",
+        "pertanyaanPlaceholder": "Frage eingeben"
+      },
+      "tugas": {
+        "slugOpsional": "Slug (optional)",
+        "deadlineOpsional": "Frist (optional)",
+        "instruksi": "Anweisungen",
+        "fileInstruksiOpsional": "Anweisungsdatei (optional)",
+        "pertahankanFile": "Bestehende Datei behalten",
+        "urutan": "Reihenfolge",
+        "judulPlaceholder": "Aufgabentitel eingeben",
+        "slugPlaceholder": "URL-Slug (automatisch generiert, falls leer)",
+        "instruksiPlaceholder": "Aufgabenanweisungen eingeben"
+      }
+    }
   },
   "quickActions": {
     "materials": "Materialien",
@@ -140,11 +452,10 @@
       "submitButton": "Passwort zurücksetzen",
       "passwordMismatch": "Passwörter stimmen nicht überein",
       "invalidToken": "Link ist ungültig oder abgelaufen. Fordern Sie einen neuen Passwort-Reset an",
-      "successMessage": "Passwort erfolgreich zurückgesetzt! Bitte melden Sie sich an"
+      "successMessage": "Passwort erfolgreich zurückgesetzt! Bitte melden Sie sich an",
+      "newPasswordPlaceholder": "Neues Passwort eingeben",
+      "confirmPasswordPlaceholder": "Neues Passwort erneut eingeben"
     }
-  },
-  "login": {
-    "forgotPasswordLink": "Passwort vergessen?"
   },
   "profile": {
     "title": "Mein Profil",
@@ -170,5 +481,312 @@
     "deleteConfirmTitle": "Löschbestätigung",
     "deleteConfirmMessage": "Möchtest du das Konto {name} wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden und der Benutzer erhält eine Benachrichtigungs-E-Mail.",
     "close": "Schließen"
+  },
+  "common": {
+    "loading": "Wird geladen...",
+    "edit": "Bearbeiten",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "close": "Schließen",
+    "detail": "Detail",
+    "search": "Suchen",
+    "email": "E-Mail",
+    "title": "Titel",
+    "description": "Beschreibung",
+    "status": "Status",
+    "yes": "Ja",
+    "no": "Nein",
+    "confirmDelete": "Löschen bestätigen",
+    "name": "Name",
+    "brandName": "Selasar Bahasa",
+    "emailPlaceholder": "name@email.com",
+    "notAuthenticated": "Nicht authentifiziert",
+    "enums": {
+      "tipeKelas": {
+        "REGULER": "Regulär",
+        "PRIVAT": "Privat",
+        "ANAK_REMAJA": "Kinder & Jugendliche"
+      },
+      "tingkatBipa": {
+        "BIPA_1": "BIPA 1",
+        "BIPA_2": "BIPA 2",
+        "BIPA_3": "BIPA 3",
+        "BIPA_4": "BIPA 4",
+        "BIPA_5": "BIPA 5",
+        "BIPA_6": "BIPA 6"
+      },
+      "kelasStatus": {
+        "WAITING_LIST": "Warteliste",
+        "ONGOING": "Laufend",
+        "COMPLETED": "Abgeschlossen",
+        "WAITING": "Startet bald",
+        "ACTIVE": "Aktiv",
+        "PENDING_PAYMENT": "Zahlung ausstehend",
+        "REFUND_REQUESTED": "Rückerstattung beantragt",
+        "REFUNDED": "Zurückerstattet"
+      }
+    }
+  },
+  "adminShared": {
+    "tipeKelas": "Klassentyp",
+    "reguler": "Regulär",
+    "privat": "Privat",
+    "anakRemaja": "Kinder & Jugendliche",
+    "tingkatBipa": "BIPA-Stufe",
+    "bipa1": "BIPA 1",
+    "bipa2": "BIPA 2",
+    "bipa3": "BIPA 3",
+    "bipa4": "BIPA 4",
+    "bipa5": "BIPA 5",
+    "bipa6": "BIPA 6"
+  },
+  "registerPackage": {
+    "common": {
+      "submittedTitle": "Anmeldung gesendet!",
+      "redirecting": "Weiterleitung zum Dashboard...",
+      "step1Desc": "Überprüfe deine Profilangaben.",
+      "continue": "Weiter",
+      "saving": "Wird gespeichert...",
+      "submitting": "Wird gesendet...",
+      "submitRegistration": "Anmeldung absenden",
+      "stepYourDetails": "Deine Daten",
+      "stepClassDetails": "Klassendetails",
+      "stepReview": "Überprüfen",
+      "step2Title": "Schritt 2 — Klassendetails",
+      "step3Title": "Schritt 3 — Überprüfen & Bestätigen",
+      "step3Desc": "Bitte überprüfe alles vor dem Absenden.",
+      "preferredClassLevel": "Bevorzugte Klassenstufe",
+      "selectPlaceholder": "-- Auswählen --",
+      "selectAvailableLevel": "-- Verfügbare Stufe auswählen --",
+      "currentIndonesianAbility": "Aktuelles Indonesisch-Niveau",
+      "preferredLevel": "Bevorzugte Stufe",
+      "preferredClassType": "Bevorzugter Klassentyp",
+      "preferredSchedule": "Bevorzugter Zeitplan",
+      "classDetails": "Klassendetails",
+      "notSure": "Nicht sicher (brauche Einstufungstest)",
+      "notSureHint": "Unser Team wird dich kontaktieren, um einen Einstufungstest zu vereinbaren.",
+      "onsite": "Vor Ort",
+      "online": "Online",
+      "weekdays": "Wochentage (Mo–Fr)",
+      "weekend": "Wochenende (Sa–So)",
+      "mon": "Montag", "tue": "Dienstag", "wed": "Mittwoch",
+      "thu": "Donnerstag", "fri": "Freitag", "sat": "Samstag", "sun": "Sonntag",
+      "validClass": "Bitte wähle eine Klassenstufe aus.",
+      "validAbility": "Bitte wähle dein aktuelles Niveau aus.",
+      "validLevel": "Bitte wähle eine bevorzugte Stufe aus.",
+      "validClassType": "Bitte wähle Vor-Ort oder Online aus.",
+      "validSchedule": "Bitte wähle einen bevorzugten Zeitplan aus.",
+      "validDayGroup": "Bitte wähle Wochentage oder Wochenende aus.",
+      "validDays": "Bitte wähle mindestens einen bevorzugten Tag aus.",
+      "validAgeCategory": "Bitte wähle eine Altersgruppe aus.",
+      "profileSaveError": "Profil konnte nicht gespeichert werden. Bitte versuche es erneut.",
+      "registrationError": "Anmeldung fehlgeschlagen. Bitte versuche es erneut."
+    },
+    "anak": {
+      "pageTitle": "Anmeldung — Kinder- & Jugendklasse",
+      "step1Title": "Schritt 1 — Angaben des Erziehungsberechtigten",
+      "step2Desc": "Angaben zum Kind und Präferenzen.",
+      "childInformation": "Angaben zum Kind",
+      "childFullName": "Vollständiger Name des Kindes",
+      "childAge": "Alter des Kindes",
+      "ageCategory": "Altersgruppe",
+      "autoSelected": "Automatisch nach Alter ausgewählt ✓",
+      "guardianFullName": "Vollständiger Name des Erziehungsberechtigten",
+      "classPreferences": "Klassenpräferenzen",
+      "childCurrentAbility": "Aktuelles Indonesisch-Niveau des Kindes",
+      "guardian": "Erziehungsberechtigter",
+      "child": "Kind",
+      "class": "Klasse",
+      "parentOrGuardian": "Elternteil oder Erziehungsberechtigter",
+      "step1DescGuardian": "Überprüfe deine Profilangaben als Erziehungsberechtigter.",
+      "step2TitleFull": "Schritt 2 — Angaben zu Kind & Klasse"
+    },
+    "privat": {
+      "pageTitle": "Anmeldung — Privatklasse",
+      "step1Title": "Schritt 1 — Deine Angaben",
+      "step2Desc": "Teile uns deine Präferenzen mit.",
+      "dayGroup": "Tagesgruppe",
+      "preferredDays": "Bevorzugte Tage",
+      "preferredHour": "Bevorzugte Uhrzeit",
+      "numberOfLearners": "Anzahl der Lernenden (1–4)",
+      "totalHours": "Gesamtstunden (min. 10)",
+      "preferredStartDate": "Bevorzugtes Kursstartdatum",
+      "estimatedCost": "Geschätzte Kosten",
+      "yourDetails": "Deine Angaben",
+      "hourExample": "z. B. 14.00 - 15.00"
+    },
+    "reguler": {
+      "submittedDesc": "Deine Anmeldung wird geprüft. Bitte schließe die Zahlung ab und bestätige per WhatsApp. Weiterleitung zum Dashboard...",
+      "pageTitle": "Anmeldung — Reguläre Klasse",
+      "step1Title": "Schritt 1 — Deine Angaben",
+      "step1DescLong": "Überprüfe deine Profilangaben. Um sie zu aktualisieren, besuche deine Profilseite.",
+      "step2Desc": "Teile uns deine Präferenzen mit.",
+      "yourDetails": "Deine Angaben"
+    }
+  },
+  "publicPages": {
+    "artikel": {
+      "title": "Artikel",
+      "subtitle": "Finde die umfassendsten Tipps und Tricks zum Sprachenlernen",
+      "related": "Ähnliche Artikel",
+      "noRelated": "Noch keine ähnlichen Artikel.",
+      "allCategories": "Alle",
+      "featured": "Empfohlen",
+      "readMore": "Weiterlesen",
+      "latest": "Neueste Artikel",
+      "categoryTitle": "Kategorie: {kategori}",
+      "emptyCategory": "Noch keine Artikel in der Kategorie \"{kategori}\".",
+      "emptyAll": "Noch keine Artikel.",
+      "viewAllArticles": "Alle Artikel ansehen →"
+    },
+    "aktivitasKita": {
+      "title": "Unsere Aktivitäten",
+      "subtitle": "Lernmomente und Aktivitäten mit SelasarBahasa",
+      "empty": "Noch keine Aktivitäten.",
+      "related": "Ähnliche Aktivitäten",
+      "noRelated": "Noch keine ähnlichen Aktivitäten.",
+      "mediaCount": "{count} Medien"
+    },
+    "kelas": {
+      "empty": "Noch keine Klassen geöffnet",
+      "headerEyebrow": "Unsere Programme",
+      "headerTitle": "Finde den passenden BIPA-Kurs",
+      "headerSubtitle": "Von semi-intensiven Gruppenkursen bis zu flexiblen 1:1 Privatstunden. Finde das beste Programm für deine Lernreise.",
+      "openNowTitle": "Derzeit offene Klassen",
+      "programTersedia": "{count} Programm verfügbar",
+      "sedangBerjalan": "Im Gange",
+      "penuh": "Voll",
+      "siswaOngoing": "Kurs läuft mit {count} Teilnehmern",
+      "kuotaMin": "Mindestens {count} Teilnehmer zum Start erforderlich",
+      "daftarSekarang": "Jetzt anmelden",
+      "hubungiKami": "Kontaktiere uns",
+      "daftarPrivat": "Privatklasse anmelden",
+      "privatDesc": "Flexibler Zeitplan, Material auf deine Bedürfnisse abgestimmt. Kontaktiere uns für eine kostenlose Beratung!",
+      "emptyDesc": "Schau später nochmal vorbei oder kontaktiere uns für weitere Infos.",
+      "notifyMe": "Benachrichtige mich, wenn es einen Kurs gibt"
+    },
+    "navbar": {
+      "openMenu": "Menü öffnen",
+      "closeMenu": "Menü schließen"
+    },
+    "packageCard": {
+      "exchangeRateNote": "Aktueller Wechselkurs, kann sich ändern"
+    },
+    "staticOfferings": {
+      "title": "Unsere Kursangebote",
+      "subtitle": "Wähle das Programm, das zu den Bedürfnissen und dem Alter der Lernenden passt",
+      "cta": "Jetzt anmelden",
+      "popular": "Am beliebtesten",
+      "reguler": {
+        "title": "Regulärer Kurs",
+        "desc": "Indonesisch gemeinsam lernen mit klarem Fortschritt — vom Anfänger bis zum Fortgeschrittenen. Ideal für alle, die Unterrichtsatmosphäre und das Lernen mit anderen mögen.",
+        "f1": "Nie allein lernen — Klassen mit 5–20 Lernenden, die sich gegenseitig unterstützen",
+        "f2": "6 klare Stufen von Pre-Beginner bis Fortgeschrittene, mit sichtbarem Fortschritt",
+        "f3": "Flexibel: vor Ort oder online, Morgen- oder Nachmittagszeiten",
+        "f4": "Messbarer Fortschritt durch interaktive Quizze & Aufgaben auf jeder Stufe"
+      },
+      "privat": {
+        "title": "Privatkurs",
+        "desc": "Dein Lehrer ist 100 % auf dich fokussiert — Inhalte, Lerntempo und Zeitplan passen sich deinen Bedürfnissen an.",
+        "f1": "Alleine starten — kein Warten auf andere Anmeldungen nötig",
+        "f2": "Flexibelster Zeitplan — auch Online-Kurse bis 20.30 WIB, ideal für Berufstätige und Studierende",
+        "f3": "Inhalte speziell auf deine Ziele zugeschnitten, kein allgemeines Curriculum",
+        "f4": "Schnellerer Fortschritt, weil 100 % der Lernzeit dir gehört"
+      },
+      "anakRemaja": {
+        "title": "Kinder- & Jugendkurs",
+        "desc": "Spaßiges Indonesisch-Lernen passend zum Alter des Kindes — Kinder lernen spielend, Eltern bleiben eingebunden.",
+        "f1": "Klassen nach Alter gruppiert (5–10, 11–15, 16–18 Jahre) damit der Stoff genau passt",
+        "f2": "Interaktive & multimediale Lernmethoden — Kinder bleiben motiviert",
+        "f3": "Kleine Klassen (max. 10 vor Ort / 6 online) für persönlichere Betreuung",
+        "f4": "Eltern bleiben durch Begleitung der Erziehungsberechtigten eingebunden"
+      }
+    },
+    "heroSection": {
+      "watchVideo": "Unser Video ansehen",
+      "videoTitle": "Selasar Bahasa Video",
+      "prevSlide": "Vorheriger Slide",
+      "nextSlide": "Nächster Slide",
+      "navLabel": "Slide-Navigation"
+    },
+    "articleSlides": {
+      "title": "Ausgewählte Artikel lesen",
+      "prevArticle": "Vorheriger Artikel",
+      "nextArticle": "Nächster Artikel",
+      "navLabel": "Artikel-Slide-Navigation"
+    },
+    "contactForm": {
+      "nama": "Name",
+      "pesan": "Nachricht",
+      "namaPlaceholder": "Gib deinen Namen ein",
+      "emailPlaceholder": "Gib deine E-Mail ein",
+      "pesanPlaceholder": "Schreib deine Nachricht..."
+    },
+    "contactSection": {
+      "title": "Kontaktiere uns",
+      "sendMessage": "Nachricht senden",
+      "learnWithUs": "Lerne mit uns",
+      "illustrationAlt": "SelasarBahasa Kontaktillustration"
+    },
+    "footer": {
+      "emailContact": "E-Mail: info@selasarbahasa.com",
+      "whatsappContact": "WhatsApp: +62 812 3456 7890"
+    }
+  },
+  "errors": {
+    "generic": "Hoppla! Ein Fehler ist aufgetreten",
+    "notFoundPage": "Seite nicht gefunden"
+  },
+  "materi": {
+    "markComplete": "Abgeschlossen",
+    "pdfViewer": {
+      "notFound": "Dokument nicht gefunden",
+      "prevPage": "Vorherige Seite",
+      "nextPage": "Nächste Seite",
+      "zoomOut": "Verkleinern",
+      "zoomIn": "Vergrößern"
+    },
+    "videoEmbed": {
+      "loading": "Video wird geladen...",
+      "iframeTitle": "Lernvideo"
+    }
+  },
+  "components": {
+    "tugasDetail": {
+      "deadline": "Frist",
+      "pastDeadline": "Frist bereits abgelaufen",
+      "instruksi": "Anweisungen",
+      "downloadInstruksi": "Anweisungsdatei herunterladen",
+      "sudahDikumpulkan": "Aufgabe bereits eingereicht!",
+      "fileTerkumpul": "Eingereichte Dateien:",
+      "tidakMengumpulkan": "Aufgabe wird nicht eingereicht",
+      "fileJawaban": "Antwortdatei(en) (mehrere möglich)",
+      "fileTerpilih": "Ausgewählte Dateien:",
+      "mengirim": "Wird gesendet..."
+    }
+  },
+  "shared": {
+    "mediaCarousel": {
+      "prev": "Vorheriger Slide",
+      "next": "Nächster Slide"
+    },
+    "premiumLockModal": {
+      "title": "Premium-Inhalt"
+    },
+    "profileEditableFields": {
+      "fullName": "Vollständiger Name",
+      "whatsappNumber": "WhatsApp-Nummer",
+      "fullNamePlaceholder": "Dein vollständiger Name",
+      "emailPlaceholder": "deine@email.com",
+      "whatsappPlaceholder": "+62 8xx-xxxx-xxxx"
+    },
+    "searchBar": {
+      "searching": "Suche läuft...",
+      "materi": "Materialien",
+      "tugas": "Aufgaben",
+      "quiz": "Quiz",
+      "noResults": "Keine Ergebnisse gefunden",
+      "placeholder": "Materialien, Aufgaben oder Quiz suchen..."
+    }
   }
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { Home, GraduationCap, HelpCircle, LogOut, FileText } from 'lucide-react';
@@ -51,8 +52,14 @@ export default function Sidebar({ userName, userRole, userEmail, userFotoProfil,
   return (
     <div className={`w-64 bg-white border-r border-gray-100 min-h-screen flex flex-col ${className}`}>
       <div className="p-6 border-b border-gray-100">
-        <Link href="/" onClick={handleLinkClick} className="text-xl font-bold text-brand-blue hover:scale-105 transition-transform duration-200 block">
-          SelasarBahasa
+        <Link href="/" onClick={handleLinkClick} className="hover:scale-105 transition-transform duration-200 block inline-block">
+          <Image
+            src="/images/brand/logo-selasar-bahasa.png"
+            alt={t('common.brandName')}
+            width={140}
+            height={54}
+            className="w-auto h-10 object-contain"
+          />
         </Link>
       </div>
 

@@ -1,20 +1,21 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdmin, requireAuth } from '@/lib/api-auth';
+import { canReadContent } from '@/lib/access';
 import { z } from 'zod';
 import { invalidateCachePattern, invalidateCache } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
 
 const updateTugasSchema = z.object({
-  judul: z.string().min(1),
+  judul: z.string().min(1).optional(),
   slug: z.string().optional(),
-  instruksi: z.string().min(1),
+  instruksi: z.string().min(1).optional(),
   fileInstruksiUrl: z.string().optional().nullable(),
-  kelas: z.enum(['DASAR', 'MENENGAH', 'LANJUTAN']),
-  isPremium: z.boolean(),
+  tipeKelas: z.enum(['REGULER', 'PRIVAT', 'ANAK_REMAJA']).optional(),
+  tingkatBIPA: z.enum(['BIPA_1', 'BIPA_2', 'BIPA_3', 'BIPA_4', 'BIPA_5', 'BIPA_6']).optional(),
   deadline: z.string().optional().nullable(),
-  urutan: z.number(),
-  published: z.boolean(),
+  urutan: z.number().optional(),
+  published: z.boolean().optional(),
 });
 
 const slugify = (text: string) =>
@@ -32,8 +33,19 @@ export async function GET(
   if ('error' in authResult) {
     return NextResponse.json({ error: authResult.error }, { status: authResult.status });
   }
-  const user = authResult.session.user!; // User is guaranteed because requireAuth checks
+  const user = authResult.session.user!;
   const { id } = await params;
+
+  // Enrollment gate: read access requires ACTIVE or COMPLETED
+  if (user.role !== 'ADMIN') {
+    const allowed = await canReadContent(user.id as string);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Kamu harus terdaftar dan aktif di kelas untuk mengakses tugas ini.' },
+        { status: 403 }
+      );
+    }
+  }
 
   const tugas = await prisma.tugas.findUnique({
     where: { id },
@@ -74,8 +86,9 @@ export async function PUT(
   if (validated.slug !== existingTugas.slug) {
     let slugExists = await prisma.tugas.findUnique({ where: { slug } });
     let counter = 1;
+    const baseSlug = validated.judul ? slugify(validated.judul) : existingTugas.slug;
     while (slugExists && slugExists.id !== id) {
-      slug = `${slugify(validated.judul)}-${counter}`;
+      slug = `${baseSlug}-${counter}`;
       slugExists = await prisma.tugas.findUnique({ where: { slug } });
       counter++;
     }
@@ -88,8 +101,8 @@ export async function PUT(
       slug,
       instruksi: validated.instruksi,
       fileInstruksiUrl: validated.fileInstruksiUrl,
-      kelas: validated.kelas,
-      isPremium: validated.isPremium,
+      tipeKelas: validated.tipeKelas,
+      tingkatBIPA: validated.tingkatBIPA,
       deadline: validated.deadline ? new Date(validated.deadline) : null,
       urutan: validated.urutan,
       published: validated.published,

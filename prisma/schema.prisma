@@ -8,10 +8,46 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum KelasLevel {
-  DASAR
-  MENENGAH
-  LANJUTAN
+// ── Enums ──────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  ADMIN
+  STUDENT
+}
+
+enum TipeKelas {
+  REGULER
+  PRIVAT
+  ANAK_REMAJA
+}
+
+enum TingkatBIPA {
+  BIPA_1
+  BIPA_2
+  BIPA_3
+  BIPA_4
+  BIPA_5
+  BIPA_6
+}
+
+enum StatusKelas {
+  WAITING_LIST
+  ONGOING
+  COMPLETED
+}
+
+enum StatusEnrollment {
+  PENDING_PAYMENT
+  WAITING
+  ACTIVE
+  COMPLETED
+  REFUND_REQUESTED
+  REFUNDED
+}
+
+enum TipeMedia {
+  FOTO
+  VIDEO
 }
 
 enum SumberDokumen {
@@ -29,33 +65,93 @@ enum VideoProvider {
   VIMEO
 }
 
-enum UserRole {
-  USER
-  PREMIUM
-  ADMIN
-}
+// ── Models ─────────────────────────────────────────────────────────────────
 
 model User {
-  id               String           @id @default(cuid())
-  email            String           @unique
+  id               String             @id @default(cuid())
+  email            String             @unique
   password         String
   nama             String
   bio              String?
   negara           String?
   instansi         String?
   fotoProfil       String?
-  role             UserRole         @default(USER)
-  premiumExpiresAt DateTime?
-  resetToken       String?          @unique
+  noWhatsapp       String?
+  role             UserRole           @default(STUDENT)
+  resetToken       String?            @unique
   resetTokenExpiry DateTime?
   lastLoginAt      DateTime?
-  warningSentAt    DateTime?
-  reminderSentAt   DateTime?
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
   quizAttempts     QuizAttempt[]
   tugasSubmissions TugasSubmission[]
   materiProgress   MateriProgress[]
+  enrollments      Enrollment[]
+
+  @@index([role])
+}
+
+model Kelas {
+  id          String           @id @default(cuid())
+  nama        String           @default("")
+  tipe        TipeKelas
+  tingkat     TingkatBIPA
+  status      StatusKelas      @default(WAITING_LIST)
+  minKuota    Int              @default(5)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  enrollments Enrollment[]
+
+  @@index([tipe, tingkat])
+  @@index([status])
+}
+
+model Enrollment {
+  id        String           @id @default(cuid())
+  userId    String
+  kelasId   String
+  status    StatusEnrollment @default(WAITING)
+  // Extra fields collected per package type
+  // Reguler: nothing extra
+  // Privat: schedule preference
+  jadwalPreferensi String?
+  // Anak: child age + guardian name
+  umurAnak         Int?
+  namaWali         String?
+  alasanRefund     String?
+  notes            String?   @db.Text
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kelas     Kelas            @relation(fields: [kelasId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, kelasId])
+  @@index([userId])
+  @@index([kelasId])
+  @@index([status])
+}
+
+model AktivitasKita {
+  id          String           @id @default(cuid())
+  judul       String
+  deskripsi   String           @db.Text
+  media       AktivitasMedia[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([createdAt])
+}
+
+model AktivitasMedia {
+  id          String    @id @default(cuid())
+  aktivitasId String
+  url         String
+  tipe        TipeMedia
+  createdAt   DateTime  @default(now())
+  
+  aktivitas   AktivitasKita @relation(fields: [aktivitasId], references: [id], onDelete: Cascade)
+  
+  @@index([aktivitasId])
 }
 
 model MateriProgress {
@@ -72,145 +168,131 @@ model MateriProgress {
 }
 
 model Materi {
-  id            String           @id @default(cuid())
-  judul         String
-  slug          String           @unique
-  deskripsi     String?          @db.Text
-  pdfUrl        String?
-  videoUrl      String?
-  videoProvider VideoProvider?
-  tipe          MateriTipe       @default(TEKS)
-  kelas         KelasLevel       @default(DASAR)
-  isPremium     Boolean          @default(false)
-  urutan        Int              @default(0)
-  published     Boolean          @default(true)
-  sumberDokumen SumberDokumen?
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
+  id             String          @id @default(cuid())
+  judul          String
+  slug           String          @unique
+  deskripsi      String?         @db.Text
+  pdfUrl         String?
+  videoUrl       String?
+  videoProvider  VideoProvider?
+  tipe           MateriTipe      @default(TEKS)
+  // Content access: which class type and level this belongs to
+  tipeKelas      TipeKelas?
+  tingkatBIPA    TingkatBIPA?
+  urutan         Int             @default(0)
+  published      Boolean         @default(true)
+  sumberDokumen  SumberDokumen?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
   materiProgress MateriProgress[]
 
-  @@index([isPremium, published])
-  @@index([kelas])
+  @@index([published])
+  @@index([tipeKelas, tingkatBIPA])
 }
 
 model Quiz {
-  id          String        @id @default(cuid())
+  id          String         @id @default(cuid())
   judul       String
-  deskripsi   String        @db.Text
-  kelas       KelasLevel    @default(DASAR)
-  isPremium   Boolean       @default(false)
-  published   Boolean       @default(true)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  deskripsi   String         @db.Text
+  // Content access: which class type and level this belongs to
+  tipeKelas   TipeKelas?
+  tingkatBIPA TingkatBIPA?
+  published   Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
   questions   QuizQuestion[]
   attempts    QuizAttempt[]
 
-  @@index([isPremium, published])
-  @@index([kelas])
+  @@index([published])
+  @@index([tipeKelas, tingkatBIPA])
 }
 
 model QuizQuestion {
-  id          String       @id @default(cuid())
-  quizId      String
-  pertanyaan  String       @db.Text
-  urutan      Int          @default(0)
-  quiz        Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  options     QuizOption[]
+  id         String       @id @default(cuid())
+  quizId     String
+  pertanyaan String       @db.Text
+  urutan     Int          @default(0)
+  quiz       Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options    QuizOption[]
 
   @@index([quizId])
   @@index([urutan])
 }
 
 model QuizOption {
-  id          String       @id @default(cuid())
-  questionId  String
-  teks        String       @db.Text
-  isCorrect   Boolean      @default(false)
-  question    QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  id         String       @id @default(cuid())
+  questionId String
+  teks       String       @db.Text
+  isCorrect  Boolean      @default(false)
+  question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@index([questionId])
 }
 
 model QuizAttempt {
-  id          String    @id @default(cuid())
+  id          String   @id @default(cuid())
   userId      String
   quizId      String
   score       Int
   jawaban     Json
-  completedAt DateTime  @default(now())
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  quiz        Quiz      @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
 
   @@index([userId, quizId])
   @@index([quizId])
 }
 
 model Article {
-  id               String   @id @default(cuid())
-  judul            String
-  slug             String   @unique
-  isi              String   @db.Text
-  ringkasan        String   @db.Text
-  coverUrl         String?
-  thumbnailUrl     String?
-  kategori         String?
-  metaTitle        String?
-  metaDescription  String?
-  ogImageUrl       String?
-  published        Boolean  @default(false)
-  publishedAt      DateTime?
-  views            Int      @default(0)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id              String    @id @default(cuid())
+  judul           String
+  slug            String    @unique
+  isi             String    @db.Text
+  ringkasan       String    @db.Text
+  coverUrl        String?
+  thumbnailUrl    String?
+  kategori        String?
+  metaTitle       String?
+  metaDescription String?
+  ogImageUrl      String?
+  published       Boolean   @default(false)
+  publishedAt     DateTime?
+  views           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   @@index([published, publishedAt])
   @@index([kategori])
   @@index([views])
 }
 
-model Package {
-  id           String   @id @default(cuid())
-  nama         String
-  deskripsi    String   @db.Text
-  harga        Decimal  @db.Decimal(12, 2)
-  durasiBulan  Int
-  fiturList    String[]
-  isPopuler    Boolean  @default(false)
-  isActive     Boolean  @default(true)
-  published    Boolean  @default(true)
-  urutan       Int      @default(0)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  @@index([published])
-}
-
 model Tugas {
-  id               String       @id @default(cuid())
+  id               String            @id @default(cuid())
   judul            String
-  slug             String       @unique
-  instruksi        String       @db.Text
+  slug             String            @unique
+  instruksi        String            @db.Text
   fileInstruksiUrl String?
-  kelas            KelasLevel   @default(DASAR)
-  isPremium        Boolean      @default(false)
+  // Content access: which class type and level this belongs to
+  tipeKelas        TipeKelas?
+  tingkatBIPA      TingkatBIPA?
   deadline         DateTime?
-  urutan           Int          @default(0)
-  published        Boolean      @default(true)
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+  urutan           Int               @default(0)
+  published        Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
   submissions      TugasSubmission[]
 
-  @@index([isPremium, published])
-  @@index([kelas])
+  @@index([published])
+  @@index([tipeKelas, tingkatBIPA])
 }
 
 model TugasSubmission {
-  id          String                 @id @default(cuid())
+  id          String               @id @default(cuid())
   tugasId     String
   userId      String
-  submittedAt DateTime               @default(now())
-  tugas       Tugas                  @relation(fields: [tugasId], references: [id], onDelete: Cascade)
-  user        User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  submittedAt DateTime             @default(now())
+  tugas       Tugas                @relation(fields: [tugasId], references: [id], onDelete: Cascade)
+  user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   files       TugasSubmissionFile[]
 
   @@unique([tugasId, userId])
@@ -219,22 +301,22 @@ model TugasSubmission {
 }
 
 model TugasSubmissionFile {
-  id            String           @id @default(cuid())
+  id            String          @id @default(cuid())
   submissionId  String
   fileUrl       String
   fileName      String
   fileSizeBytes Int
-  submission    TugasSubmission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  submission    TugasSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
 
   @@index([submissionId])
 }
 
 model ContactMessage {
-  id            String           @id @default(cuid())
-  nama          String
-  email         String
-  pesan         String           @db.Text
-  isRead        Boolean          @default(false)
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
+  id        String   @id @default(cuid())
+  nama      String
+  email     String
+  pesan     String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

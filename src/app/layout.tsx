@@ -22,7 +22,9 @@ export const metadata: Metadata = {
   description: "Platform belajar bahasa online — materi terstruktur, quiz interaktif, dan progres belajar yang bisa kamu pantau sendiri.",
   metadataBase: new URL("https://selasar-bahasa.vercel.app"),
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
   openGraph: {
     type: "website",

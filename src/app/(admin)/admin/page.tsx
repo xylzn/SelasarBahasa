@@ -10,7 +10,6 @@ export default async function AdminDashboardPage() {
     totalMateri,
     totalQuiz,
     totalArtikel,
-    unreadMessages,
     topArticles,
     homepageVisits,
   ] = await Promise.all([
@@ -18,7 +17,6 @@ export default async function AdminDashboardPage() {
     prisma.materi.count({ where: { published: true } }),
     prisma.quiz.count({ where: { published: true } }),
     prisma.article.count({ where: { published: true } }),
-    prisma.contactMessage.count({ where: { isRead: false } }),
     getCached(
       CACHE_KEYS.topArticles(),
       600,
@@ -39,7 +37,6 @@ export default async function AdminDashboardPage() {
       totalMateri={totalMateri}
       totalQuiz={totalQuiz}
       totalArtikel={totalArtikel}
-      unreadMessages={unreadMessages}
       topArticles={topArticles}
       homepageVisits={homepageVisits}
     />

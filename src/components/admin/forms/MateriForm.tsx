@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/Toast';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 interface MateriFormProps {
   initialData?: any;
@@ -10,6 +11,7 @@ interface MateriFormProps {
 
 export default function MateriForm({ initialData }: MateriFormProps) {
   const router = useRouter();
+  const { t } = useLocale();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTipe, setSelectedTipe] = useState<'TEKS' | 'VIDEO'>(initialData?.tipe || 'TEKS');
   const [sumberDokumen, setSumberDokumen] = useState<'LINK' | 'UPLOAD'>(initialData?.sumberDokumen || 'LINK');
@@ -37,9 +39,9 @@ export default function MateriForm({ initialData }: MateriFormProps) {
       const judul = formData.get('judul') as string;
       const slug = formData.get('slug') as string | undefined;
       const tipe = formData.get('tipe') as 'TEKS' | 'VIDEO';
-      const kelas = formData.get('kelas') as string;
+      const tipeKelas = formData.get('tipeKelas') as 'REGULER' | 'PRIVAT' | 'ANAK_REMAJA';
+      const tingkatBIPA = formData.get('tingkatBIPA') as 'BIPA_1' | 'BIPA_2' | 'BIPA_3' | 'BIPA_4' | 'BIPA_5' | 'BIPA_6';
       const videoUrl = formData.get('videoUrl') as string | undefined;
-      const isPremium = formData.get('isPremium') === 'true';
       const urutan = parseInt(formData.get('urutan') as string) || 0;
       const published = formData.get('published') === 'true';
 
@@ -81,8 +83,8 @@ export default function MateriForm({ initialData }: MateriFormProps) {
         judul,
         slug,
         tipe,
-        kelas,
-        isPremium,
+        tipeKelas,
+        tingkatBIPA,
         urutan,
         published,
       };
@@ -128,51 +130,66 @@ export default function MateriForm({ initialData }: MateriFormProps) {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Judul</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.artikel.judul')}</label>
           <input
             type="text"
             name="judul"
             required
             defaultValue={initialData?.judul}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            placeholder="Masukkan judul materi"
+            placeholder={t('admin.forms.materi.judulPlaceholder')}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Slug (opsional)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.materi.slugOpsional')}</label>
           <input
             type="text"
             name="slug"
             defaultValue={initialData?.slug}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            placeholder="Slug URL (auto-generated jika kosong)"
+            placeholder={t('admin.forms.materi.slugPlaceholder')}
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tipe</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.materi.tipe')}</label>
             <select
               name="tipe"
               value={selectedTipe}
               onChange={(e) => setSelectedTipe(e.target.value as 'TEKS' | 'VIDEO')}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             >
-              <option value="TEKS">PDF</option>
-              <option value="VIDEO">Video</option>
+              <option value="TEKS">{t('admin.forms.materi.pdf')}</option>
+              <option value="VIDEO">{t('admin.forms.materi.video')}</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('adminShared.tipeKelas')}</label>
             <select
-              name="kelas"
-              defaultValue={initialData?.kelas || 'DASAR'}
+              name="tipeKelas"
+              defaultValue={initialData?.tipeKelas || 'REGULER'}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             >
-              <option value="DASAR">Dasar</option>
-              <option value="MENENGAH">Menengah</option>
-              <option value="LANJUTAN">Lanjutan</option>
+              <option value="REGULER">{t('adminShared.reguler')}</option>
+              <option value="PRIVAT">{t('adminShared.privat')}</option>
+              <option value="ANAK_REMAJA">{t('adminShared.anakRemaja')}</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('adminShared.tingkatBipa')}</label>
+            <select
+              name="tingkatBIPA"
+              defaultValue={initialData?.tingkatBIPA || 'BIPA_1'}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            >
+              <option value="BIPA_1">{t('adminShared.bipa1')}</option>
+              <option value="BIPA_2">{t('adminShared.bipa2')}</option>
+              <option value="BIPA_3">{t('adminShared.bipa3')}</option>
+              <option value="BIPA_4">{t('adminShared.bipa4')}</option>
+              <option value="BIPA_5">{t('adminShared.bipa5')}</option>
+              <option value="BIPA_6">{t('adminShared.bipa6')}</option>
             </select>
           </div>
         </div>
@@ -206,13 +223,13 @@ export default function MateriForm({ initialData }: MateriFormProps) {
 
             {sumberDokumen === 'LINK' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Link PDF</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.materi.linkPdf')}</label>
                 <input
                   type="url"
                   value={pdfLink}
                   onChange={(e) => setPdfLink(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                  placeholder="https://example.com/materi.pdf"
+                  placeholder={t('admin.forms.materi.pdfUrlPlaceholder')}
                 />
                 {pdfLink && (
                   <div className="mt-2">
@@ -288,31 +305,31 @@ export default function MateriForm({ initialData }: MateriFormProps) {
         {selectedTipe === 'VIDEO' && (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">URL Video</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.materi.urlVideo')}</label>
               <input
                 type="url"
                 name="videoUrl"
                 defaultValue={initialData?.videoUrl}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                placeholder="https://www.youtube.com/watch?v=..."
+                placeholder={t('admin.forms.materi.videoUrlPlaceholder')}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('common.description')}</label>
               <textarea
                 value={deskripsi}
                 onChange={(e) => setDeskripsi(e.target.value)}
                 rows={4}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
-                placeholder="Masukkan deskripsi materi video..."
+                placeholder={t('admin.forms.materi.deskripsiPlaceholder')}
               />
             </div>
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Urutan</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.materi.urutan')}</label>
             <input
               type="number"
               name="urutan"
@@ -320,19 +337,6 @@ export default function MateriForm({ initialData }: MateriFormProps) {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               placeholder="0"
             />
-          </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="isPremium"
-              name="isPremium"
-              value="true"
-              defaultChecked={initialData?.isPremium}
-              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />
-            <label htmlFor="isPremium" className="text-sm font-medium text-gray-700">
-              Materi Premium
-            </label>
           </div>
         </div>
 

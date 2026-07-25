@@ -2,6 +2,8 @@
   "navbar": {
     "home": "Beranda",
     "articles": "Artikel",
+    "activities": "Aktivitas Kita",
+    "classes": "Kelas",
     "login": "Masuk",
     "register": "Daftar",
     "dashboard": "Dashboard",
@@ -9,17 +11,17 @@
     "logout": "Keluar"
   },
   "hero": {
-    "title1": "Bicara Bahasa Baru dengan",
-    "title2": "Percaya Diri",
-    "title3": "dan",
-    "title4": "Tanpa Ribet",
+    "title1": "Selamat datang di Selasar Bahasa!",
+    "title2": "Belajar Berbicara Bahasa Indonesia dengan",
+    "title3": "",
+    "title4": "Percaya Diri Nyata",
     "subtitle": "Materi terstruktur, quiz interaktif, dan progres belajar yang bisa kamu pantau sendiri — semua dalam satu platform. Dari nol sampai lancar, kami temani tiap langkahnya.",
-    "ctaRegister": "Mulai Belajar Gratis",
+    "ctaRegister": "Daftar Sekarang",
     "ctaArticles": "Jelajahi Artikel",
     "usersJoined": "Sudah {count}+ pelajar bergabung dan terus bertambah!"
   },
   "about": {
-    "title": "Kenapa Ribuan Pelajar Pilih SelasarBahasa?",
+    "title": "Kenapa Orang-orang Pilih Selasar Bahasa",
     "subtitle": "Bukan cuma platform belajar — ini ruang tumbuh bareng, dirancang biar kamu betah belajar sampai benar-benar bisa.",
     "features": {
       "materi": {
@@ -40,9 +42,19 @@
       }
     }
   },
+  "aboutUs": {
+    "eyebrow": "Tentang Kami",
+    "title": "Tentang Selasar Bahasa",
+    "paragraph1": "Selasar Bahasa adalah lembaga kursus bahasa asing yang berfokus pada peningkatan keterampilan berbahasa dan pemahaman budaya. Kami menerapkan kegiatan pembelajaran yang bervariatif dengan memanfaatkan media ajar yang relevan serta sumber-sumber belajar yang autentik. Selain itu, metode dan materi ajar yang kami gunakan disesuaikan dengan kebutuhan dan tujuan pemelajar.",
+    "paragraph2": "Selasar Bahasa juga memberikan layanan berupa pelatihan dan pendampingan bagi para pengajar bahasa asing untuk meningkatkan kompetensi pengajarannya. Selain itu, kami menyediakan bahan-bahan ajar yang bisa diakses secara gratis maupun berbayar oleh para pemelajar maupun pengajar secara luas (tidak hanya untuk pengajar dan pemelajar kami saja).",
+    "paragraph3": "Selasar Bahasa berkomitmen untuk memberikan layanan terbaik agar Anda bisa mencapai tujuan belajar yang maksimal dan menyenangkan!",
+    "signOff": "Salam hangat,",
+    "signOffName": "Tim Selasar Bahasa"
+  },
   "package": {
     "popular": "Paling Diminati",
-    "contactUs": "Hubungi Kami"
+    "contactUs": "Hubungi Kami",
+    "daftar": "Daftar Sekarang"
   },
   "footer": {
     "desc": "Teman belajar bahasamu, dari basic sampai lancar — kapan pun, di mana pun kamu berada.",
@@ -87,19 +99,153 @@
     "tasks": "Tugas",
     "packages": "Paket",
     "users": "Pengguna",
+    "activities": "Aktivitas Kita",
+    "refund": "Ajukan Refund",
     "logout": "Keluar"
   },
   "dashboard": {
     "greeting": "Selamat datang,",
     "title": "Dashboard",
     "subtitle": "Lanjutkan perjalanan belajarmu.",
+    "activeClass": "Kelas Aktif",
+    "noEnrollment": "Kamu belum terdaftar di kelas mana pun.",
+    "noEnrollmentDesc": "Daftarkan dirimu ke salah satu program kelas untuk mulai belajar.",
+    "choosePlan": "Pilih Program",
+    "waitingTitle": "Kamu sedang dalam Waiting List — {kelas}",
+    "waitingQuota": "{current} dari {min} siswa sudah terdaftar.",
+    "waitingDesc": "Kelas akan segera dimulai setelah kuota minimum terpenuhi. Kami akan mengirim notifikasi.",
+    "requestRefund": "Ajukan Refund",
     "totalMaterials": "Total Materi",
     "totalQuizzes": "Total Quiz",
     "quizzesTaken": "Quiz Diambil",
     "completedMaterials": "Materi Selesai",
     "recentQuizzes": "Quiz Terbaru",
     "noQuizzes": "Belum ada quiz yang diambil",
-    "takeQuiz": "Ambil Quiz"
+    "takeQuiz": "Ambil Quiz",
+    "overview": {
+      "waitingPayment": "Menunggu Verifikasi Pembayaran",
+      "lifetimeAccess": "akses baca materi seumur hidup",
+      "completedTitle": "Selamat! Kamu sudah menyelesaikan kelas ini.",
+      "completedDesc": "Pengiriman tugas dan kuis telah ditutup.",
+      "completedButton": "Mau naik tingkat?",
+      "waitingPaymentDesc": "Pendaftaranmu sudah kami terima. Setelah pembayaran dikonfirmasi oleh admin, kamu akan masuk ke waiting list kelas.",
+      "notFinished": "Belum selesai"
+    },
+    "kelasList": {
+      "choose": "Pilih Kelas"
+    },
+    "kelas": {
+      "notEnrolled": "Kamu belum terdaftar di kelas aktif.",
+      "pilihProgram": "Pilih Program →",
+      "notFoundTitle": "Tingkat tidak ditemukan",
+      "materiTeks": "Materi Teks",
+      "materi": {
+        "title": "Materi",
+        "desc": "Baca materi pembelajaran",
+        "empty": "Belum ada materi untuk kelasmu.",
+        "lihat": "Lihat →"
+      },
+      "video": {
+        "title": "Video",
+        "desc": "Tonton video pembelajaran",
+        "empty": "Belum ada video untuk kelasmu.",
+        "lihat": "Lihat →",
+        "modul": "Modul Video"
+      },
+      "tugas": {
+        "title": "Tugas",
+        "desc": "Kerjakan tugas pembelajaran",
+        "lihat": "Lihat →",
+        "empty": "Belum ada tugas untuk kelasmu.",
+        "sudahDikumpulkan": "Sudah Dikumpulkan",
+        "tidakMengumpulkan": "Tidak Mengumpulkan",
+        "belumDikumpulkan": "Belum Dikumpulkan"
+      },
+      "teksDetail": {
+        "noAccess": "Kamu tidak memiliki akses ke materi ini.",
+        "notInClass": "Materi ini bukan bagian dari kelasmu.",
+        "notAvailable": "Materi teks ini belum tersedia."
+      },
+      "videoDetail": {
+        "noAccess": "Kamu tidak memiliki akses ke video ini.",
+        "notInClass": "Video ini bukan bagian dari kelasmu.",
+        "notAvailable": "Video materi ini belum tersedia.",
+        "deskripsi": "Deskripsi"
+      }
+    },
+    "nilai": {
+      "title": "Rekap Nilai",
+      "subtitle": "Lihat semua hasil quiz dan pengumpulan tugasmu",
+      "hasilQuiz": "Hasil Quiz",
+      "noQuiz": "Belum ada quiz yang diambil",
+      "pengumpulanTugas": "Pengumpulan Tugas",
+      "noTugas": "Belum ada tugas yang dikumpulkan"
+    },
+    "profile": {
+      "whatsappLabel": "No WhatsApp",
+      "whatsappPlaceholder": "08xx-xxxx-xxxx"
+    },
+    "quiz": {
+      "loginFirst": "Silakan login terlebih dahulu.",
+      "notEnrolled": "Kamu belum terdaftar di kelas aktif.",
+      "pilihProgram": "Pilih Program →",
+      "title": "Quiz",
+      "subtitle": "Uji kemampuanmu dengan quiz interaktif.",
+      "empty": "Belum ada quiz yang tersedia untuk kelasmu."
+    },
+    "refund": {
+      "successTitle": "Pengajuan Refund Berhasil Dikirim",
+      "title": "Ajukan Refund",
+      "reasonPlaceholder": "Jelaskan alasan kamu mengajukan refund...",
+      "accountPlaceholder": "Contoh: BCA 1234567890 a.n. Nama Lengkap"
+    },
+    "error": {
+      "title": "Terjadi kesalahan di dashboard"
+    },
+    "registration": {
+      "classInfoPanel": {
+        "regularTitle": "Kelas Reguler",
+        "regularDesc": "Semi-intensif, luring atau daring",
+        "privateTitle": "Kelas Privat",
+        "privateDesc": "Jadwal fleksibel, 1–4 orang",
+        "people": "Jumlah Orang",
+        "weekdays": "Hari Kerja",
+        "weekend": "Akhir Pekan",
+        "registrationFee": "+ Rp100.000 biaya pendaftaran",
+        "childrenTitle": "Kelas Anak & Remaja",
+        "childrenDesc": "Luring atau daring, materi disesuaikan dengan usia dan level",
+        "program": "Program",
+        "classSize": "Ukuran Kelas",
+        "fees": "Biaya",
+        "refundPolicy": "Kebijakan Refund",
+        "pricingPerHour": "Harga (per jam)",
+        "ageCategories": "Kategori Usia",
+        "reg_levels": "6 level (Pre-Beginner hingga Advanced)",
+        "reg_hoursPerLevel": "40 jam per level",
+        "reg_schedule": "Jadwal: Senin–Jumat, 09.30–11.30 atau 12.30–14.30 WIB",
+        "reg_minStudents": "Minimal 3 pemelajar untuk memulai",
+        "reg_maxStudents": "Maksimal 20 pemelajar",
+        "reg_tuition": "Biaya kursus: Rp5.000.000 per level",
+        "reg_registrationFee": "Biaya pendaftaran: Rp100.000 (satu kali)",
+        "reg_placementTest": "Tes penempatan: Rp100.000 (jika sudah ada kemampuan BI)",
+        "reg_refund70": "Refund 70% jika membatalkan sebelum kelas dimulai",
+        "reg_refund0": "Refund 0% setelah kelas dimulai",
+        "priv_minHours": "Minimal 10 jam total, minimal 1 jam per sesi",
+        "priv_weekdaySchedule": "Hari Kerja & Akhir Pekan: 08.00–16.00 WIB",
+        "priv_onlineSchedule": "Daring: semua hari, 08.00–20.30 WIB",
+        "priv_refund70": "Refund 70% jika membatalkan sebelum kelas dimulai",
+        "priv_refund0": "Refund 0% setelah kelas dimulai",
+        "child_classA": "Kelas A: usia 5–10 tahun",
+        "child_classB": "Kelas B: usia 11–15 tahun",
+        "child_classC": "Kelas C: usia 16–18 tahun",
+        "child_levels": "4 level (Pre-Beginner hingga Intermediate)",
+        "child_schedule": "Senin, Rabu, Jumat — 10.00–11.00 / 13.00–14.00 / 15.00–16.00 WIB",
+        "child_minStudents": "Minimal 3 pemelajar untuk memulai",
+        "child_maxStudents": "Maksimal 10 (luring) atau 6 (daring)",
+        "child_tuition": "Biaya kursus: Rp4.800.000 per level",
+        "child_registrationFee": "Biaya pendaftaran: Rp100.000 (satu kali)"
+      }
+    }
   },
   "admin": {
     "title": "Dashboard Admin",
@@ -109,7 +255,180 @@
     "totalQuizzes": "Total Quiz",
     "totalArticles": "Total Artikel",
     "unreadMessages": "Pesan Belum Dibaca",
-    "quickActions": "Aksi Cepat"
+    "quickActions": "Aksi Cepat",
+    "error": {
+      "title": "Terjadi kesalahan di admin panel"
+    },
+    "pages": {
+      "aktivitasKita": {
+        "title": "Kelola Aktivitas Kita",
+        "subtitle": "Tambah foto dan video kegiatan."
+      },
+      "artikel": {
+        "title": "Kelola Artikel",
+        "subtitle": "Tambah, edit, atau hapus artikel."
+      },
+      "kelas": {
+        "title": "Manajemen Kelas",
+        "subtitle": "Kelola batch/angkatan kelas BIPA."
+      },
+      "materi": {
+        "title": "Kelola Materi",
+        "subtitle": "Tambah, edit, atau hapus materi.",
+        "empty": "Tidak ada materi ditemukan.",
+        "searchPlaceholder": "Cari materi..."
+      },
+      "messages": {
+        "title": "Pesan Kontak",
+        "subtitle": "Lihat dan kelola pesan dari pengguna."
+      },
+      "pendaftaran": {
+        "title": "Kelola Pendaftaran",
+        "subtitle": "Verifikasi pembayaran dan kelola status enrollment siswa."
+      },
+      "quiz": {
+        "title": "Kelola Quiz",
+        "subtitle": "Tambah, edit, atau hapus quiz."
+      },
+      "tugas": {
+        "title": "Kelola Tugas",
+        "subtitle": "Tambah, edit, atau hapus tugas.",
+        "createTitle": "Tambah Tugas Baru",
+        "editTitle": "Edit Tugas",
+        "submissions": {
+          "namaUser": "Nama User",
+          "dikumpulkanPada": "Dikumpulkan Pada",
+          "file": "File",
+          "tidakAdaFile": "Tidak ada file"
+        }
+      },
+      "users": {
+        "title": "Kelola Pengguna",
+        "subtitle": "Lihat dan kelola pengguna platform."
+      }
+    },
+    "dashboardOverview": {
+      "topArticles": "Artikel Paling Banyak Diakses",
+      "noArticles": "Belum ada artikel yang diakses.",
+      "openArticle": "Buka artikel"
+    },
+    "homepageChart": {
+      "title": "Kunjungan Homepage (7 Hari)",
+      "todayLegend": "Bar biru tua = hari ini"
+    },
+    "enrollment": {
+      "detailTitle": "Detail Pendaftaran",
+      "siswa": "Siswa",
+      "kelas": "Kelas",
+      "detailLengkap": "Detail Lengkap",
+      "searchPlaceholder": "Cari nama siswa, email, tipe kelas, atau status..."
+    },
+    "kelasTable": {
+      "empty": "Tidak ada kelas ditemukan.",
+      "startClassConfirmTitle": "Mulai Kelas?",
+      "waitingToActive": "WAITING → ACTIVE",
+      "searchPlaceholder": "Cari nama kelas, tipe, tingkat, status, atau jumlah pendaftar..."
+    },
+    "quizTable": {
+      "empty": "Tidak ada quiz ditemukan.",
+      "searchPlaceholder": "Cari quiz..."
+    },
+    "tugasTable": {
+      "empty": "Tidak ada tugas ditemukan.",
+      "searchPlaceholder": "Cari tugas..."
+    },
+    "userTable": {
+      "detailTitle": "Detail Pengguna",
+      "editRole": "Edit Role",
+      "roleStudent": "STUDENT",
+      "roleAdmin": "ADMIN",
+      "searchPlaceholder": "Cari nama, email, role, negara, instansi..."
+    },
+    "forms": {
+      "aktivitas": {
+        "judul": "Judul",
+        "media": "Media",
+        "tambahFoto": "Tambah Foto",
+        "tambahLinkVideo": "Tambah Link Video",
+        "judulPlaceholder": "Judul aktivitas",
+        "deskripsiPlaceholder": "Ceritakan kegiatan ini...",
+        "preview": "Preview",
+        "videoPreview": "Video preview",
+        "videoUrlPlaceholder": "https://youtube.com/watch?v=..."
+      },
+      "artikel": {
+        "validationError": "Mohon lengkapi semua field yang wajib diisi:",
+        "judul": "Judul",
+        "slug": "Slug",
+        "ringkasan": "Ringkasan",
+        "isiArtikel": "Isi Artikel",
+        "imageHint": "JPG, PNG, WEBP — maks. 2MB",
+        "kategori": "Kategori",
+        "seo": "SEO",
+        "judulPlaceholder": "Masukkan judul artikel",
+        "slugPlaceholder": "slug-artikel",
+        "ringkasanPlaceholder": "Ringkasan artikel (max 300 karakter)",
+        "previewThumbnail": "Preview thumbnail",
+        "hapusGambar": "Hapus gambar",
+        "imageUrlHint": "Atau paste URL gambar langsung (opsional)",
+        "kategoriPlaceholder": "Kategori artikel",
+        "metaTitlePlaceholder": "Meta title untuk SEO",
+        "metaDescPlaceholder": "Meta description untuk SEO"
+      },
+      "kelas": {
+        "namaKelas": "Nama Kelas / Batch",
+        "waitingList": "Waiting List",
+        "ongoing": "Ongoing",
+        "completed": "Completed",
+        "minimumKuota": "Minimum Kuota",
+        "tutupKelasConfirm": "Tutup Kelas?",
+        "lulusCompleted": "Lulus (COMPLETED)",
+        "namaKelasPlaceholder": "e.g., Batch 1 - Agustus 2026"
+      },
+      "materi": {
+        "slugOpsional": "Slug (opsional)",
+        "tipe": "Tipe",
+        "pdf": "PDF",
+        "video": "Video",
+        "linkPdf": "Link PDF",
+        "urlVideo": "URL Video",
+        "urutan": "Urutan",
+        "judulPlaceholder": "Masukkan judul materi",
+        "slugPlaceholder": "Slug URL (auto-generated jika kosong)",
+        "pdfUrlPlaceholder": "https://example.com/materi.pdf",
+        "videoUrlPlaceholder": "https://www.youtube.com/watch?v=...",
+        "deskripsiPlaceholder": "Masukkan deskripsi materi video..."
+      },
+      "package": {
+        "validationError": "Ada kesalahan:",
+        "namaPaket": "Nama Paket",
+        "harga": "Harga",
+        "durasiBulan": "Durasi (Bulan)",
+        "fitur": "Fitur",
+        "urutan": "Urutan",
+        "namaPaketPlaceholder": "Nama paket",
+        "deskripsiPlaceholder": "Deskripsi paket"
+      },
+      "quiz": {
+        "pertanyaan": "Pertanyaan",
+        "teksPertanyaan": "Teks Pertanyaan",
+        "opsiJawaban": "Opsi Jawaban",
+        "judulPlaceholder": "Masukkan judul quiz",
+        "deskripsiPlaceholder": "Deskripsi quiz",
+        "pertanyaanPlaceholder": "Masukkan pertanyaan"
+      },
+      "tugas": {
+        "slugOpsional": "Slug (opsional)",
+        "deadlineOpsional": "Deadline (opsional)",
+        "instruksi": "Instruksi",
+        "fileInstruksiOpsional": "File Instruksi (opsional)",
+        "pertahankanFile": "Pertahankan file yang ada",
+        "urutan": "Urutan",
+        "judulPlaceholder": "Masukkan judul tugas",
+        "slugPlaceholder": "Slug URL (auto-generated jika kosong)",
+        "instruksiPlaceholder": "Masukkan instruksi tugas"
+      }
+    }
   },
   "quickActions": {
     "materials": "Materi",
@@ -141,10 +460,11 @@
       "submitButton": "Reset Password",
       "passwordMismatch": "Password tidak cocok",
       "invalidToken": "Link tidak valid atau sudah kedaluwarsa. Minta reset password baru",
-      "successMessage": "Password berhasil direset! Silakan masuk"
+      "successMessage": "Password berhasil direset! Silakan masuk",
+      "newPasswordPlaceholder": "Masukkan password baru",
+      "confirmPasswordPlaceholder": "Masukkan password baru lagi"
     }
   },
-
   "profile": {
     "title": "Profil Saya",
     "changePhoto": "Ganti Foto",
@@ -169,5 +489,312 @@
     "deleteConfirmTitle": "Konfirmasi Hapus",
     "deleteConfirmMessage": "Apakah kamu yakin ingin menghapus akun {name}? Tindakan ini tidak bisa dibatalkan, dan user akan menerima email pemberitahuan.",
     "close": "Tutup"
+  },
+  "common": {
+    "loading": "Memuat...",
+    "edit": "Edit",
+    "cancel": "Batal",
+    "delete": "Hapus",
+    "close": "Tutup",
+    "detail": "Detail",
+    "search": "Cari",
+    "email": "Email",
+    "title": "Judul",
+    "description": "Deskripsi",
+    "status": "Status",
+    "yes": "Ya",
+    "no": "Tidak",
+    "confirmDelete": "Konfirmasi Hapus",
+    "name": "Nama",
+    "brandName": "Selasar Bahasa",
+    "emailPlaceholder": "nama@email.com",
+    "notAuthenticated": "Belum terautentikasi",
+    "enums": {
+      "tipeKelas": {
+        "REGULER": "Reguler",
+        "PRIVAT": "Privat",
+        "ANAK_REMAJA": "Anak & Remaja"
+      },
+      "tingkatBipa": {
+        "BIPA_1": "BIPA 1",
+        "BIPA_2": "BIPA 2",
+        "BIPA_3": "BIPA 3",
+        "BIPA_4": "BIPA 4",
+        "BIPA_5": "BIPA 5",
+        "BIPA_6": "BIPA 6"
+      },
+      "kelasStatus": {
+        "WAITING_LIST": "Waiting List",
+        "ONGOING": "Ongoing",
+        "COMPLETED": "Completed",
+        "WAITING": "Menunggu Dimulai",
+        "ACTIVE": "Aktif",
+        "PENDING_PAYMENT": "Menunggu Pembayaran",
+        "REFUND_REQUESTED": "Refund Diajukan",
+        "REFUNDED": "Sudah Direfund"
+      }
+    }
+  },
+  "adminShared": {
+    "tipeKelas": "Tipe Kelas",
+    "reguler": "Reguler",
+    "privat": "Privat",
+    "anakRemaja": "Anak & Remaja",
+    "tingkatBipa": "Tingkat BIPA",
+    "bipa1": "BIPA 1",
+    "bipa2": "BIPA 2",
+    "bipa3": "BIPA 3",
+    "bipa4": "BIPA 4",
+    "bipa5": "BIPA 5",
+    "bipa6": "BIPA 6"
+  },
+  "registerPackage": {
+    "common": {
+      "submittedTitle": "Registration Submitted!",
+      "redirecting": "Redirecting to dashboard...",
+      "step1Desc": "Review your profile information.",
+      "continue": "Continue",
+      "saving": "Saving...",
+      "submitting": "Submitting...",
+      "submitRegistration": "Submit Registration",
+      "stepYourDetails": "Your Details",
+      "stepClassDetails": "Class Details",
+      "stepReview": "Review",
+      "step2Title": "Step 2 — Class Details",
+      "step3Title": "Step 3 — Review & Confirm",
+      "step3Desc": "Please review before submitting.",
+      "preferredClassLevel": "Preferred Class Level",
+      "selectPlaceholder": "-- Select --",
+      "selectAvailableLevel": "-- Select available level --",
+      "currentIndonesianAbility": "Current Indonesian Ability",
+      "preferredLevel": "Preferred Level",
+      "preferredClassType": "Preferred Class Type",
+      "preferredSchedule": "Preferred Schedule",
+      "classDetails": "Class Details",
+      "notSure": "Not Sure (needs placement test)",
+      "notSureHint": "Our team will contact you to arrange a placement test before confirming your class level.",
+      "onsite": "Onsite",
+      "online": "Online",
+      "weekdays": "Weekdays (Mon–Fri)",
+      "weekend": "Weekend (Sat–Sun)",
+      "mon": "Monday", "tue": "Tuesday", "wed": "Wednesday",
+      "thu": "Thursday", "fri": "Friday", "sat": "Saturday", "sun": "Sunday",
+      "validClass": "Please select a class level.",
+      "validAbility": "Please select your current ability.",
+      "validLevel": "Please select a preferred level.",
+      "validClassType": "Please select onsite or online.",
+      "validSchedule": "Please select a preferred schedule.",
+      "validDayGroup": "Please select weekdays or weekend.",
+      "validDays": "Please select at least one preferred day.",
+      "validAgeCategory": "Please select an age category.",
+      "profileSaveError": "Failed to save profile. Please try again.",
+      "registrationError": "Registration failed. Please try again."
+    },
+    "anak": {
+      "pageTitle": "Register — Children & Teens Class",
+      "step1Title": "Step 1 — Guardian's Details",
+      "step2Desc": "Information about the child and preferences.",
+      "childInformation": "Child Information",
+      "childFullName": "Child's Full Name",
+      "childAge": "Child's Age",
+      "ageCategory": "Age Category",
+      "autoSelected": "Auto-selected based on age ✓",
+      "guardianFullName": "Guardian's Full Name",
+      "classPreferences": "Class Preferences",
+      "childCurrentAbility": "Child's Current Indonesian Ability",
+      "guardian": "Guardian",
+      "child": "Child",
+      "class": "Class",
+      "parentOrGuardian": "Parent or guardian",
+      "step1DescGuardian": "Review your profile information as the guardian.",
+      "step2TitleFull": "Step 2 — Child & Class Details"
+    },
+    "privat": {
+      "pageTitle": "Register — Private Class",
+      "step1Title": "Step 1 — Your Details",
+      "step2Desc": "Tell us your preferences.",
+      "dayGroup": "Day Group",
+      "preferredDays": "Preferred Days",
+      "preferredHour": "Preferred Hour",
+      "numberOfLearners": "Number of Learners (1–4)",
+      "totalHours": "Total Hours (min. 10)",
+      "preferredStartDate": "Preferred Course Start Date",
+      "estimatedCost": "Estimated Cost",
+      "yourDetails": "Your Details",
+      "hourExample": "e.g. 14.00 - 15.00"
+    },
+    "reguler": {
+      "submittedDesc": "Your registration is under review. Please complete the payment and confirm via WhatsApp. Redirecting to dashboard...",
+      "pageTitle": "Register — Regular Class",
+      "step1Title": "Step 1 — Your Details",
+      "step1DescLong": "Review your profile information. To update it, visit your profile page.",
+      "step2Desc": "Tell us about your preferences.",
+      "yourDetails": "Your Details"
+    }
+  },
+  "publicPages": {
+    "artikel": {
+      "title": "Artikel",
+      "subtitle": "Temukan tips dan trik belajar bahasa terlengkap",
+      "related": "Artikel Terkait",
+      "noRelated": "Belum ada artikel terkait.",
+      "allCategories": "Semua",
+      "featured": "Featured",
+      "readMore": "Baca Selengkapnya",
+      "latest": "Artikel Terbaru",
+      "categoryTitle": "Kategori: {kategori}",
+      "emptyCategory": "Belum ada artikel dengan kategori \"{kategori}\".",
+      "emptyAll": "Belum ada artikel.",
+      "viewAllArticles": "Lihat semua artikel →"
+    },
+    "aktivitasKita": {
+      "title": "Aktivitas Kita",
+      "subtitle": "Momen belajar dan kegiatan bersama SelasarBahasa",
+      "empty": "Belum ada aktivitas.",
+      "related": "Aktivitas Terkait",
+      "noRelated": "Belum ada aktivitas terkait.",
+      "mediaCount": "{count} media"
+    },
+    "kelas": {
+      "empty": "Belum ada kelas yang dibuka",
+      "headerEyebrow": "Program Kami",
+      "headerTitle": "Pilih Kelas BIPA yang Cocok",
+      "headerSubtitle": "Dari kelas reguler semi-intensif hingga privat 1-on-1 yang fleksibel. Temukan program terbaik untuk perjalanan belajarmu.",
+      "openNowTitle": "Kelas yang Dibuka Saat Ini",
+      "programTersedia": "{count} program tersedia",
+      "sedangBerjalan": "Sedang Berjalan",
+      "penuh": "Penuh",
+      "siswaOngoing": "Kelas sedang berlangsung untuk {count} siswa",
+      "kuotaMin": "Minimal {count} siswa untuk memulai kelas",
+      "daftarSekarang": "Daftar Sekarang",
+      "hubungiKami": "Hubungi Kami",
+      "daftarPrivat": "Daftar Kelas Privat",
+      "privatDesc": "Jadwal fleksibel, materi disesuaikan dengan kebutuhanmu. Hubungi kami untuk konsultasi gratis!",
+      "emptyDesc": "Silakan kembali lagi nanti atau hubungi kami untuk informasi lebih lanjut.",
+      "notifyMe": "Beritahu Saya Saat Ada Kelas"
+    },
+    "navbar": {
+      "openMenu": "Buka menu",
+      "closeMenu": "Tutup menu"
+    },
+    "packageCard": {
+      "exchangeRateNote": "Kurs saat ini, bisa berubah"
+    },
+    "staticOfferings": {
+      "title": "Pilihan Kelas Kami",
+      "subtitle": "Pilih program yang sesuai dengan kebutuhan dan usia pemelajar",
+      "cta": "Daftar Sekarang",
+      "popular": "Paling Diminati",
+      "reguler": {
+        "title": "Kelas Reguler",
+        "desc": "Belajar bahasa Indonesia bareng-bareng dengan jenjang yang jelas — dari pemula sampai mahir. Cocok buat kamu yang suka suasana kelas dan semangat belajar bareng orang lain.",
+        "f1": "Gak belajar sendirian — kelas berisi 5–20 orang yang saling menyemangati",
+        "f2": "6 level jenjang jelas, dari Pre-Beginner sampai Advanced, progress kelihatan tiap tahap",
+        "f3": "Fleksibel: pilih luring/daring, jadwal pagi atau siang",
+        "f4": "Progres terukur lewat quiz & tugas interaktif tiap level"
+      },
+      "privat": {
+        "title": "Kelas Privat",
+        "desc": "Guru 100% fokus ke kamu — materi, kecepatan belajar, dan jadwal semua nyesuain kebutuhanmu, bukan sebaliknya.",
+        "f1": "Bisa mulai sendirian, gak perlu nunggu orang lain daftar",
+        "f2": "Jadwal paling fleksibel — termasuk kelas daring sampai 20.30 WIB, pas buat yang sibuk kerja/kuliah",
+        "f3": "Materi dirancang khusus sesuai tujuanmu, bukan kurikulum generik",
+        "f4": "Progress lebih cepat karena waktu belajar 100% milik kamu"
+      },
+      "anakRemaja": {
+        "title": "Kelas Anak & Remaja",
+        "desc": "Belajar bahasa Indonesia yang seru dan sesuai usia — anak belajar sambil main, orang tua tetap terlibat.",
+        "f1": "Kelas dikelompokkan sesuai usia (5–10, 11–15, 16–18 tahun) biar materi pas levelnya",
+        "f2": "Metode belajar interaktif & multimedia — anak gak gampang bosan",
+        "f3": "Kelas kecil (maks. 10 luring / 6 daring) untuk perhatian yang lebih personal",
+        "f4": "Orang tua tetap dilibatkan lewat pendampingan wali"
+      }
+    },
+    "heroSection": {
+      "watchVideo": "Tonton Video Kami",
+      "videoTitle": "Video Selasar Bahasa",
+      "prevSlide": "Slide sebelumnya",
+      "nextSlide": "Slide berikutnya",
+      "navLabel": "Navigasi slide"
+    },
+    "articleSlides": {
+      "title": "Baca Artikel Pilihan",
+      "prevArticle": "Artikel sebelumnya",
+      "nextArticle": "Artikel berikutnya",
+      "navLabel": "Navigasi slide artikel"
+    },
+    "contactForm": {
+      "nama": "Nama",
+      "pesan": "Pesan",
+      "namaPlaceholder": "Masukkan nama Anda",
+      "emailPlaceholder": "Masukkan email Anda",
+      "pesanPlaceholder": "Tulis pesan Anda..."
+    },
+    "contactSection": {
+      "title": "Hubungi Kami",
+      "sendMessage": "Kirim Pesan",
+      "learnWithUs": "Belajar Bareng Kami",
+      "illustrationAlt": "Ilustrasi kontak SelasarBahasa"
+    },
+    "footer": {
+      "emailContact": "Email: info@selasarbahasa.com",
+      "whatsappContact": "WhatsApp: +62 812 3456 7890"
+    }
+  },
+  "errors": {
+    "generic": "Oops! Terjadi kesalahan",
+    "notFoundPage": "Halaman tidak ditemukan"
+  },
+  "materi": {
+    "markComplete": "Selesai",
+    "pdfViewer": {
+      "notFound": "Dokumen tidak ditemukan",
+      "prevPage": "Halaman sebelumnya",
+      "nextPage": "Halaman berikutnya",
+      "zoomOut": "Perkecil",
+      "zoomIn": "Perbesar"
+    },
+    "videoEmbed": {
+      "loading": "Memuat video...",
+      "iframeTitle": "Video pembelajaran"
+    }
+  },
+  "components": {
+    "tugasDetail": {
+      "deadline": "Deadline",
+      "pastDeadline": "Sudah melewati deadline",
+      "instruksi": "Instruksi",
+      "downloadInstruksi": "Download File Instruksi",
+      "sudahDikumpulkan": "Tugas Sudah Dikumpulkan!",
+      "fileTerkumpul": "File yang dikumpulkan:",
+      "tidakMengumpulkan": "Tidak mengumpulkan tugas",
+      "fileJawaban": "File Jawaban (bisa lebih dari satu)",
+      "fileTerpilih": "File terpilih:",
+      "mengirim": "Mengirim..."
+    }
+  },
+  "shared": {
+    "mediaCarousel": {
+      "prev": "Previous slide",
+      "next": "Next slide"
+    },
+    "premiumLockModal": {
+      "title": "Konten Premium"
+    },
+    "profileEditableFields": {
+      "fullName": "Full Name",
+      "whatsappNumber": "WhatsApp Number",
+      "fullNamePlaceholder": "Your full name",
+      "emailPlaceholder": "your@email.com",
+      "whatsappPlaceholder": "+62 8xx-xxxx-xxxx"
+    },
+    "searchBar": {
+      "searching": "Mencari...",
+      "materi": "Materi",
+      "tugas": "Tugas",
+      "quiz": "Quiz",
+      "noResults": "Tidak ada hasil ditemukan",
+      "placeholder": "Cari materi, tugas, atau quiz..."
+    }
   }
 }

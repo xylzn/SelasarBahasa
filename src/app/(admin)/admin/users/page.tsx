@@ -13,7 +13,6 @@ export default async function AdminUsersPage() {
       instansi: true,
       fotoProfil: true,
       createdAt: true,
-      premiumExpiresAt: true,
     },
     orderBy: { createdAt: 'desc' },
   });

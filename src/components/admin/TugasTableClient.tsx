@@ -1,15 +1,18 @@
 'use client';
 
 import Link from 'next/link';
+import { useMemo, useState } from 'react';
 import DataTable, { type Column } from './DataTable';
 import DeleteButton from './DeleteButton';
+import type { TipeKelas, TingkatBIPA } from '@prisma/client';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 interface TugasWithSubmissions {
   id: string;
   judul: string;
   slug: string;
-  kelas: string;
-  isPremium: boolean;
+  tipeKelas: TipeKelas | null;
+  tingkatBIPA: TingkatBIPA | null;
   published: boolean;
   _count: { submissions: number };
 }
@@ -19,18 +22,38 @@ interface TugasTableClientProps {
 }
 
 export default function TugasTableClient({ tugasList }: TugasTableClientProps) {
+  const { t } = useLocale();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Group tugas by tipeKelas and tingkatBIPA
+  const groupedTugas = useMemo(() => {
+    const q = searchQuery.toLowerCase();
+    const filtered = tugasList.filter((item) =>
+      !q ||
+      item.judul.toLowerCase().includes(q) ||
+      item.slug.toLowerCase().includes(q) ||
+      (item.tipeKelas || '').toLowerCase().includes(q) ||
+      (item.tingkatBIPA || '').toLowerCase().includes(q) ||
+      (item.published ? 'terbit' : 'draft').includes(q) ||
+      item._count.submissions.toString().includes(q)
+    );
+    const groups: Record<string, TugasWithSubmissions[]> = {};
+    filtered.forEach((item) => {
+      const key = `${item.tipeKelas}-${item.tingkatBIPA}`;
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(item);
+    });
+    return groups;
+  }, [tugasList, searchQuery]);
+
+  // Helper to format group key
+  const formatGroupKey = (key: string) => {
+    const [tipeKelas, tingkatBIPA] = key.split('-');
+    return `${tipeKelas} · ${tingkatBIPA.replace('_', ' ')}`;
+  };
+
   const columns: Column<any>[] = [
     { key: 'judul', header: 'Judul' },
-    { key: 'kelas', header: 'Kelas' },
-    {
-      key: 'isPremium',
-      header: 'Premium',
-      render: (value: any) => (
-        <span className={value ? 'text-yellow-600' : 'text-gray-500'}>
-          {value ? 'Ya' : 'Tidak'}
-        </span>
-      ),
-    },
     {
       key: '_count',
       header: 'Submissions',
@@ -77,5 +100,31 @@ export default function TugasTableClient({ tugasList }: TugasTableClientProps) {
     },
   ];
 
-  return <DataTable columns={columns} data={tugasList as any} />;
+  return (
+    <div className="space-y-8">
+      <div className="max-w-md">
+        <input
+          type="text"
+          placeholder={t('admin.tugasTable.searchPlaceholder')}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+        />
+      </div>
+      {Object.keys(groupedTugas).length === 0 ? (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center">
+          <p className="text-gray-500">{t('admin.tugasTable.empty')}</p>
+        </div>
+      ) : (
+        Object.keys(groupedTugas).sort().map((groupKey) => (
+          <div key={groupKey} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-800">{formatGroupKey(groupKey)}</h3>
+            </div>
+            <DataTable columns={columns} data={groupedTugas[groupKey] as any} />
+          </div>
+        ))
+      )}
+    </div>
+  );
 }

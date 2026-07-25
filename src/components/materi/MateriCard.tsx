@@ -1,9 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle2, Lock } from 'lucide-react';
-import { PremiumLockModal } from '@/components/shared/PremiumLockModal';
+import { CheckCircle2 } from 'lucide-react';
 
 interface MateriCardProps {
   id: string;
@@ -11,56 +9,23 @@ interface MateriCardProps {
   slug: string;
   tipe: 'TEKS' | 'VIDEO';
   kelas: string;
-  isPremium: boolean;
-  userCanAccess: boolean;
+  tingkatSlug: string;
   isCompleted: boolean;
+  tipeKelas: string;
 }
 
-export default function MateriCard({ id, judul, slug, tipe, kelas, isPremium, userCanAccess, isCompleted }: MateriCardProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleClick = () => {
-    if (isPremium && !userCanAccess) {
-      setIsModalOpen(true);
-    }
-  };
-
-  if (isPremium && !userCanAccess) {
-    return (
-      <>
-        <div
-          onClick={handleClick}
-          className="bg-white p-6 rounded-2xl border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer relative"
-        >
-          <div className="flex items-start justify-between mb-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
-              {tipe === 'TEKS' ? 'PDF' : 'Video'}
-            </span>
-            <div className="flex items-center gap-2">
-              <Lock size={16} className="text-brand-orange" />
-              <span className="bg-brand-orange-light text-brand-orange px-3 py-1 rounded-full text-xs font-bold tracking-wide">
-                Premium
-              </span>
-            </div>
-          </div>
-          <h3 className="font-bold text-brand-blue-dark mb-2 text-base leading-snug">{judul}</h3>
-        </div>
-        <PremiumLockModal open={isModalOpen} onOpenChange={setIsModalOpen} />
-      </>
-    );
-  }
-
+export default function MateriCard({ id, judul, slug, tipe, kelas, tingkatSlug, isCompleted, tipeKelas }: MateriCardProps) {
   return (
-    <Link href={`/dashboard/kelas/${kelas.toLowerCase()}/${tipe.toLowerCase()}/${slug}`} className="block">
+    <Link href={`/dashboard/kelas/${tingkatSlug}/${tipe.toLowerCase()}/${slug}`} className="block">
       <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer relative">
         <div className="flex items-start justify-between mb-4">
           <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
             {tipe === 'TEKS' ? 'PDF' : 'Video'}
           </span>
           <div className="flex items-center gap-2">
-            {isPremium && (
-              <span className="bg-brand-orange-light text-brand-orange px-3 py-1 rounded-full text-xs font-bold tracking-wide">
-                Premium
+            {tipeKelas === 'PRIVAT' && (
+              <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-bold tracking-wide">
+                Eksklusif
               </span>
             )}
             {isCompleted && (

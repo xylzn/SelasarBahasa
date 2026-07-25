@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 const contactFormSchema = z.object({
   nama: z.string().min(1, 'Nama harus diisi'),
@@ -15,6 +16,7 @@ const contactFormSchema = z.object({
 type FormValues = z.infer<typeof contactFormSchema>;
 
 export default function ContactForm() {
+  const { t } = useLocale();
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const {
     register,
@@ -65,12 +67,12 @@ export default function ContactForm() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Nama</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('publicPages.contactForm.nama')}</label>
           <input
             {...register('nama')}
             type="text"
             className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none transition text-sm"
-            placeholder="Masukkan nama Anda"
+            placeholder={t('publicPages.contactForm.namaPlaceholder')}
           />
           {errors.nama && (
             <p className="text-xs text-red-600 mt-1">{errors.nama.message}</p>
@@ -78,12 +80,12 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('common.email')}</label>
           <input
             {...register('email')}
             type="email"
             className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none transition text-sm"
-            placeholder="Masukkan email Anda"
+            placeholder={t('publicPages.contactForm.emailPlaceholder')}
           />
           {errors.email && (
             <p className="text-xs text-red-600 mt-1">{errors.email.message}</p>
@@ -91,12 +93,12 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Pesan</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('publicPages.contactForm.pesan')}</label>
           <textarea
             {...register('pesan')}
             rows={5}
             className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none transition text-sm resize-none"
-            placeholder="Tulis pesan Anda..."
+            placeholder={t('publicPages.contactForm.pesanPlaceholder')}
           />
           {errors.pesan && (
             <p className="text-xs text-red-600 mt-1">{errors.pesan.message}</p>

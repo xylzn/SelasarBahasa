@@ -48,6 +48,9 @@ export default function SafeImage({
   ...rest
 }: SafeImageProps) {
   const srcStr = typeof src === 'string' ? src : '';
+  
+  // Check if it's a remote URL (to disable optimization)
+  const isRemote = srcStr.startsWith('http://') || srcStr.startsWith('https://');
 
   if (!srcStr || !isAllowedHostname(srcStr)) {
     return (
@@ -59,5 +62,5 @@ export default function SafeImage({
     );
   }
 
-  return <Image src={src} alt={alt} className={className} {...rest} />;
+  return <Image src={src} alt={alt} className={className} unoptimized={isRemote} {...rest} />;
 }

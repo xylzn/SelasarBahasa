@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAuth } from '@/lib/api-auth';
-import { hasActivePremiumAccess } from '@/lib/access';
+import { canReadContent } from '@/lib/access';
 
 export async function GET(request: Request) {
   const authResult = await requireAuth();
   if ('error' in authResult) {
     return NextResponse.json({ error: authResult.error }, { status: authResult.status });
   }
-  const session = authResult.session;
+  const userId = authResult.session.user.id as string;
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q') || '';
 
@@ -16,64 +16,35 @@ export async function GET(request: Request) {
     return NextResponse.json({ materi: [], tugas: [], quiz: [] });
   }
 
-  const userCanAccessPremium = hasActivePremiumAccess({
-    role: session?.user?.role || 'USER',
-    premiumExpiresAt: session?.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
-  });
+  const hasAccess = authResult.session.user.role === 'ADMIN'
+    ? true
+    : await canReadContent(userId);
 
-  // Search materi
-  const materi = await prisma.materi.findMany({
-    where: {
-      published: true,
-      judul: { contains: query, mode: 'insensitive' },
-      ...(!userCanAccessPremium && { isPremium: false }),
-    },
-    select: {
-      id: true,
-      judul: true,
-      slug: true,
-      kelas: true,
-      isPremium: true,
-      tipe: true,
-    },
-    take: 10,
-    orderBy: { urutan: 'asc' },
-  });
+  // Only show content if user has active enrollment (or is admin)
+  if (!hasAccess) {
+    return NextResponse.json({ materi: [], tugas: [], quiz: [] });
+  }
 
-  // Search tugas
-  const tugas = await prisma.tugas.findMany({
-    where: {
-      published: true,
-      judul: { contains: query, mode: 'insensitive' },
-      ...(!userCanAccessPremium && { isPremium: false }),
-    },
-    select: {
-      id: true,
-      judul: true,
-      slug: true,
-      kelas: true,
-      isPremium: true,
-    },
-    take: 10,
-    orderBy: { urutan: 'asc' },
-  });
-
-  // Search quiz
-  const quiz = await prisma.quiz.findMany({
-    where: {
-      published: true,
-      judul: { contains: query, mode: 'insensitive' },
-      ...(!userCanAccessPremium && { isPremium: false }),
-    },
-    select: {
-      id: true,
-      judul: true,
-      kelas: true,
-      isPremium: true,
-    },
-    take: 10,
-    orderBy: { createdAt: 'desc' },
-  });
+  const [materi, tugas, quiz] = await Promise.all([
+    prisma.materi.findMany({
+      where: { published: true, judul: { contains: query, mode: 'insensitive' } },
+      select: { id: true, judul: true, slug: true, tipe: true, tipeKelas: true, tingkatBIPA: true },
+      take: 10,
+      orderBy: { urutan: 'asc' },
+    }),
+    prisma.tugas.findMany({
+      where: { published: true, judul: { contains: query, mode: 'insensitive' } },
+      select: { id: true, judul: true, slug: true, tipeKelas: true, tingkatBIPA: true },
+      take: 10,
+      orderBy: { urutan: 'asc' },
+    }),
+    prisma.quiz.findMany({
+      where: { published: true, judul: { contains: query, mode: 'insensitive' } },
+      select: { id: true, judul: true, tipeKelas: true, tingkatBIPA: true },
+      take: 10,
+      orderBy: { createdAt: 'desc' },
+    }),
+  ]);
 
   return NextResponse.json({ materi, tugas, quiz });
 }

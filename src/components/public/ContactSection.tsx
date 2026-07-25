@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { Phone, Clock, Mail } from 'lucide-react';
 import ContactForm from './ContactForm';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ⚠️  PLACEHOLDER DATA — ganti dengan data asli sebelum production
@@ -33,6 +34,7 @@ const CONTACT_INFO = [
 ];
 
 export default function ContactSection() {
+  const { t } = useLocale();
   return (
     <section className="py-20 bg-gray-50" id="contact">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -45,11 +47,11 @@ export default function ContactSection() {
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
               Ada Pertanyaan?{' '}
-              <span className="text-brand-blue">Hubungi Kami</span>
+              <span className="text-brand-blue">{t('publicPages.contactSection.title')}</span>
             </h2>
           </div>
           <p className="text-gray-500 md:text-right max-w-xs text-sm leading-relaxed">
-            Kami siap membantu — tinggal isi form dan kami akan balas segera.
+            Kami siap membantu. Tinggal isi form dan kami akan balas segera.
           </p>
         </div>
 
@@ -64,7 +66,7 @@ export default function ContactSection() {
 
             {/* Form — kiri (desktop) / bawah (mobile) */}
             <div className="flex-1 p-8 md:p-12">
-              <h3 className="text-xl font-bold text-gray-900 mb-1">Kirim Pesan</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-1">{t('publicPages.contactSection.sendMessage')}</h3>
               <p className="text-sm text-gray-400 mb-7">
                 Semua bidang wajib diisi. Kami akan membalas dalam 1×24 jam kerja.
               </p>
@@ -90,7 +92,7 @@ export default function ContactSection() {
                 */}
                 <Image
                   src="/images/contact-illustration.svg"
-                  alt="Ilustrasi kontak SelasarBahasa"
+                  alt={t('publicPages.contactSection.illustrationAlt')}
                   width={420}
                   height={360}
                   className="w-full h-auto drop-shadow-sm"
@@ -100,7 +102,7 @@ export default function ContactSection() {
                 {/* Floating badge */}
                 <div className="absolute -bottom-3 -right-3 bg-brand-blue text-white text-xs font-semibold rounded-2xl px-4 py-2.5 shadow-lg shadow-brand-blue/20 flex items-center gap-2">
                   <span className="text-base">🎓</span>
-                  <span>Belajar Bareng Kami</span>
+                  <span>{t('publicPages.contactSection.learnWithUs')}</span>
                 </div>
               </div>
             </div>

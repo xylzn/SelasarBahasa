@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSession, signOut } from 'next-auth/react';
-import { Menu, X, User, LogOut, LayoutDashboard, Shield, Home, FileText } from 'lucide-react';
+import { Menu, X, User, LogOut, LayoutDashboard, Shield, Home, FileText, Camera, GraduationCap } from 'lucide-react';
 import { useLocale } from '@/components/providers/LocaleProvider';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 import { usePathname } from 'next/navigation';
@@ -40,8 +41,15 @@ export default function Navbar() {
           <div className="flex justify-between h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <Link href="/" className="text-2xl font-bold text-brand-blue hover:scale-105 transition-transform duration-200">
-                Selasar Bahasa
+              <Link href="/" className="hover:scale-105 transition-transform duration-200 flex items-center">
+                <Image
+                  src="/images/brand/logo-selasar-bahasa.png"
+                  alt={t('common.brandName')}
+                  width={94}
+                  height={36}
+                  className="h-9 w-auto"
+                  priority
+                />
               </Link>
             </div>
 
@@ -52,6 +60,12 @@ export default function Navbar() {
               </Link>
               <Link href="/artikel" className="text-gray-700 hover:text-brand-blue font-medium transition-colors">
                 {t('navbar.articles')}
+              </Link>
+              <Link href="/kelas" className="text-gray-700 hover:text-brand-blue font-medium transition-colors">
+                {t('navbar.classes')}
+              </Link>
+              <Link href="/aktivitas-kita" className="text-gray-700 hover:text-brand-blue font-medium transition-colors">
+                {t('navbar.activities')}
               </Link>
               <LanguageSwitcher />
               {session?.user ? (
@@ -107,7 +121,7 @@ export default function Navbar() {
               <button
                 onClick={() => setIsOpen(true)}
                 className="text-gray-700 hover:text-brand-blue p-1 rounded-lg hover:bg-gray-100/55 transition-colors"
-                aria-label="Buka menu"
+                aria-label={t('publicPages.navbar.openMenu')}
               >
                 <Menu size={24} />
               </button>
@@ -133,13 +147,19 @@ export default function Navbar() {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <Link href="/" onClick={() => setIsOpen(false)} className="text-lg font-bold text-brand-blue">
-            Selasar Bahasa
+          <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center">
+            <Image
+              src="/images/brand/logo-selasar-bahasa.png"
+              alt={t('common.brandName')}
+              width={84}
+              height={32}
+              className="h-8 w-auto"
+            />
           </Link>
           <button
             onClick={() => setIsOpen(false)}
             className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
-            aria-label="Tutup menu"
+            aria-label={t('publicPages.navbar.closeMenu')}
           >
             <X size={22} />
           </button>
@@ -185,6 +205,26 @@ export default function Navbar() {
           >
             <FileText size={18} />
             {t('navbar.articles')}
+          </Link>
+          <Link
+            href="/kelas"
+            onClick={() => setIsOpen(false)}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-colors ${
+              pathname.startsWith('/kelas') ? 'bg-brand-blue/10 text-brand-blue' : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            <GraduationCap size={18} />
+            {t('navbar.classes')}
+          </Link>
+          <Link
+            href="/aktivitas-kita"
+            onClick={() => setIsOpen(false)}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-colors ${
+              pathname.startsWith('/aktivitas-kita') ? 'bg-brand-blue/10 text-brand-blue' : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            <Camera size={18} />
+            {t('navbar.activities')}
           </Link>
 
           {session?.user ? (

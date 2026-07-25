@@ -3,23 +3,24 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Search, X, FileText, Video, HelpCircle } from 'lucide-react';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 interface SearchResult {
   id: string;
   judul: string;
   slug: string;
   kelas: string;
-  isPremium: boolean;
   tipe?: 'TEKS' | 'VIDEO';
 }
 
 interface SearchResults {
   materi: SearchResult[];
   tugas: SearchResult[];
-  quiz: { id: string; judul: string; kelas: string; isPremium: boolean }[];
+  quiz: { id: string; judul: string; kelas: string }[];
 }
 
 export default function SearchBar() {
+  const { t } = useLocale();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResults | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -78,7 +79,7 @@ export default function SearchBar() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => query.trim() && setIsOpen(true)}
-          placeholder="Cari materi, tugas, atau quiz..."
+          placeholder={t('shared.searchBar.placeholder')}
           className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
         />
         {query && (
@@ -98,14 +99,14 @@ export default function SearchBar() {
       {isOpen && (results || isLoading) && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-96 overflow-y-auto">
           {isLoading && (
-            <div className="p-4 text-center text-gray-500">Mencari...</div>
+            <div className="p-4 text-center text-gray-500">{t('shared.searchBar.searching')}</div>
           )}
           
           {!isLoading && results && (
             <div className="divide-y divide-gray-100">
               {results.materi.length > 0 && (
                 <div className="p-3">
-                  <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">Materi</h4>
+                  <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">{t('shared.searchBar.materi')}</h4>
                   {results.materi.map((item) => (
                     <Link
                       key={item.id}
@@ -125,7 +126,7 @@ export default function SearchBar() {
 
               {results.tugas.length > 0 && (
                 <div className="p-3">
-                  <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">Tugas</h4>
+                  <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">{t('shared.searchBar.tugas')}</h4>
                   {results.tugas.map((item) => (
                     <Link
                       key={item.id}
@@ -145,7 +146,7 @@ export default function SearchBar() {
 
               {results.quiz.length > 0 && (
                 <div className="p-3">
-                  <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">Quiz</h4>
+                  <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">{t('shared.searchBar.quiz')}</h4>
                   {results.quiz.map((item) => (
                     <Link
                       key={item.id}
@@ -164,7 +165,7 @@ export default function SearchBar() {
               )}
 
               {results.materi.length === 0 && results.tugas.length === 0 && results.quiz.length === 0 && (
-                <div className="p-4 text-center text-gray-500">Tidak ada hasil ditemukan</div>
+                <div className="p-4 text-center text-gray-500">{t('shared.searchBar.noResults')}</div>
               )}
             </div>
           )}

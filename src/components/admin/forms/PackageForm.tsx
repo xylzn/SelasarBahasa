@@ -6,6 +6,7 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/components/ui/Toast';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 const packageSchema = z.object({
   nama: z.string().min(1, 'Nama harus diisi'),
@@ -30,6 +31,7 @@ interface PackageFormProps {
 
 export default function PackageForm({ packageId, initialData }: PackageFormProps) {
   const router = useRouter();
+  const { t } = useLocale();
   const [isLoading, setIsLoading] = useState(false);
   const { showToast } = useToast();
 
@@ -150,7 +152,7 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
       {/* Error Summary */}
       {Object.keys(errors).length > 0 && (
         <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-          <h4 className="font-medium text-red-800 mb-2">Ada kesalahan:</h4>
+          <h4 className="font-medium text-red-800 mb-2">{t('admin.forms.package.validationError')}</h4>
           <ul className="text-sm text-red-600 list-disc list-inside">
             {Object.entries(errors).map(([key, value]) => (
               <li key={key}>{(value as any)?.message || `Kesalahan di ${key}`}</li>
@@ -161,12 +163,12 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Nama Paket</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.package.namaPaket')}</label>
           <input
             type="text"
             {...register('nama')}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            placeholder="Nama paket"
+            placeholder={t('admin.forms.package.namaPaketPlaceholder')}
           />
           {errors.nama && (
             <p className="text-sm text-red-600 mt-1">{(errors.nama as any)?.message}</p>
@@ -174,11 +176,11 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('common.description')}</label>
           <textarea
             {...register('deskripsi')}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none min-h-24"
-            placeholder="Deskripsi paket"
+            placeholder={t('admin.forms.package.deskripsiPlaceholder')}
           ></textarea>
           {errors.deskripsi && (
             <p className="text-sm text-red-600 mt-1">{(errors.deskripsi as any)?.message}</p>
@@ -187,7 +189,7 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Harga</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.package.harga')}</label>
             <input
               type="number"
               {...register('harga', { valueAsNumber: true })}
@@ -202,7 +204,7 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
             )}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Durasi (Bulan)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.package.durasiBulan')}</label>
             <input
               type="number"
               {...register('durasiBulan', { valueAsNumber: true })}
@@ -217,7 +219,7 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
 
         <div>
           <div className="flex items-center justify-between mb-2">
-            <label className="block text-sm font-medium text-gray-700">Fitur</label>
+            <label className="block text-sm font-medium text-gray-700">{t('admin.forms.package.fitur')}</label>
             <button
               type="button"
               onClick={() => append('')}
@@ -278,7 +280,7 @@ export default function PackageForm({ packageId, initialData }: PackageFormProps
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Urutan</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.materi.urutan')}</label>
           <input
             type="number"
             {...register('urutan', { valueAsNumber: true })}

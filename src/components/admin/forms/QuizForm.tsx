@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useLocale } from '@/components/providers/LocaleProvider';
 
 const quizOptionSchema = z.object({
   id: z.string().optional(),
@@ -22,7 +23,8 @@ const quizQuestionSchema = z.object({
 const quizSchema = z.object({
   judul: z.string().min(1, 'Judul harus diisi'),
   deskripsi: z.string().min(1, 'Deskripsi harus diisi'),
-  isPremium: z.boolean().default(false),
+  tipeKelas: z.enum(['REGULER', 'PRIVAT', 'ANAK_REMAJA']).default('REGULER'),
+  tingkatBIPA: z.enum(['BIPA_1', 'BIPA_2', 'BIPA_3', 'BIPA_4', 'BIPA_5', 'BIPA_6']).default('BIPA_1'),
   published: z.boolean().default(true),
   questions: z.array(quizQuestionSchema).min(1, 'Quiz harus memiliki setidaknya 1 pertanyaan'),
 });
@@ -36,6 +38,7 @@ interface QuizFormProps {
 
 export default function QuizForm({ quizId, initialData }: QuizFormProps) {
   const router = useRouter();
+  const { t } = useLocale();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -50,7 +53,8 @@ export default function QuizForm({ quizId, initialData }: QuizFormProps) {
     defaultValues: {
       judul: initialData?.judul || '',
       deskripsi: initialData?.deskripsi || '',
-      isPremium: initialData?.isPremium || false,
+      tipeKelas: initialData?.tipeKelas || 'REGULER',
+      tingkatBIPA: initialData?.tingkatBIPA || 'BIPA_1',
       published: initialData?.published || true,
       questions: initialData?.questions || [
         {
@@ -127,12 +131,12 @@ export default function QuizForm({ quizId, initialData }: QuizFormProps) {
       <h2 className="text-xl font-bold text-gray-900 mb-6">{quizId ? 'Edit Quiz' : 'Tambah Quiz Baru'}</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Judul</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.artikel.judul')}</label>
           <input
             type="text"
             {...register('judul')}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            placeholder="Masukkan judul quiz"
+            placeholder={t('admin.forms.quiz.judulPlaceholder')}
           />
           {errors.judul && (
             <p className="text-sm text-red-600 mt-1">{(errors.judul as any).message}</p>
@@ -140,45 +144,60 @@ export default function QuizForm({ quizId, initialData }: QuizFormProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('common.description')}</label>
           <textarea
             {...register('deskripsi')}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none min-h-20"
-            placeholder="Deskripsi quiz"
+            placeholder={t('admin.forms.quiz.deskripsiPlaceholder')}
           ></textarea>
           {errors.deskripsi && (
             <p className="text-sm text-red-600 mt-1">{(errors.deskripsi as any).message}</p>
           )}
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="quiz-premium"
-              {...register('isPremium')}
-              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />
-            <label htmlFor="quiz-premium" className="text-sm font-medium text-gray-700">
-              Quiz Premium
-            </label>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('adminShared.tipeKelas')}</label>
+            <select
+              {...register('tipeKelas')}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            >
+              <option value="REGULER">{t('adminShared.reguler')}</option>
+              <option value="PRIVAT">{t('adminShared.privat')}</option>
+              <option value="ANAK_REMAJA">{t('adminShared.anakRemaja')}</option>
+            </select>
           </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="quiz-published"
-              {...register('published')}
-              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />
-            <label htmlFor="quiz-published" className="text-sm font-medium text-gray-700">
-              Terbitkan
-            </label>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('adminShared.tingkatBipa')}</label>
+            <select
+              {...register('tingkatBIPA')}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            >
+              <option value="BIPA_1">{t('adminShared.bipa1')}</option>
+              <option value="BIPA_2">{t('adminShared.bipa2')}</option>
+              <option value="BIPA_3">{t('adminShared.bipa3')}</option>
+              <option value="BIPA_4">{t('adminShared.bipa4')}</option>
+              <option value="BIPA_5">{t('adminShared.bipa5')}</option>
+              <option value="BIPA_6">{t('adminShared.bipa6')}</option>
+            </select>
           </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="quiz-published"
+            {...register('published')}
+            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          />
+          <label htmlFor="quiz-published" className="text-sm font-medium text-gray-700">
+            Terbitkan
+          </label>
         </div>
 
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-gray-900">Pertanyaan</h3>
+            <h3 className="text-lg font-semibold text-gray-900">{t('admin.forms.quiz.pertanyaan')}</h3>
             <button
               type="button"
               onClick={() =>
@@ -204,7 +223,7 @@ export default function QuizForm({ quizId, initialData }: QuizFormProps) {
             return (
               <div key={field.id} className="border border-gray-200 rounded-xl p-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <h4 className="font-medium text-gray-900">Pertanyaan {qIndex + 1}</h4>
+                  <h4 className="font-medium text-gray-900">{t('admin.forms.quiz.pertanyaan')} {qIndex + 1}</h4>
                   {questionFields.length > 1 && (
                     <button
                       type="button"
@@ -217,17 +236,17 @@ export default function QuizForm({ quizId, initialData }: QuizFormProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Teks Pertanyaan</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t('admin.forms.quiz.teksPertanyaan')}</label>
                   <textarea
                     {...register(`questions.${qIndex}.pertanyaan`)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                    placeholder="Masukkan pertanyaan"
+                    placeholder={t('admin.forms.quiz.pertanyaanPlaceholder')}
                   ></textarea>
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <label className="block text-sm font-medium text-gray-700">Opsi Jawaban</label>
+                    <label className="block text-sm font-medium text-gray-700">{t('admin.forms.quiz.opsiJawaban')}</label>
                     {options.length < 6 && (
                       <button
                         type="button"

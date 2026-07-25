@@ -4,7 +4,7 @@ import { requireAuth } from '@/lib/api-auth';
 import { getCached, invalidateCache, invalidateCachePattern } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
 import { z } from 'zod';
-import { hasActivePremiumAccess } from '@/lib/access';
+import { canAccessContent } from '@/lib/access';
 
 // GET /api/materi/slug/[slug]
 export async function GET(
@@ -30,15 +30,13 @@ export async function GET(
     return NextResponse.json({ error: 'Materi tidak ditemukan' }, { status: 404 });
   }
 
-  const userCanAccessPremium = hasActivePremiumAccess({
-    role: session.user?.role || 'USER',
-    premiumExpiresAt: session.user?.premiumExpiresAt ? new Date(session.user.premiumExpiresAt) : null,
-  });
-  if (materi.isPremium && !userCanAccessPremium) {
-    return NextResponse.json(
-      { error: 'Materi ini membutuhkan akses premium' },
-      { status: 403 }
-    );
+  const userId = session.user?.id as string;
+  const allowed = session.user?.role === 'ADMIN'
+    ? true
+    : await canAccessContent(userId, { tipeKelas: materi.tipeKelas ?? null, tingkatBIPA: materi.tingkatBIPA ?? null });
+
+  if (!allowed) {
+    return NextResponse.json({ error: 'Kamu tidak memiliki akses ke materi ini.' }, { status: 403 });
   }
 
   return NextResponse.json(materi);
