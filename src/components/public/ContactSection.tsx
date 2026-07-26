@@ -43,15 +43,15 @@ export default function ContactSection() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 gap-2">
           <div>
             <span className="inline-block bg-brand-blue-light text-brand-blue text-xs font-semibold uppercase tracking-widest rounded-full px-4 py-1.5 mb-3">
-              Kontak
+              {t('publicPages.contactSection.eyebrow')}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-              Ada Pertanyaan?{' '}
+              {t('publicPages.contactSection.headingPrefix')}{' '}
               <span className="text-brand-blue">{t('publicPages.contactSection.title')}</span>
             </h2>
           </div>
           <p className="text-gray-500 md:text-right max-w-xs text-sm leading-relaxed">
-            Kami siap membantu. Tinggal isi form dan kami akan balas segera.
+            {t('publicPages.contactSection.subtitle')}
           </p>
         </div>
 
@@ -68,7 +68,7 @@ export default function ContactSection() {
             <div className="flex-1 p-8 md:p-12">
               <h3 className="text-xl font-bold text-gray-900 mb-1">{t('publicPages.contactSection.sendMessage')}</h3>
               <p className="text-sm text-gray-400 mb-7">
-                Semua bidang wajib diisi. Kami akan membalas dalam 1×24 jam kerja.
+                {t('publicPages.contactSection.formDesc')}
               </p>
               <ContactForm />
             </div>

@@ -1,5 +1,10 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { AlertCircle, CheckCircle2, ChevronRight, ChevronLeft } from 'lucide-react';
+import ProfileEditableFields from '@/components/shared/ProfileEditableFields';
+import ClassInfoPanel from '@/components/dashboard/registration/ClassInfoPanel';
 import { useLocale } from '@/components/providers/LocaleProvider';
 
 interface KelasOption { id: string; tingkat: string; nama: string; _count: { enrollments: number }; minKuota: number }

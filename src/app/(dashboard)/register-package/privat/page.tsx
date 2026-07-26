@@ -1,5 +1,10 @@
 'use client';
 
+import { useState, useEffect, useMemo } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { AlertCircle, CheckCircle2, ChevronRight, ChevronLeft } from 'lucide-react';
+import ProfileEditableFields from '@/components/shared/ProfileEditableFields';
+import ClassInfoPanel from '@/components/dashboard/registration/ClassInfoPanel';
 import { useLocale } from '@/components/providers/LocaleProvider';
 
 interface Profile { nama: string; email: string; noWhatsapp: string | null }
@@ -139,8 +144,8 @@ export default function RegisterPrivatPage() {
     if (preferredClass && !preferredDayGroup) errs.dayGroup = t('registerPackage.common.validDayGroup');
     if (selectedDays.length === 0) errs.days = t('registerPackage.common.validDays');
     if (!preferredHour) errs.preferredHour = t('registerPackage.common.validSchedule');
-    if (numLearners < 1 || numLearners > 4) errs.numLearners = 'Must be between 1 and 4.';
-    if (totalHours < 10) errs.totalHours = 'Minimum 10 hours.';
+    if (numLearners < 1 || numLearners > 4) errs.numLearners = t('registerPackage.privat.validNumLearners');
+    if (totalHours < 10) errs.totalHours = t('registerPackage.privat.validTotalHours');
     if (!courseStartDate) errs.courseStartDate = t('registerPackage.common.registrationError');
     setStep2Errors(errs);
     return Object.keys(errs).length === 0;
@@ -354,12 +359,12 @@ export default function RegisterPrivatPage() {
                 <div className="bg-brand-blue-light border border-brand-blue/20 rounded-xl p-4 text-sm">
                   <p className="font-bold text-brand-blue-dark mb-2 text-xs uppercase tracking-widest">{t('registerPackage.privat.estimatedCost')}</p>
                   <p className="text-gray-700">
-                    {costCalc.n} {costCalc.n === 1 ? 'person' : 'people'} × {costCalc.h} hours × {fmt(costCalc.hourlyRate)}/hour
-                    {costCalc.isWeekend ? ' (weekend rate)' : ' (weekday rate)'}
+                    {costCalc.n} {costCalc.n === 1 ? t('registerPackage.privat.costPerson') : t('registerPackage.privat.costPeople')} × {costCalc.h} {t('registerPackage.privat.costHours')} × {fmt(costCalc.hourlyRate)}/{t('registerPackage.privat.costPerHour')}
+                    {costCalc.isWeekend ? ` ${t('registerPackage.privat.costWeekendRate')}` : ` ${t('registerPackage.privat.costWeekdayRate')}`}
                   </p>
-                  <p className="text-gray-600 text-xs mt-1">= {fmt(costCalc.tuition)} + {fmt(costCalc.reg)} registration fee</p>
+                  <p className="text-gray-600 text-xs mt-1">= {fmt(costCalc.tuition)} {t('registerPackage.privat.costRegistrationFee')} {fmt(costCalc.reg)}</p>
                   <p className="text-lg font-extrabold text-brand-blue-dark mt-1.5">
-                    Total: {fmt(costCalc.total)}
+                    {t('registerPackage.privat.costTotal')}: {fmt(costCalc.total)}
                   </p>
                 </div>
               )}

@@ -23,7 +23,7 @@ export default function KelasCardClient({ nama, deskripsi, icon, badge, badgeSty
         </div>
         <h2 className="text-xl font-bold text-gray-900 mb-2">{nama}</h2>
         <p className="text-gray-600 mb-4">{deskripsi}</p>
-        <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${badgeStyle ?? 'bg-brand-blue-light text-brand-blue-dark'}`}>
+        <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${badgeStyle ?? 'bg-green-50 text-green-800'}`}>
           {badge}
         </div>
       </div>
@@ -36,7 +36,7 @@ export default function KelasCardClient({ nama, deskripsi, icon, badge, badgeSty
         <div className="text-4xl mb-4">{icon}</div>
         <h2 className="text-xl font-bold text-gray-900 mb-2">{nama}</h2>
         <p className="text-gray-600 mb-4">{deskripsi}</p>
-        <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${badgeStyle ?? 'bg-brand-blue-light text-brand-blue-dark'}`}>
+        <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${badgeStyle ?? 'bg-green-50 text-green-800'}`}>
           {badge}
         </div>
       </div>

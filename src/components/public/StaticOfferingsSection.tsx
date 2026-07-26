@@ -42,17 +42,17 @@ export default function StaticOfferingsSection() {
             <div
               key={offer.key}
               className={`bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between ${
-                offer.isPopuler ? 'border-brand-blue ring-4 ring-brand-blue-light/50' : 'border-gray-100'
+                offer.isPopuler ? 'border-green-600 ring-4 ring-green-100/70' : 'border-gray-100'
               }`}
             >
               {offer.isPopuler && (
-                <div className="bg-brand-blue text-white text-center py-2.5 text-xs font-bold uppercase tracking-wider">
+                <div className="bg-green-600 text-white text-center py-2.5 text-xs font-bold uppercase tracking-wider">
                   {t(`${P}.popular`)}
                 </div>
               )}
               <div className="p-8 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-2xl font-bold text-brand-blue-dark mb-2">
+                  <h3 className="text-2xl font-bold text-green-800 mb-2">
                     {t(`${P}.${offer.key}.title`)}
                   </h3>
                   <p className="text-gray-600 mb-6 text-sm leading-relaxed">
@@ -72,7 +72,7 @@ export default function StaticOfferingsSection() {
                   className={`block w-full text-center py-3.5 rounded-xl font-bold transition-all text-sm ${
                     offer.isPopuler
                       ? 'bg-brand-orange text-white hover:bg-brand-orange/95 btn-orange-animate'
-                      : 'bg-brand-blue-light text-brand-blue hover:bg-brand-blue-light/80 btn-animate'
+                      : 'bg-green-50 text-green-700 hover:bg-green-100 btn-animate'
                   }`}
                 >
                   {t(`${P}.cta`)}

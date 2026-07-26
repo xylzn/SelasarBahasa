@@ -220,6 +220,8 @@
         "refundPolicy": "Kebijakan Refund",
         "pricingPerHour": "Harga (per jam)",
         "ageCategories": "Kategori Usia",
+        "perHour": "jam",
+        "perPerson": "orang",
         "reg_levels": "6 level (Pre-Beginner hingga Advanced)",
         "reg_hoursPerLevel": "40 jam per level",
         "reg_schedule": "Jadwal: Senin–Jumat, 09.30–11.30 atau 12.30–14.30 WIB",
@@ -621,7 +623,18 @@
       "preferredStartDate": "Tanggal Mulai Kursus yang Diinginkan",
       "estimatedCost": "Estimasi Biaya",
       "yourDetails": "Data Diri",
-      "hourExample": "contoh: 14.00 - 15.00"
+      "hourExample": "contoh: 14.00 - 15.00",
+      "validNumLearners": "Jumlah pemelajar harus antara 1 dan 4.",
+      "validTotalHours": "Total jam minimal 10 jam.",
+      "costPerson": "orang",
+      "costPeople": "orang",
+      "costHours": "jam",
+      "costPerHour": "per jam",
+      "costWeekdayRate": "(tarif hari kerja)",
+      "costWeekendRate": "(tarif akhir pekan)",
+      "costTuition": "Biaya kursus",
+      "costRegistrationFee": "+ Biaya pendaftaran",
+      "costTotal": "Total"
     },
     "reguler": {
       "submittedDesc": "Pendaftaran Anda sedang ditinjau. Silakan lakukan pembayaran dan konfirmasi melalui WhatsApp. Mengalihkan ke dashboard...",
@@ -734,7 +747,11 @@
       "title": "Hubungi Kami",
       "sendMessage": "Kirim Pesan",
       "learnWithUs": "Belajar Bareng Kami",
-      "illustrationAlt": "Ilustrasi kontak SelasarBahasa"
+      "illustrationAlt": "Ilustrasi kontak SelasarBahasa",
+      "eyebrow": "Kontak",
+      "headingPrefix": "Ada Pertanyaan?",
+      "subtitle": "Kami siap membantu. Tinggal isi form dan kami akan balas segera.",
+      "formDesc": "Semua bidang wajib diisi. Kami akan membalas dalam 1×24 jam kerja."
     },
     "footer": {
       "emailContact": "Email: info@selasarbahasa.com",

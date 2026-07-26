@@ -220,6 +220,8 @@
         "refundPolicy": "Refund Policy",
         "pricingPerHour": "Pricing (per hour)",
         "ageCategories": "Age Categories",
+        "perHour": "hour",
+        "perPerson": "person",
         "reg_levels": "6 levels (Pre-Beginner to Advanced)",
         "reg_hoursPerLevel": "40 hours per level",
         "reg_schedule": "Schedule: Mon–Fri, 09.30–11.30 or 12.30–14.30 WIB",
@@ -621,7 +623,18 @@
       "preferredStartDate": "Preferred Course Start Date",
       "estimatedCost": "Estimated Cost",
       "yourDetails": "Your Details",
-      "hourExample": "e.g. 14.00 - 15.00"
+      "hourExample": "e.g. 14.00 - 15.00",
+      "validNumLearners": "Must be between 1 and 4.",
+      "validTotalHours": "Minimum 10 hours.",
+      "costPerson": "person",
+      "costPeople": "people",
+      "costHours": "hours",
+      "costPerHour": "per hour",
+      "costWeekdayRate": "(weekday rate)",
+      "costWeekendRate": "(weekend rate)",
+      "costTuition": "Tuition",
+      "costRegistrationFee": "+ Registration fee",
+      "costTotal": "Total"
     },
     "reguler": {
       "submittedDesc": "Your registration is under review. Please complete the payment and confirm via WhatsApp. Redirecting to dashboard...",
@@ -734,7 +747,11 @@
       "title": "Contact Us",
       "sendMessage": "Send Message",
       "learnWithUs": "Learn With Us",
-      "illustrationAlt": "SelasarBahasa contact illustration"
+      "illustrationAlt": "SelasarBahasa contact illustration",
+      "eyebrow": "Contact",
+      "headingPrefix": "Have Questions?",
+      "subtitle": "We're here to help. Just fill in the form and we'll get back to you shortly.",
+      "formDesc": "All fields are required. We'll reply within 1–24 business hours."
     },
     "footer": {
       "emailContact": "Email: info@selasarbahasa.com",

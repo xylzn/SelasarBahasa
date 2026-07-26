@@ -220,6 +220,8 @@
         "refundPolicy": "Rückerstattungsrichtlinie",
         "pricingPerHour": "Preise (pro Stunde)",
         "ageCategories": "Altersgruppen",
+        "perHour": "Stunde",
+        "perPerson": "Person",
         "reg_levels": "6 Stufen (Pre-Beginner bis Fortgeschrittene)",
         "reg_hoursPerLevel": "40 Stunden pro Stufe",
         "reg_schedule": "Zeitplan: Mo–Fr, 09.30–11.30 oder 12.30–14.30 WIB",
@@ -621,7 +623,18 @@
       "preferredStartDate": "Bevorzugtes Kursstartdatum",
       "estimatedCost": "Geschätzte Kosten",
       "yourDetails": "Deine Angaben",
-      "hourExample": "z. B. 14.00 - 15.00"
+      "hourExample": "z. B. 14.00 - 15.00",
+      "validNumLearners": "Muss zwischen 1 und 4 sein.",
+      "validTotalHours": "Mindestens 10 Stunden.",
+      "costPerson": "Person",
+      "costPeople": "Personen",
+      "costHours": "Stunden",
+      "costPerHour": "pro Stunde",
+      "costWeekdayRate": "(Wochentagstarif)",
+      "costWeekendRate": "(Wochenendtarif)",
+      "costTuition": "Kursgebühr",
+      "costRegistrationFee": "+ Anmeldegebühr",
+      "costTotal": "Gesamt"
     },
     "reguler": {
       "submittedDesc": "Deine Anmeldung wird geprüft. Bitte schließe die Zahlung ab und bestätige per WhatsApp. Weiterleitung zum Dashboard...",
@@ -734,7 +747,11 @@
       "title": "Kontaktiere uns",
       "sendMessage": "Nachricht senden",
       "learnWithUs": "Lerne mit uns",
-      "illustrationAlt": "SelasarBahasa Kontaktillustration"
+      "illustrationAlt": "SelasarBahasa Kontaktillustration",
+      "eyebrow": "Kontakt",
+      "headingPrefix": "Fragen?",
+      "subtitle": "Wir helfen gerne. Fülle einfach das Formular aus und wir melden uns in Kürze.",
+      "formDesc": "Alle Felder sind Pflichtfelder. Wir antworten innerhalb von 1–24 Werstunden."
     },
     "footer": {
       "emailContact": "E-Mail: info@selasarbahasa.com",

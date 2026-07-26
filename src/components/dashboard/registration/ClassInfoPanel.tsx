@@ -25,14 +25,18 @@ const Item = ({ icon: Icon, text, theme = 'teal' }: { icon: React.ElementType; t
   </div>
 );
 
-const PRIVAT_RATES = [
-  { people: 1, weekday: 'IDR 250,000/hour', weekend: 'IDR 300,000/hour' },
-  { people: 2, weekday: 'IDR 230,000/hour/person', weekend: 'IDR 280,000/hour/person' },
-  { people: 3, weekday: 'IDR 210,000/hour/person', weekend: 'IDR 260,000/hour/person' },
-  { people: 4, weekday: 'IDR 190,000/hour/person', weekend: 'IDR 240,000/hour/person' },
-];
-
 const P = 'dashboard.registration.classInfoPanel';
+
+function fmt(n: number) {
+  return 'IDR ' + n.toLocaleString('id-ID');
+}
+
+const PRIVAT_RATES = [
+  { people: 1, weekday: 250000, weekend: 300000 },
+  { people: 2, weekday: 230000, weekend: 280000 },
+  { people: 3, weekday: 210000, weekend: 260000 },
+  { people: 4, weekday: 190000, weekend: 240000 },
+];
 
 export default function ClassInfoPanel({ tipe, theme = 'teal' }: ClassInfoPanelProps) {
   const { t } = useLocale();
@@ -95,8 +99,16 @@ export default function ClassInfoPanel({ tipe, theme = 'teal' }: ClassInfoPanelP
                   {PRIVAT_RATES.map((r, i) => (
                     <tr key={r.people} className={i % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
                       <td className="px-3 py-2 font-medium text-gray-700">{r.people}</td>
-                      <td className="px-3 py-2 text-gray-600">{r.weekday}</td>
-                      <td className="px-3 py-2 text-gray-600">{r.weekend}</td>
+                      <td className="px-3 py-2 text-gray-600">
+                        {r.people === 1
+                          ? `${fmt(r.weekday)}/${t(`${P}.perHour`)}`
+                          : `${fmt(r.weekday)}/${t(`${P}.perHour`)}/${t(`${P}.perPerson`)}`}
+                      </td>
+                      <td className="px-3 py-2 text-gray-600">
+                        {r.people === 1
+                          ? `${fmt(r.weekend)}/${t(`${P}.perHour`)}`
+                          : `${fmt(r.weekend)}/${t(`${P}.perHour`)}/${t(`${P}.perPerson`)}`}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

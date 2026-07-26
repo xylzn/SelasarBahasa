@@ -75,14 +75,14 @@ export default function Sidebar({ userName, userRole, userEmail, userFotoProfil,
                   onClick={handleLinkClick}
                   className={`relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                     isActive
-                      ? 'bg-brand-blue/10 text-brand-blue font-bold'
+                      ? 'bg-green-50 text-green-700 font-bold'
                       : 'text-gray-600 hover:bg-gray-50'
                   }`}
                 >
                   {isActive && (
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-blue rounded-full" />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-green-600 rounded-full" />
                   )}
-                  <Icon size={20} className={isActive ? 'text-brand-blue' : 'text-gray-400'} />
+                  <Icon size={20} className={isActive ? 'text-green-700' : 'text-gray-400'} />
                   {item.label}
                 </Link>
               </li>

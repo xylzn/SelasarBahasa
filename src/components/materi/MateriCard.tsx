@@ -33,7 +33,7 @@ export default function MateriCard({ id, judul, slug, tipe, kelas, tingkatSlug, 
             )}
           </div>
         </div>
-        <h3 className={`font-bold text-base leading-snug ${isCompleted ? 'text-gray-400 line-through' : 'text-brand-blue-dark'}`}>{judul}</h3>
+        <h3 className={`font-bold text-base leading-snug ${isCompleted ? 'text-gray-400 line-through' : 'text-green-800'}`}>{judul}</h3>
       </div>
     </Link>
   );
