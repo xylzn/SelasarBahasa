@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/api-auth';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
+import { sendContactFormNotificationEmail } from '@/lib/email';
 
 const contactSchema = z.object({
   nama: z.string().min(1),
@@ -30,6 +31,13 @@ export async function POST(request: Request) {
   const message = await prisma.contactMessage.create({
     data: validated,
   });
+
+  // Fire-and-forget email notification to admin
+  sendContactFormNotificationEmail({
+    nama: validated.nama,
+    email: validated.email,
+    pesan: validated.pesan,
+  }).catch((err) => console.error('[Contact Email] Failed to send notification:', err));
 
   return NextResponse.json(message, { status: 201 });
 }

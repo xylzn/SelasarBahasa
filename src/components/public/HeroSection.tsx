@@ -38,7 +38,7 @@ type Slide = {
 };
 
 const AUTO_ADVANCE_MS = 5000;
-const HARDCODED_VIDEO_URL = 'https://www.youtube.com/watch?v=E6588DlZW-c';
+const HARDCODED_VIDEO_URL = 'https://www.youtube.com/watch?v=xZNwe3qp6fA&t=940s';
 
 export default function HeroSection({
   totalUsers,
@@ -152,7 +152,7 @@ export default function HeroSection({
         <div className="flex flex-col md:flex-row md:items-center md:gap-12 lg:gap-16">
           {/* LEFT — Text content */}
           <div className="md:w-[50%] text-center md:text-left mt-8 md:mt-0">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
               {t('hero.title1')}{' '}
               <span className="text-brand-blue font-extrabold">{t('hero.title2')}</span>{' '}
               {t('hero.title3')}{' '}

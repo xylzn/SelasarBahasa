@@ -17,7 +17,7 @@ export default function AboutUsSection() {
           </h2>
         </div>
 
-        <div className="max-w-3xl mx-auto space-y-5 text-gray-600 leading-relaxed text-lg reveal">
+        <div className="max-w-3xl mx-auto space-y-5 text-gray-600 leading-relaxed text-lg reveal text-center">
           <p>{t('aboutUs.paragraph1')}</p>
           <p>{t('aboutUs.paragraph2')}</p>
           <p>{t('aboutUs.paragraph3')}</p>

@@ -6,30 +6,24 @@ import ContactForm from './ContactForm';
 import { useLocale } from '@/components/providers/LocaleProvider';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ⚠️  PLACEHOLDER DATA — ganti dengan data asli sebelum production
-//     Cari string "GANTI" di file ini untuk menemukan semua yang perlu diisi
-// ─────────────────────────────────────────────────────────────────────────────
 const CONTACT_INFO = [
   {
     icon: Phone,
     title: 'Call & WhatsApp',
-    // GANTI DENGAN NOMOR ASLI ↓
-    detail: '+62 8XX-XXXX-XXXX — GANTI DENGAN NOMOR ASLI',
-    isPlaceholder: true,
+    detail: '+62 812-8782-7389',
+    isPlaceholder: false,
   },
   {
     icon: Clock,
     title: 'Jam Operasional',
-    // GANTI DENGAN JAM OPERASIONAL ASLI ↓
-    detail: 'Senin–Jumat, 09.00–17.00 WIB — GANTI DENGAN JAM OPERASIONAL ASLI',
-    isPlaceholder: true,
+    detail: 'Senin - Jumat, 09.00 - 17.00 WIB',
+    isPlaceholder: false,
   },
   {
     icon: Mail,
-    title: 'Tulis ke Kami',
-    // GANTI DENGAN EMAIL ASLI ↓
-    detail: 'hello@example.com — GANTI DENGAN EMAIL ASLI',
-    isPlaceholder: true,
+    title: 'Hubungi Kami',
+    detail: 'admin@selasarbahasa.com',
+    isPlaceholder: false,
   },
 ];
 

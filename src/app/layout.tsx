@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s | Selasar Bahasa",
   },
   description: "Platform belajar bahasa online — materi terstruktur, quiz interaktif, dan progres belajar yang bisa kamu pantau sendiri.",
-  metadataBase: new URL("https://selasar-bahasa.vercel.app"),
+  metadataBase: new URL("https://selasarbahasa.com"),
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: "Selasar Bahasa",
     title: "Selasar Bahasa — Belajar Bahasa Lebih Mudah",
     description: "Platform belajar bahasa online — materi terstruktur, quiz interaktif, dan progres belajar yang bisa kamu pantau sendiri.",
-    url: "https://selasar-bahasa.vercel.app",
+    url: "https://selasarbahasa.com",
     images: [
       {
         url: "/og-image.png",

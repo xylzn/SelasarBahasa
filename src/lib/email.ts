@@ -125,7 +125,7 @@ export async function sendEnrollmentNotificationEmail(data: {
 
   await resend.emails.send({
     from: 'SelasarBahasa <onboarding@resend.dev>',
-    to: 'gowkancompany@gmail.com',
+    to: 'selasarbahasa@gmail.com',
     subject: `Pendaftaran Baru: ${data.tipeKelas} ${data.tingkat} — ${data.nama}`,
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;">
@@ -157,7 +157,7 @@ export const sendRefundNotificationEmail = async (
   try {
     const result = await resend.emails.send({
       from: 'SelasarBahasa <onboarding@resend.dev>',
-      to: process.env.ADMIN_EMAIL ?? 'gowkancompany@gmail.com',
+      to: process.env.ADMIN_EMAIL ?? 'selasarbahasa@gmail.com',
       subject: `⚠️ Pengajuan Refund Baru - ${userName}`,
       html: `
         <h2>Ada Pengajuan Refund Baru!</h2>
@@ -182,3 +182,30 @@ export const sendRefundNotificationEmail = async (
     return { success: false, error: String(err) };
   }
 };
+
+export async function sendContactFormNotificationEmail(data: {
+  nama: string;
+  email: string;
+  pesan: string;
+}) {
+  await resend.emails.send({
+    from: 'SelasarBahasa <onboarding@resend.dev>',
+    to: 'admin@selasarbahasa.com',
+    subject: `Pesan Baru dari Form Kontak - ${data.nama}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;">
+        <h2 style="color:#0F9488;">Pesan Baru dari Form Kontak</h2>
+        <h3 style="margin-bottom:4px;">Detail Pengirim</h3>
+        <table style="width:100%;border-collapse:collapse;">
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Nama</td><td style="padding:4px 12px;font-size:13px;">${data.nama}</td></tr>
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Email</td><td style="padding:4px 12px;font-size:13px;">${data.email}</td></tr>
+        </table>
+        <h3 style="margin-top:16px;margin-bottom:4px;">Isi Pesan</h3>
+        <div style="padding:12px 16px;background:#f6f6f6;border-radius:8px;white-space:pre-wrap;font-size:14px;color:#333;">
+          ${data.pesan}
+        </div>
+        <p style="margin-top:24px;color:#888;font-size:12px;">Dikirim otomatis dari SelasarBahasa — balas ke email pengirim langsung jika perlu ditindaklanjuti.</p>
+      </div>
+    `,
+  });
+}
