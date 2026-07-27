@@ -20,6 +20,16 @@ export const metadata: Metadata = {
     template: "%s | Selasar Bahasa",
   },
   description: "Platform belajar bahasa online — materi terstruktur, quiz interaktif, dan progres belajar yang bisa kamu pantau sendiri.",
+  keywords: [
+    "Selasar Bahasa",
+    "kursus bahasa Indonesia",
+    "BIPA",
+    "Bahasa Indonesia untuk penutur asing",
+    "les bahasa online",
+    "kursus bahasa Inggris",
+    "kursus bahasa Jerman",
+    "belajar bahasa online",
+  ],
   metadataBase: new URL("https://selasarbahasa.com"),
   icons: {
     icon: "/favicon.png",
@@ -96,6 +106,51 @@ export default async function RootLayout({
           <Providers>{children}</Providers>
           <ScrollAnimate />
           <Analytics />
+
+          {/* SEO — JSON-LD schema.org: Organization + WebSite  (Google GSC / Knowledge Graph) */}
+          <script
+            type="application/ld+json"
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify([
+                {
+                  "@context": "https://schema.org",
+                  "@type": "Organization",
+                  name: "Selasar Bahasa",
+                  url: "https://selasarbahasa.com",
+                  logo: {
+                    "@type": "ImageObject",
+                    url: "https://selasarbahasa.com/og-image.png",
+                  },
+                  email: "admin@selasarbahasa.com",
+                  telephone: "+62 812-8782-7389",
+                  sameAs: [],
+                  contactPoint: [
+                    {
+                      "@type": "ContactPoint",
+                      telephone: "+62 812-8782-7389",
+                      contactType: "customer service",
+                      email: "admin@selasarbahasa.com",
+                      areaServed: "ID",
+                      availableLanguage: ["Indonesian", "English", "German"],
+                    },
+                  ],
+                },
+                {
+                  "@context": "https://schema.org",
+                  "@type": "WebSite",
+                  name: "Selasar Bahasa",
+                  url: "https://selasarbahasa.com",
+                  inLanguage: ["id-ID", "en-US", "de-DE"],
+                  potentialAction: {
+                    "@type": "SearchAction",
+                    target: "https://selasarbahasa.com/artikel?q={search_term_string}",
+                    "query-input": "required name=search_term_string",
+                  },
+                },
+              ]),
+            }}
+          />
         </LocaleProvider>
       </body>
     </html>

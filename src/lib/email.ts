@@ -188,9 +188,18 @@ export async function sendContactFormNotificationEmail(data: {
   email: string;
   pesan: string;
 }) {
-  await resend.emails.send({
-    from: 'SelasarBahasa <onboarding@resend.dev>',
-    to: 'admin@selasarbahasa.com',
+  // Resend from address — gunakan env var RESEND_FROM_ADDRESS jika sudah setup domain verified (contoh: "Selasar Bahasa <noreply@selasarbahasa.com>")
+  // Jika belum, fallback ke default test domain resend.dev (HANYA untuk testing — limit 100 lifetime emails)
+  const fromAddress = process.env.RESEND_FROM_ADDRESS || 'SelasarBahasa <onboarding@resend.dev>';
+
+  // Email tujuan UTAMA: Titan Mail admin@selasarbahasa.com (Task 3b)
+  const primaryTo = 'admin@selasarbahasa.com';
+  // Email FALLBACK jika primary gagal: ADMIN_EMAIL env var = selasarbahasa@gmail.com (Task 3c)
+  const fallbackTo = process.env.ADMIN_EMAIL || 'selasarbahasa@gmail.com';
+
+  const common = {
+    from: fromAddress,
+    reply_to: [data.email],
     subject: `Pesan Baru dari Form Kontak - ${data.nama}`,
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;">
@@ -204,8 +213,34 @@ export async function sendContactFormNotificationEmail(data: {
         <div style="padding:12px 16px;background:#f6f6f6;border-radius:8px;white-space:pre-wrap;font-size:14px;color:#333;">
           ${data.pesan}
         </div>
-        <p style="margin-top:24px;color:#888;font-size:12px;">Dikirim otomatis dari SelasarBahasa — balas ke email pengirim langsung jika perlu ditindaklanjuti.</p>
+        <p style="margin-top:24px;color:#888;font-size:12px;">Dikirim otomatis dari SelasarBahasa — tekan Reply untuk langsung membalas ke pengirim (${data.email}).</p>
       </div>
     `,
-  });
+  } as const;
+
+  // ── Try 1: Kirim ke alamat PRIMARY (admin@selasarbahasa.com) ─────────────
+  try {
+    const result = await resend.emails.send({ ...common, to: primaryTo });
+    if (result.error) throw new Error(`Resend Error [primary ${primaryTo}]: ${result.error.name} — ${result.error.message}`);
+    console.log(`[Contact Email] ✅ Primary OK — sent to ${primaryTo}, id: ${result.data?.id}`);
+    return;
+  } catch (primaryErr) {
+    console.warn(`[Contact Email] ⚠️ Primary failed (${primaryTo}), trying FALLBACK → ${fallbackTo}. Reason:`, primaryErr);
+
+    // ── Try 2: Fallback ke ADMIN_EMAIL (selasarbahasa@gmail.com) ─────────
+    try {
+      const fallbackResult = await resend.emails.send({ ...common, to: fallbackTo });
+      if (fallbackResult.error) throw new Error(`Resend Error [fallback ${fallbackTo}]: ${fallbackResult.error.name} — ${fallbackResult.error.message}`);
+      console.log(`[Contact Email] ✅ Fallback OK — sent to ${fallbackTo} (primary failed), id: ${fallbackResult.data?.id}`);
+      return;
+    } catch (fallbackErr) {
+      // Keduanya gagal — throw biar route.ts catch + log FATAL ke Vercel
+      throw new Error(
+        `[Contact Email] ❌ BOTH EMAIL FAILED!\n` +
+        `  Primary (${primaryTo}) err: ${String(primaryErr)}\n` +
+        `  Fallback (${fallbackTo}) err: ${String(fallbackErr)}\n` +
+        `  > Data pesan sudah TERSIMPAN di DB — bisa cek di Dashboard Admin.`
+      );
+    }
+  }
 }

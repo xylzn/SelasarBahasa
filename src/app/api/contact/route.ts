@@ -32,12 +32,27 @@ export async function POST(request: Request) {
     data: validated,
   });
 
-  // Fire-and-forget email notification to admin
-  sendContactFormNotificationEmail({
-    nama: validated.nama,
-    email: validated.email,
-    pesan: validated.pesan,
-  }).catch((err) => console.error('[Contact Email] Failed to send notification:', err));
+  // ⚠️ Kirim email NOTIFIKASI KE ADMIN — TIDAK fire-and-forget, kita await & log ERROR detail
+  //    Jika kirim email GAGAL: data pesan TETAP tersimpan di DB (admin bisa cek di Dashboard Admin).
+  //    User TETAP dapat "Pesan berhasil dikirim!" (return 201) agar user tidak ragu submit ulang.
+  try {
+    console.log('[Contact API] Attempting to send notification email...');
+    await sendContactFormNotificationEmail({
+      nama: validated.nama,
+      email: validated.email,
+      pesan: validated.pesan,
+    });
+    console.log('[Contact API] Notification email sent OK');
+  } catch (err) {
+    console.error('========================================');
+    console.error('[Contact API] FATAL: GAGAL KIRIM EMAIL NOTIFIKASI.');
+    console.error('  > Pesan TETAP tersimpan di DB — bisa cek di Admin Dashboard.');
+    console.error('  > Penyebab umum: 1) RESEND_API_KEY salah / belum di-set di Vercel Env Vars');
+    console.error('                  2) Domain selasarbahasa.com belum diverifikasi di Resend');
+    console.error('                  3) SPF/DKIM Record di DNS Titan Mail blm di-add');
+    console.error('  > Error detail:', err);
+    console.error('========================================');
+  }
 
   return NextResponse.json(message, { status: 201 });
 }
