@@ -6,7 +6,7 @@ type Dictionary = Record<string, any>;
 
 interface LocaleContextProps {
   locale: string;
-  t: (key: string, replacements?: Record<string, string | number>) => string;
+  t: (key: string, replacements?: Record<string, string | number>, returnObjects?: boolean) => any;
   setLocale: (locale: string) => void;
 }
 
@@ -24,7 +24,7 @@ export function LocaleProvider({
   const [isPending, startTransition] = useTransition();
 
   // Helper to resolve nested keys like about.features.materi.title
-  const t = (key: string, replacements?: Record<string, string | number>): string => {
+  const t = (key: string, replacements?: Record<string, string | number>, returnObjects = false): any => {
     const keys = key.split('.');
     let value: any = dictionary;
 
@@ -35,6 +35,10 @@ export function LocaleProvider({
         value = undefined;
         break;
       }
+    }
+
+    if (returnObjects) {
+      return value ?? key;
     }
 
     if (typeof value !== 'string') {

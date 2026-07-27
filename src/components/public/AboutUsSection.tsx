@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useLocale } from '@/components/providers/LocaleProvider';
 
 export default function AboutUsSection() {
@@ -17,17 +18,30 @@ export default function AboutUsSection() {
           </h2>
         </div>
 
-        <div className="max-w-3xl mx-auto space-y-5 text-gray-600 leading-relaxed text-lg reveal text-center">
-          <p>{t('aboutUs.paragraph1')}</p>
-          <p>{t('aboutUs.paragraph2')}</p>
-          <p>{t('aboutUs.paragraph3')}</p>
-
-          <div className="pt-6 text-brand-blue-dark italic">
-            <p>{t('aboutUs.signOff')}</p>
-            <p className="font-bold mt-1 not-italic">
-              {t('aboutUs.signOffName')}
-            </p>
+        <div className="max-w-3xl mx-auto space-y-10 text-gray-600 leading-relaxed text-lg reveal text-center">
+          <div>
+            <h3 className="text-xl md:text-2xl font-bold text-brand-blue mb-4">
+              {t('aboutUs.storyHeading')}
+            </h3>
+            <div className="space-y-5">
+              <p>{t('aboutUs.paragraph1')}</p>
+              <p>{t('aboutUs.paragraph2Short')}</p>
+            </div>
           </div>
+
+          <div>
+            <h3 className="text-xl md:text-2xl font-bold text-brand-blue mb-4">
+              {t('aboutUs.founderHeading')}
+            </h3>
+            <p>{t('aboutUs.founderIntro')}</p>
+          </div>
+
+          <Link
+            href="/about-us"
+            className="inline-block mt-4 px-8 py-3 bg-brand-blue text-white rounded-xl font-semibold hover:bg-brand-blue-dark transition-all btn-animate"
+          >
+            {t('aboutUs.ctaButton')}
+          </Link>
         </div>
       </div>
     </section>

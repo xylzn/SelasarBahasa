@@ -1,6 +1,7 @@
 {
   "navbar": {
     "home": "Beranda",
+    "aboutUs": "Tentang Kami",
     "articles": "Artikel",
     "activities": "Aktivitas Kita",
     "classes": "Kelas",
@@ -45,11 +46,12 @@
   "aboutUs": {
     "eyebrow": "Tentang Kami",
     "title": "Tentang Selasar Bahasa",
-    "paragraph1": "Selasar Bahasa adalah lembaga kursus bahasa asing yang berfokus pada peningkatan keterampilan berbahasa dan pemahaman budaya. Kami menerapkan kegiatan pembelajaran yang bervariatif dengan memanfaatkan media ajar yang relevan serta sumber-sumber belajar yang autentik. Selain itu, metode dan materi ajar yang kami gunakan disesuaikan dengan kebutuhan dan tujuan pemelajar.",
-    "paragraph2": "Selasar Bahasa juga memberikan layanan berupa pelatihan dan pendampingan bagi para pengajar bahasa asing untuk meningkatkan kompetensi pengajarannya. Selain itu, kami menyediakan bahan-bahan ajar yang bisa diakses secara gratis maupun berbayar oleh para pemelajar maupun pengajar secara luas (tidak hanya untuk pengajar dan pemelajar kami saja).",
-    "paragraph3": "Selasar Bahasa berkomitmen untuk memberikan layanan terbaik agar Anda bisa mencapai tujuan belajar yang maksimal dan menyenangkan!",
-    "signOff": "Salam hangat,",
-    "signOffName": "Tim Selasar Bahasa"
+    "storyHeading": "Kisah Kami",
+    "paragraph1": "Didirikan pada tahun 2012, Selasar Bahasa adalah lembaga kursus bahasa asing yang berkomitmen membantu pemelajar mengembangkan keterampilan berbahasa yang aplikatif sekaligus pemahaman budaya. Kami percaya bahwa belajar bahasa menjadi lebih bermakna ketika mencerminkan komunikasi yang autentik dan kehidupan sehari-hari.",
+    "paragraph2Short": "Untuk mewujudkan visi tersebut, kami merancang pengalaman belajar yang menarik dengan metode pengajaran yang relevan, materi yang autentik, serta pendekatan personal yang disesuaikan dengan tujuan masing-masing pemelajar. Selain kelas reguler, kami juga menyelenggarakan kunjungan imersi budaya yang memungkinkan pemelajar berinteraksi langsung dengan penutur asli bahasa Indonesia sekaligus merasakan langsung budaya Indonesia.",
+    "founderHeading": "Kenali Pendiri Kami",
+    "founderIntro": "Selasar Bahasa didirikan oleh Ellis Artyana, seorang pengajar bahasa Indonesia yang berfokus pada Bahasa Indonesia bagi Penutur Asing (BIPA). Sejak tahun 2011, ia telah mengajar pemelajar dari berbagai latar belakang bahasa dan budaya, baik di Indonesia maupun di luar negeri. Pengalamannya membentuk pendekatan Selasar Bahasa yang berpusat pada pemelajar, mengintegrasikan bahasa, budaya, dan komunikasi autentik dalam setiap pengalaman belajar.",
+    "ctaButton": "Pelajari Lebih Lanjut Tentang Selasar Bahasa"
   },
   "package": {
     "popular": "Paling Diminati",
@@ -685,6 +687,50 @@
       "privatDesc": "Jadwal fleksibel, materi disesuaikan dengan kebutuhanmu. Hubungi kami untuk konsultasi gratis!",
       "emptyDesc": "Silakan kembali lagi nanti atau hubungi kami untuk informasi lebih lanjut.",
       "notifyMe": "Beritahu Saya Saat Ada Kelas"
+    },
+    "aboutUsPage": {
+      "metaTitle": "Tentang Kami — SelasarBahasa",
+      "metaDescription": "Kenali kisah, pendiri, dan filosofi belajar di balik Selasar Bahasa.",
+      "heroEyebrow": "Tentang Kami",
+      "heroTitle": "Tentang Selasar Bahasa",
+      "storyHeading": "Kisah Kami",
+      "storyParagraph1": "Didirikan pada tahun 2012, Selasar Bahasa adalah lembaga kursus bahasa asing yang berkomitmen membantu pemelajar mengembangkan keterampilan berbahasa yang aplikatif sekaligus pemahaman budaya. Kami percaya bahwa belajar bahasa menjadi lebih bermakna ketika mencerminkan komunikasi yang autentik dan kehidupan sehari-hari.",
+      "storyParagraph2": "Untuk mewujudkan visi tersebut, kami merancang pengalaman belajar yang menarik dengan metode pengajaran yang relevan, materi yang autentik, serta pendekatan personal yang disesuaikan dengan tujuan masing-masing pemelajar. Selain kelas reguler, kami juga menyelenggarakan kunjungan imersi budaya yang memungkinkan pemelajar berinteraksi langsung dengan penutur asli bahasa Indonesia sekaligus merasakan langsung budaya Indonesia. Selain itu, Selasar Bahasa juga menyediakan program pelatihan dan pendampingan bagi pengajar bahasa asing yang ingin meningkatkan kompetensi mengajarnya.",
+      "founderHeading": "Kenali Pendiri Kami",
+      "founderIntro": "Selasar Bahasa didirikan oleh Ellis Artyana, seorang pengajar bahasa Indonesia yang berfokus pada Bahasa Indonesia bagi Penutur Asing (BIPA). Sejak tahun 2011, ia telah mengajar pemelajar dari berbagai latar belakang bahasa dan budaya, baik di Indonesia maupun di luar negeri. Pengalamannya membentuk pendekatan Selasar Bahasa yang berpusat pada pemelajar, mengintegrasikan bahasa, budaya, dan komunikasi autentik dalam setiap pengalaman belajar.",
+      "founderPhotoAlt": "Foto Ellis Artyana, Pendiri Selasar Bahasa",
+      "founderHighlightsTitle": "Sorotan",
+      "founderHighlights": [
+        "Mengajar BIPA sejak tahun 2011",
+        "Mantan pengajar BIPA di Universitas Pendidikan Indonesia (UPI) dan Language Center, Universitas Indonesia (LBI UI)",
+        "Pernah bertugas mengajar di Jerman dan Kanada melalui Badan Pengembangan dan Pembinaan Bahasa, Kementerian Pendidikan Dasar dan Menengah",
+        "Salah satu penyusun Standar Kompetensi Lulusan Nasional untuk BIPA (SKL BIPA)",
+        "Penulis materi ajar BIPA untuk publikasi lembaga dan nasional",
+        "Pelatih pengajar BIPA, pembicara konferensi, dan kreator konten edukasi"
+      ],
+      "philosophyHeading": "Filosofi Kami",
+      "philosophyParagraph1": "Di Selasar Bahasa, kami percaya bahwa belajar bahasa bukan sekadar menguasai tata bahasa dan kosakata. Belajar bahasa juga berarti memahami cara manusia berkomunikasi, berinteraksi, dan membangun hubungan melalui bahasa dan budaya.",
+      "philosophyParagraph2": "Misi kami adalah membantu pemelajar berkomunikasi secara alami, percaya diri, dan sesuai konteks dalam situasi nyata dengan mengintegrasikan kompetensi kebahasaan dan pemahaman budaya. Kami berkomitmen menciptakan pengalaman belajar yang bermakna serta menumbuhkan rasa percaya diri, rasa ingin tahu, dan semangat belajar sepanjang hayat.",
+      "closingCta": "Mulai Belajar Bersama Kami",
+      "founderBio": {
+        "fullNameLabel": "Nama Lengkap",
+        "fullNameValue": "Ellis Artyana",
+        "roleLabel": "Peran",
+        "roleValue": "Pendiri & Pengajar BIPA",
+        "experienceLabel": "Pengalaman",
+        "experienceValue": "Mengajar BIPA sejak 2011",
+        "basedInLabel": "Berbasis di",
+        "basedInValue": "Indonesia",
+        "statementLabel": "Pernyataan",
+        "statementValue": "Belajar bahasa adalah perjalanan memahami manusia dan budaya — bukan sekadar menghafal kata."
+      },
+      "founderSections": {
+        "aboutTitle": "Tentang",
+        "careerTitle": "Perjalanan Karier",
+        "contributionsTitle": "Kontribusi Kunci",
+        "approachTitle": "Pendekatan Pengajaran"
+      },
+      "founderApproach": "Mengutamakan pendekatan yang berpusat pada pemelajar, mengintegrasikan bahasa, budaya, dan komunikasi autentik agar setiap orang bisa berbicara Bahasa Indonesia dengan percaya diri dalam konteks nyata."
     },
     "navbar": {
       "openMenu": "Buka menu",

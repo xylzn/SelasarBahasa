@@ -1,6 +1,7 @@
 {
   "navbar": {
     "home": "Home",
+    "aboutUs": "About Us",
     "articles": "Articles",
     "activities": "Activities",
     "classes": "Classes",
@@ -45,11 +46,12 @@
   "aboutUs": {
     "eyebrow": "About Us",
     "title": "About Selasar Bahasa",
-    "paragraph1": "Selasar Bahasa is a foreign language learning institution dedicated to helping learners build real-world language skills alongside cultural understanding. We design varied, engaging classroom experiences using relevant teaching media and authentic learning resources. Most importantly, every method and material we use is tailored to the unique needs and goals of each learner.",
-    "paragraph2": "Beyond our regular classes, Selasar Bahasa also organizes cultural immersion visits, giving learners the opportunity to interact with native Indonesian speakers while experiencing Indonesian culture and everyday life firsthand. We also offer training and coaching programs for foreign language teachers who want to sharpen their teaching competencies.",
-    "paragraph3": "At Selasar Bahasa, we are committed to delivering our very best service so that you can reach your maximum learning goals — and enjoy every step along the way.",
-    "signOff": "Warm regards,",
-    "signOffName": "The Selasar Bahasa Team"
+    "storyHeading": "Our Story",
+    "paragraph1": "Founded in 2012, Selasar Bahasa is a foreign language learning institution dedicated to helping learners develop real-world language skills alongside cultural understanding. We believe that language learning becomes more meaningful when it reflects authentic communication and everyday life.",
+    "paragraph2Short": "To support this vision, we design engaging learning experiences using relevant teaching methods, authentic materials, and personalized instruction tailored to each learner's goals. Beyond our regular classes, we also organize cultural immersion visits, allowing learners to interact with native Indonesian speakers while experiencing Indonesian culture firsthand.",
+    "founderHeading": "Meet Our Founder",
+    "founderIntro": "Selasar Bahasa was founded by Ellis Artyana, an Indonesian language educator specializing in Bahasa Indonesia for Foreign Speakers (BIPA). Since 2011, she has taught learners from diverse linguistic and cultural backgrounds in Indonesia and abroad. Her experience has shaped Selasar Bahasa's learner-centered approach, integrating language, culture, and authentic communication into every learning experience.",
+    "ctaButton": "Learn More About Selasar Bahasa"
   },
   "package": {
     "popular": "Most Popular",
@@ -685,6 +687,50 @@
       "privatDesc": "Flexible schedule, material tailored to your needs. Contact us for a free consultation!",
       "emptyDesc": "Please check back later or contact us for more information.",
       "notifyMe": "Notify Me When a Class Opens"
+    },
+    "aboutUsPage": {
+      "metaTitle": "About Us — SelasarBahasa",
+      "metaDescription": "Get to know the story, founder, and learning philosophy behind Selasar Bahasa.",
+      "heroEyebrow": "About Us",
+      "heroTitle": "About Selasar Bahasa",
+      "storyHeading": "Our Story",
+      "storyParagraph1": "Founded in 2012, Selasar Bahasa is a foreign language learning institution dedicated to helping learners develop real-world language skills alongside cultural understanding. We believe that language learning becomes more meaningful when it reflects authentic communication and everyday life.",
+      "storyParagraph2": "To support this vision, we design engaging learning experiences using relevant teaching methods, authentic materials, and personalized instruction tailored to each learner's goals. Beyond our regular classes, we also organize cultural immersion visits, allowing learners to interact with native Indonesian speakers while experiencing Indonesian culture firsthand. In addition, Selasar Bahasa offers training and coaching programs for foreign language teachers seeking to strengthen their teaching competencies.",
+      "founderHeading": "Meet Our Founder",
+      "founderIntro": "Selasar Bahasa was founded by Ellis Artyana, an Indonesian language educator specializing in Bahasa Indonesia for Foreign Speakers (BIPA). Since 2011, she has taught learners from diverse linguistic and cultural backgrounds in Indonesia and abroad. Her experience has shaped Selasar Bahasa's learner-centered approach, integrating language, culture, and authentic communication into every learning experience.",
+      "founderPhotoAlt": "Portrait of Ellis Artyana, Founder of Selasar Bahasa",
+      "founderHighlightsTitle": "Highlights",
+      "founderHighlights": [
+        "Teaching BIPA since 2011",
+        "Former BIPA instructor at Universitas Pendidikan Indonesia (UPI) and Language Center, Universitas Indonesia (LBI UI)",
+        "Overseas teaching assignments in Germany and Canada through Indonesia's Language Development and Fostering Agency (Badan Bahasa), Ministry of Primary and Secondary Education",
+        "Co-author of the Indonesian National Graduate Competency Standards for BIPA (SKL BIPA)",
+        "Author of BIPA teaching materials for institutional and national publication",
+        "BIPA teacher trainer, conference speaker, and educational content creator"
+      ],
+      "philosophyHeading": "Our Philosophy",
+      "philosophyParagraph1": "At Selasar Bahasa, we believe that learning a language is more than mastering grammar and vocabulary. It is also about understanding how people communicate, interact, and build relationships through language and culture.",
+      "philosophyParagraph2": "Our mission is to help learners communicate naturally, confidently, and appropriately in real-life situations by integrating linguistic competence with cultural understanding. We are committed to creating meaningful learning experiences that inspire confidence, curiosity, and lifelong learning.",
+      "closingCta": "Start Learning With Us",
+      "founderBio": {
+        "fullNameLabel": "Full Name",
+        "fullNameValue": "Ellis Artyana",
+        "roleLabel": "Role",
+        "roleValue": "Founder & BIPA Educator",
+        "experienceLabel": "Experience",
+        "experienceValue": "Teaching BIPA since 2011",
+        "basedInLabel": "Based In",
+        "basedInValue": "Indonesia",
+        "statementLabel": "Statement",
+        "statementValue": "Learning a language is a journey of understanding people and culture — not just memorizing words."
+      },
+      "founderSections": {
+        "aboutTitle": "About",
+        "careerTitle": "Career Journey",
+        "contributionsTitle": "Key Contributions",
+        "approachTitle": "Teaching Approach"
+      },
+      "founderApproach": "Champions a learner-centered approach that integrates language, culture, and authentic communication so every learner can confidently speak Indonesian in real-life contexts."
     },
     "navbar": {
       "openMenu": "Open menu",

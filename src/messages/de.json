@@ -1,6 +1,7 @@
 {
   "navbar": {
     "home": "Startseite",
+    "aboutUs": "Über uns",
     "articles": "Artikel",
     "activities": "Unsere Aktivitäten",
     "classes": "Klassen",
@@ -45,11 +46,12 @@
   "aboutUs": {
     "eyebrow": "Über uns",
     "title": "Über Selasar Bahasa",
-    "paragraph1": "Selasar Bahasa ist ein Fremdspracheninstitut, das sich auf die Verbesserung sprachlicher Fertigkeiten und das Verständnis fremder Kulturen spezialisiert. Wir gestalten abwechslungsreichen Unterricht mit passenden Lehrmedien und authentischen Lernmaterialien. Darüber hinaus passen wir unsere Methoden und Inhalte immer an die individuellen Bedürfnisse und Lernziele unserer Teilnehmer*innen an.",
-    "paragraph2": "Darüber hinaus bietet Selasar Bahasa gezielte Schulungen und Begleitprogramme für Fremdsprachenlehrkräfte an, um deren Unterrichtskompetenzen zu stärken. Zusätzlich stellen wir umfassende Lehrmaterialien zur Verfügung — sowohl kostenlos als auch kostenpflichtig — die offen für alle Lernenden und Lehrenden zugänglich sind, nicht nur für Menschen, die direkt bei uns eingeschrieben sind.",
-    "paragraph3": "Selasar Bahasa ist bestrebt, stets den bestmöglichen Service zu bieten, damit Sie Ihre Lernziele nachhaltig erreichen und dabei auch richtig Freude am Lernen haben.",
-    "signOff": "Mit freundlichen Grüßen,",
-    "signOffName": "Das Team von Selasar Bahasa"
+    "storyHeading": "Unsere Geschichte",
+    "paragraph1": "Selasar Bahasa wurde 2012 gegründet und ist eine Sprachschule für Fremdsprachen, die es sich zur Aufgabe gemacht hat, Lernenden praxisnahe Sprachkenntnisse und zugleich ein tiefes kulturelles Verständnis zu vermitteln. Wir sind überzeugt, dass Sprachenlernen bedeutungsvoller wird, wenn es authentische Kommunikation und den Alltag widerspiegelt.",
+    "paragraph2Short": "Um diese Vision zu unterstützen, gestalten wir unseren Unterricht mit passenden Lehrmethoden, authentischen Materialien und individueller Betreuung, die sich an den Zielen jedes einzelnen Lernenden orientiert. Neben unserem regulären Unterricht organisieren wir auch kulturelle Austauschreisen, bei denen Lernende mit Muttersprachlern des Indonesischen in Kontakt kommen und die indonesische Kultur hautnah erleben können.",
+    "founderHeading": "Unsere Gründerin",
+    "founderIntro": "Selasar Bahasa wurde von Ellis Artyana gegründet, einer indonesischen Sprachpädagogin, die sich auf Bahasa Indonesia für Fremdsprachler (BIPA) spezialisiert hat. Seit 2011 unterrichtet sie Lernende mit unterschiedlichen sprachlichen und kulturellen Hintergründen in Indonesien und im Ausland. Ihre Erfahrung prägt den lernerzentrierten Ansatz von Selasar Bahasa, der Sprache, Kultur und authentische Kommunikation in jeder Lernerfahrung miteinander verbindet.",
+    "ctaButton": "Mehr über Selasar Bahasa erfahren"
   },
   "package": {
     "popular": "Am beliebtesten",
@@ -685,6 +687,50 @@
       "privatDesc": "Flexibler Zeitplan, Material auf deine Bedürfnisse abgestimmt. Kontaktiere uns für eine kostenlose Beratung!",
       "emptyDesc": "Schau später nochmal vorbei oder kontaktiere uns für weitere Infos.",
       "notifyMe": "Benachrichtige mich, wenn es einen Kurs gibt"
+    },
+    "aboutUsPage": {
+      "metaTitle": "Über uns — SelasarBahasa",
+      "metaDescription": "Lernen Sie die Geschichte, die Gründerin und die Lernphilosophie von Selasar Bahasa kennen.",
+      "heroEyebrow": "Über uns",
+      "heroTitle": "Über Selasar Bahasa",
+      "storyHeading": "Unsere Geschichte",
+      "storyParagraph1": "Selasar Bahasa wurde 2012 gegründet und ist eine Sprachschule für Fremdsprachen, die es sich zur Aufgabe gemacht hat, Lernenden praxisnahe Sprachkenntnisse und zugleich ein tiefes kulturelles Verständnis zu vermitteln. Wir sind überzeugt, dass Sprachenlernen bedeutungsvoller wird, wenn es authentische Kommunikation und den Alltag widerspiegelt.",
+      "storyParagraph2": "Um diese Vision zu unterstützen, gestalten wir unseren Unterricht mit passenden Lehrmethoden, authentischen Materialien und individueller Betreuung, die sich an den Zielen jedes einzelnen Lernenden orientiert. Neben unserem regulären Unterricht organisieren wir auch kulturelle Austauschreisen, bei denen Lernende mit Muttersprachlern des Indonesischen in Kontakt kommen und die indonesische Kultur hautnah erleben können. Darüber hinaus bietet Selasar Bahasa Schulungs- und Coaching-Programme für Fremdsprachenlehrkräfte an, die ihre didaktischen Kompetenzen weiter ausbauen möchten.",
+      "founderHeading": "Unsere Gründerin",
+      "founderIntro": "Selasar Bahasa wurde von Ellis Artyana gegründet, einer indonesischen Sprachpädagogin, die sich auf Bahasa Indonesia für Fremdsprachler (BIPA) spezialisiert hat. Seit 2011 unterrichtet sie Lernende mit unterschiedlichen sprachlichen und kulturellen Hintergründen in Indonesien und im Ausland. Ihre Erfahrung prägt den lernerzentrierten Ansatz von Selasar Bahasa, der Sprache, Kultur und authentische Kommunikation in jeder Lernerfahrung miteinander verbindet.",
+      "founderPhotoAlt": "Porträt von Ellis Artyana, Gründerin von Selasar Bahasa",
+      "founderHighlightsTitle": "Wichtige Stationen",
+      "founderHighlights": [
+        "Unterrichtet BIPA seit 2011",
+        "Ehemalige BIPA-Dozentin an der Universitas Pendidikan Indonesia (UPI) und am Sprachzentrum der Universitas Indonesia (LBI UI)",
+        "Auslandseinsätze in Deutschland und Kanada im Auftrag der indonesischen Behörde für Sprachentwicklung und -förderung (Badan Bahasa), Ministerium für Grund- und Sekundarbildung",
+        "Mitautorin der nationalen indonesischen Kompetenzstandards für BIPA-Absolventen (SKL BIPA)",
+        "Autorin von BIPA-Lehrmaterialien für institutionelle und nationale Veröffentlichungen",
+        "BIPA-Lehrertrainerin, Konferenzrednerin und Erstellerin von Bildungsinhalten"
+      ],
+      "philosophyHeading": "Unsere Philosophie",
+      "philosophyParagraph1": "Bei Selasar Bahasa glauben wir, dass das Erlernen einer Sprache mehr bedeutet, als Grammatik und Wortschatz zu beherrschen. Es geht auch darum zu verstehen, wie Menschen durch Sprache und Kultur kommunizieren, interagieren und Beziehungen aufbauen.",
+      "philosophyParagraph2": "Unsere Mission ist es, Lernenden zu helfen, natürlich, selbstbewusst und situationsgerecht in echten Alltagssituationen zu kommunizieren, indem wir sprachliche Kompetenz mit kulturellem Verständnis verbinden. Wir setzen uns dafür ein, bedeutungsvolle Lernerfahrungen zu schaffen, die Selbstvertrauen, Neugier und lebenslanges Lernen fördern.",
+      "closingCta": "Jetzt gemeinsam lernen",
+      "founderBio": {
+        "fullNameLabel": "Vollständiger Name",
+        "fullNameValue": "Ellis Artyana",
+        "roleLabel": "Rolle",
+        "roleValue": "Gründerin & BIPA-Pädagogin",
+        "experienceLabel": "Erfahrung",
+        "experienceValue": "Unterrichtet BIPA seit 2011",
+        "basedInLabel": "Standort",
+        "basedInValue": "Indonesien",
+        "statementLabel": "Leitgedanke",
+        "statementValue": "Eine Sprache zu lernen bedeutet, Menschen und Kulturen zu verstehen — nicht nur Wörter auswendig zu lernen."
+      },
+      "founderSections": {
+        "aboutTitle": "Über sie",
+        "careerTitle": "Berufliche Stationen",
+        "contributionsTitle": "Wichtige Beiträge",
+        "approachTitle": "Unterrichtsansatz"
+      },
+      "founderApproach": "Verfolgt einen lernerzentrierten Ansatz, der Sprache, Kultur und authentische Kommunikation vereint – damit jede*r Lernende Indonesisch selbstbewusst in echten Situationen sprechen kann."
     },
     "navbar": {
       "openMenu": "Menü öffnen",

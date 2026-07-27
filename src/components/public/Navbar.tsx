@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSession, signOut } from 'next-auth/react';
-import { Menu, X, User, LogOut, LayoutDashboard, Shield, Home, FileText, Camera, GraduationCap } from 'lucide-react';
+import { Menu, X, User, LogOut, LayoutDashboard, Shield, Home, FileText, Camera, GraduationCap, Info } from 'lucide-react';
 import { useLocale } from '@/components/providers/LocaleProvider';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 import { usePathname } from 'next/navigation';
@@ -57,6 +57,9 @@ export default function Navbar() {
             <div className="hidden md:flex items-center space-x-8">
               <Link href="/" className="text-gray-700 hover:text-brand-blue font-medium transition-colors">
                 {t('navbar.home')}
+              </Link>
+              <Link href="/about-us" className="text-gray-700 hover:text-brand-blue font-medium transition-colors">
+                {t('navbar.aboutUs')}
               </Link>
               <Link href="/artikel" className="text-gray-700 hover:text-brand-blue font-medium transition-colors">
                 {t('navbar.articles')}
@@ -195,6 +198,16 @@ export default function Navbar() {
           >
             <Home size={18} />
             {t('navbar.home')}
+          </Link>
+          <Link
+            href="/about-us"
+            onClick={() => setIsOpen(false)}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-colors ${
+              pathname === '/about-us' ? 'bg-brand-blue/10 text-brand-blue' : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            <Info size={18} />
+            {t('navbar.aboutUs')}
           </Link>
           <Link
             href="/artikel"
