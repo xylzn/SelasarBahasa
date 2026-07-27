@@ -4,7 +4,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendResetPasswordEmail(to: string, resetUrl: string, nama: string) {
   await resend.emails.send({
-    from: 'SelasarBahasa <onboarding@resend.dev>', // ganti ke domain sendiri setelah verifikasi domain di Resend
+    from: 'SelasarBahasa <hello@selasarbahasa.com>',
     to,
     subject: 'Reset Password - SelasarBahasa',
     html: `
@@ -28,7 +28,7 @@ export async function sendAccountDeletedEmail(
     : 'Akun Anda telah dihapus otomatis karena tidak ada aktivitas login selama lebih dari 6 bulan.';
 
   await resend.emails.send({
-    from: 'SelasarBahasa <onboarding@resend.dev>',
+    from: 'SelasarBahasa <hello@selasarbahasa.com>',
     to,
     subject: 'Akun SelasarBahasa Anda Telah Dihapus',
     html: `
@@ -44,7 +44,7 @@ export async function sendAccountDeletedEmail(
 
 export async function sendAccountWarningEmail(to: string, nama: string) {
   await resend.emails.send({
-    from: 'SelasarBahasa <onboarding@resend.dev>',
+    from: 'SelasarBahasa <hello@selasarbahasa.com>',
     to,
     subject: 'Peringatan: Akun SelasarBahasa Anda Akan Dihapus',
     html: `
@@ -67,7 +67,7 @@ export async function sendPremiumExpiryReminderEmail(to: string, nama: string, e
   });
   
   await resend.emails.send({
-    from: 'SelasarBahasa <onboarding@resend.dev>',
+    from: 'SelasarBahasa <hello@selasarbahasa.com>',
     to,
     subject: 'Peringatan: Premium SelasarBahasa Anda Akan Habis',
     html: `
@@ -90,7 +90,7 @@ export async function sendRefundRequestEmail(
   alasan: string
 ) {
   await resend.emails.send({
-    from: 'SelasarBahasa <onboarding@resend.dev>',
+    from: 'SelasarBahasa <hello@selasarbahasa.com>',
     to: adminEmail,
     subject: `Pengajuan Refund: ${siswaNama}`,
     html: `
@@ -124,7 +124,7 @@ export async function sendEnrollmentNotificationEmail(data: {
     .join('');
 
   await resend.emails.send({
-    from: 'SelasarBahasa <onboarding@resend.dev>',
+    from: 'SelasarBahasa <hello@selasarbahasa.com>',
     to: 'selasarbahasa@gmail.com',
     subject: `Pendaftaran Baru: ${data.tipeKelas} ${data.tingkat} — ${data.nama}`,
     html: `
@@ -156,7 +156,7 @@ export const sendRefundNotificationEmail = async (
 ): Promise<{ success: boolean; error?: string }> => {
   try {
     const result = await resend.emails.send({
-      from: 'SelasarBahasa <onboarding@resend.dev>',
+      from: 'SelasarBahasa <hello@selasarbahasa.com>',
       to: process.env.ADMIN_EMAIL ?? 'selasarbahasa@gmail.com',
       subject: `⚠️ Pengajuan Refund Baru - ${userName}`,
       html: `
@@ -188,9 +188,7 @@ export async function sendContactFormNotificationEmail(data: {
   email: string;
   pesan: string;
 }) {
-  // Resend from address — gunakan env var RESEND_FROM_ADDRESS jika sudah setup domain verified (contoh: "Selasar Bahasa <noreply@selasarbahasa.com>")
-  // Jika belum, fallback ke default test domain resend.dev (HANYA untuk testing — limit 100 lifetime emails)
-  const fromAddress = process.env.RESEND_FROM_ADDRESS || 'SelasarBahasa <onboarding@resend.dev>';
+  const fromAddress = process.env.RESEND_FROM_ADDRESS || 'SelasarBahasa <hello@selasarbahasa.com>';
 
   // Email tujuan UTAMA: Titan Mail admin@selasarbahasa.com (Task 3b)
   const primaryTo = 'admin@selasarbahasa.com';
