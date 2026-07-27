@@ -159,7 +159,7 @@ export default function HeroSection({
               <span className="text-brand-orange font-extrabold">{t('hero.title4')}</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-gray-500 mb-8 max-w-xl mx-auto md:mx-0 leading-relaxed">
+            <p className="text-base md:text-lg text-gray-500 mb-8 max-w-xl mx-auto md:mx-0 leading-relaxed">
               {t('hero.subtitle')}
             </p>
 
