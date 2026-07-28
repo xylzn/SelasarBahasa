@@ -4,6 +4,7 @@ import { requireAdmin } from '@/lib/api-auth';
 import { z } from 'zod';
 import { invalidateCachePattern, invalidateCache } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
+import { deleteFile } from '@/lib/supabase-storage';
 
 // Helper slugify
 function slugify(text: string) {
@@ -69,6 +70,13 @@ export async function PUT(
     return NextResponse.json({ error: 'Materi tidak ditemukan' }, { status: 404 });
   }
 
+  if (validated.pdfUrl !== undefined && oldMateri.pdfUrl && validated.pdfUrl !== oldMateri.pdfUrl) {
+    try {
+      const r = await deleteFile(oldMateri.pdfUrl, 'materi-files');
+      if ('error' in r) console.error('storage: delete materi PDF:', r.error);
+    } catch (e) { console.error('storage: delete materi PDF:', e); }
+  }
+
   // Generate slug if not provided
   let dataToUpdate = { ...validated };
   if (!validated.slug) {
@@ -124,6 +132,13 @@ export async function DELETE(
   const { id } = await params;
 
   const oldMateri = await prisma.materi.findUnique({ where: { id } });
+  if (oldMateri?.pdfUrl) {
+    try {
+      const r = await deleteFile(oldMateri.pdfUrl, 'materi-files');
+      if ('error' in r) console.error('storage: delete materi PDF:', r.error);
+    } catch (e) { console.error('storage: delete materi PDF:', e); }
+  }
+
   await prisma.materi.delete({
     where: { id },
   });

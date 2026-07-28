@@ -5,6 +5,7 @@ import { canReadContent } from '@/lib/access';
 import { z } from 'zod';
 import { invalidateCachePattern, invalidateCache } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
+import { deleteFile } from '@/lib/supabase-storage';
 
 const updateTugasSchema = z.object({
   judul: z.string().min(1).optional(),
@@ -82,6 +83,13 @@ export async function PUT(
     return NextResponse.json({ error: 'Tugas tidak ditemukan' }, { status: 404 });
   }
 
+  if (validated.fileInstruksiUrl !== undefined && existingTugas.fileInstruksiUrl && validated.fileInstruksiUrl !== existingTugas.fileInstruksiUrl) {
+    try {
+      const r = await deleteFile(existingTugas.fileInstruksiUrl, 'tugas-files');
+      if ('error' in r) console.error('storage: delete tugas instruksi:', r.error);
+    } catch (e) { console.error('storage: delete tugas instruksi:', e); }
+  }
+
   let slug = validated.slug || existingTugas.slug;
   if (validated.slug !== existingTugas.slug) {
     let slugExists = await prisma.tugas.findUnique({ where: { slug } });
@@ -127,6 +135,28 @@ export async function DELETE(
   const { id } = await params;
 
   const existingTugas = await prisma.tugas.findUnique({ where: { id } });
+
+  // 1. Hapus semua submission file storage untuk tugas ini
+  try {
+    const allFiles = await prisma.tugasSubmissionFile.findMany({
+      where: { submission: { tugasId: id } },
+      select: { id: true, fileUrl: true },
+    });
+    await Promise.allSettled(
+      allFiles.map(async (f) => {
+        const r = await deleteFile(f.fileUrl, 'tugas-files');
+        if ('error' in r) console.error(`storage: delete submission file ${f.id}:`, r.error);
+      })
+    );
+  } catch (e) { console.error('storage: fetch submission files:', e); }
+
+  // 2. Hapus file instruksi tugas
+  if (existingTugas?.fileInstruksiUrl) {
+    try {
+      const r = await deleteFile(existingTugas.fileInstruksiUrl, 'tugas-files');
+      if ('error' in r) console.error('storage: delete tugas instruksi:', r.error);
+    } catch (e) { console.error('storage: delete tugas instruksi:', e); }
+  }
 
   await prisma.tugasSubmissionFile.deleteMany({
     where: { submission: { tugasId: id } },

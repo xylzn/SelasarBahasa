@@ -59,29 +59,6 @@ export async function sendAccountWarningEmail(to: string, nama: string) {
   });
 }
 
-export async function sendPremiumExpiryReminderEmail(to: string, nama: string, expiryDate: Date) {
-  const formattedDate = expiryDate.toLocaleDateString('id-ID', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-  
-  await resend.emails.send({
-    from: 'SelasarBahasa <hello@selasarbahasa.com>',
-    to,
-    subject: 'Peringatan: Premium SelasarBahasa Anda Akan Habis',
-    html: `
-      <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
-        <h2 style="color: #0E46A3;">Halo ${nama},</h2>
-        <p>Premium kamu akan habis pada <strong>${formattedDate}</strong>!</p>
-        <p>Silakan hubungi tim support kami untuk perpanjangan.</p>
-        <p style="margin-top:16px;">WhatsApp: +62 812-3456-7890</p>
-        <p style="margin-top:24px; color:#666; font-size:13px;">Kalau Anda merasa ini kesalahan, hubungi tim support kami.</p>
-      </div>
-    `,
-  });
-}
-
 export async function sendRefundRequestEmail(
   adminEmail: string,
   siswaEmail: string,

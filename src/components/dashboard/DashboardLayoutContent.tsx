@@ -7,7 +7,6 @@ import SearchBar from '@/components/shared/SearchBar';
 import { MobileDrawer } from '@/components/shared/MobileDrawer';
 import { useSidebarToggle } from '@/hooks/useSidebarToggle';
 import { useLocale } from '@/components/providers/LocaleProvider';
-import PremiumExpiryModal from './PremiumExpiryModal';
 import ContentProtectionWrapper from '@/components/shared/ContentProtectionWrapper';
 
 interface DashboardLayoutContentProps {
@@ -30,8 +29,6 @@ export default function DashboardLayoutContent({
 
   return (
     <div className="flex min-h-screen">
-      <PremiumExpiryModal />
-      
       {/* Desktop Sidebar (always visible) */}
       <div className="hidden lg:block">
         <Sidebar userName={userName} userRole={userRole} userEmail={userEmail} userFotoProfil={userFotoProfil} />

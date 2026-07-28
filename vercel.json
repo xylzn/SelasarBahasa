@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/cleanup-inactive-users",
       "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/cleanup-completed-batch-files",
+      "schedule": "0 3 * * *"
     }
   ]
 }

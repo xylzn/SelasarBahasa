@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { invalidateCachePattern, invalidateCache } from '@/lib/cache';
 import { CACHE_KEYS } from '@/lib/cache-keys';
 import { revalidatePath } from 'next/cache';
+import { deleteFile } from '@/lib/supabase-storage';
 
 // Helper slugify
 function slugify(text: string) {
@@ -67,6 +68,13 @@ export async function PUT(
   const currentArtikel = await prisma.article.findUnique({ where: { id } });
   if (!currentArtikel) {
     return NextResponse.json({ error: 'Artikel tidak ditemukan' }, { status: 404 });
+  }
+
+  if (validated.thumbnailUrl !== undefined && currentArtikel.thumbnailUrl && validated.thumbnailUrl !== currentArtikel.thumbnailUrl) {
+    try {
+      const r = await deleteFile(currentArtikel.thumbnailUrl, 'artikel-thumbnails');
+      if ('error' in r) console.error('storage: delete artikel thumbnail:', r.error);
+    } catch (e) { console.error('storage: delete artikel thumbnail:', e); }
   }
 
   // Handle slug
@@ -134,8 +142,15 @@ export async function DELETE(
   }
   const { id } = await params;
 
-  // Fetch slug before deleting so we can revalidate the path afterwards
-  const articleToDelete = await prisma.article.findUnique({ where: { id }, select: { slug: true } });
+  // Fetch slug + thumbnail before deleting so we can revalidate the path afterwards
+  const articleToDelete = await prisma.article.findUnique({ where: { id }, select: { slug: true, thumbnailUrl: true } });
+
+  if (articleToDelete?.thumbnailUrl) {
+    try {
+      const r = await deleteFile(articleToDelete.thumbnailUrl, 'artikel-thumbnails');
+      if ('error' in r) console.error('storage: delete artikel thumbnail:', r.error);
+    } catch (e) { console.error('storage: delete artikel thumbnail:', e); }
+  }
 
   await prisma.article.delete({
     where: { id },
