@@ -102,7 +102,7 @@ export async function sendEnrollmentNotificationEmail(data: {
 
   await resend.emails.send({
     from: 'SelasarBahasa <hello@selasarbahasa.com>',
-    to: 'selasarbahasa@gmail.com',
+    to: 'admin@selasarbahasa.com',
     subject: `Pendaftaran Baru: ${data.tipeKelas} ${data.tingkat} — ${data.nama}`,
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;">
@@ -134,7 +134,7 @@ export const sendRefundNotificationEmail = async (
   try {
     const result = await resend.emails.send({
       from: 'SelasarBahasa <hello@selasarbahasa.com>',
-      to: process.env.ADMIN_EMAIL ?? 'selasarbahasa@gmail.com',
+      to: process.env.ADMIN_EMAIL ?? 'admin@selasarbahasa.com',
       subject: `⚠️ Pengajuan Refund Baru - ${userName}`,
       html: `
         <h2>Ada Pengajuan Refund Baru!</h2>
@@ -167,10 +167,8 @@ export async function sendContactFormNotificationEmail(data: {
 }) {
   const fromAddress = process.env.RESEND_FROM_ADDRESS || 'SelasarBahasa <hello@selasarbahasa.com>';
 
-  // Email tujuan UTAMA: Titan Mail admin@selasarbahasa.com (Task 3b)
   const primaryTo = 'admin@selasarbahasa.com';
-  // Email FALLBACK jika primary gagal: ADMIN_EMAIL env var = selasarbahasa@gmail.com (Task 3c)
-  const fallbackTo = process.env.ADMIN_EMAIL || 'selasarbahasa@gmail.com';
+  const fallbackTo = process.env.ADMIN_EMAIL || 'admin@selasarbahasa.com';
 
   const common = {
     from: fromAddress,
@@ -202,7 +200,7 @@ export async function sendContactFormNotificationEmail(data: {
   } catch (primaryErr) {
     console.warn(`[Contact Email] ⚠️ Primary failed (${primaryTo}), trying FALLBACK → ${fallbackTo}. Reason:`, primaryErr);
 
-    // ── Try 2: Fallback ke ADMIN_EMAIL (selasarbahasa@gmail.com) ─────────
+    // ── Try 2: Fallback ke ADMIN_EMAIL/default admin inbox ───────────────
     try {
       const fallbackResult = await resend.emails.send({ ...common, to: fallbackTo });
       if (fallbackResult.error) throw new Error(`Resend Error [fallback ${fallbackTo}]: ${fallbackResult.error.name} — ${fallbackResult.error.message}`);

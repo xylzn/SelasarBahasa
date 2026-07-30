@@ -19,19 +19,21 @@ interface Article {
 }
 
 interface ArtikelPageClientProps {
+  featured: Article | null;
   articles: Article[];
   categories: string[];
   activeCategory: string | null;
 }
 
 export default function ArtikelPageClient({
+  featured,
   articles,
   categories,
   activeCategory,
 }: ArtikelPageClientProps) {
   const { t, locale } = useLocale();
-  const featured = !activeCategory ? (articles[0] ?? null) : null;
-  const gridArticles = !activeCategory ? articles.slice(1) : articles;
+  const featuredArticle = !activeCategory ? featured : null;
+  const gridArticles = articles;
 
   return (
     <div className="py-16 bg-gray-50 min-h-screen">
@@ -88,13 +90,13 @@ export default function ArtikelPageClient({
         )}
 
         {/* Featured Post — only shown when not filtering */}
-        {featured && (
-          <Link href={`/artikel/${featured.slug}`} className="block group mb-12">
+        {featuredArticle && (
+          <Link href={`/artikel/${featuredArticle.slug}`} className="block group mb-12">
             <div className="relative w-full h-72 sm:h-96 lg:h-[480px] rounded-3xl overflow-hidden shadow-lg">
-              {featured.coverUrl || featured.thumbnailUrl ? (
+              {featuredArticle.coverUrl || featuredArticle.thumbnailUrl ? (
                 <SafeImage
-                  src={(featured.coverUrl || featured.thumbnailUrl) as string}
-                  alt={featured.judul}
+                  src={(featuredArticle.coverUrl || featuredArticle.thumbnailUrl) as string}
+                  alt={featuredArticle.judul}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                   placeholderClassName="absolute inset-0 bg-gradient-to-br from-brand-blue to-brand-blue-dark"
@@ -111,23 +113,23 @@ export default function ArtikelPageClient({
                   <span className="bg-brand-orange text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
                     {t('publicPages.artikel.featured')}
                   </span>
-                  {featured.kategori && (
+                  {featuredArticle.kategori && (
                     <span className="bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full">
-                      {featured.kategori}
+                      {featuredArticle.kategori}
                     </span>
                   )}
-                  {featured.publishedAt && (
+                  {featuredArticle.publishedAt && (
                     <span className="flex items-center gap-1 text-white/70 text-xs">
                       <Calendar size={12} />
-                      {formatDate(featured.publishedAt, locale)}
+                      {formatDate(featuredArticle.publishedAt, locale)}
                     </span>
                   )}
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight mb-2 group-hover:text-brand-orange/90 transition-colors line-clamp-2">
-                  {featured.judul}
+                  {featuredArticle.judul}
                 </h2>
                 <p className="text-white/80 text-sm sm:text-base line-clamp-2 max-w-2xl mb-4">
-                  {featured.ringkasan}
+                  {featuredArticle.ringkasan}
                 </p>
                 <span className="inline-flex items-center gap-2 text-brand-orange font-semibold text-sm group-hover:gap-3 transition-all">
                   {t('publicPages.artikel.readMore')} <ArrowRight size={16} />

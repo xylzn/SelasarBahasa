@@ -26,6 +26,7 @@ type ToolbarButton = {
 
 export default function RichTextEditor({ value, onChange }: RichTextEditorProps) {
   const editor = useEditor({
+    immediatelyRender: true,
     extensions: [
       StarterKit.configure({
         // Disable h1 — h1 is reserved for the article title outside the editor

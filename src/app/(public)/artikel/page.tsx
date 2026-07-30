@@ -8,11 +8,38 @@ export const metadata = {
   description: 'Baca artikel tips dan trik belajar bahasa',
 };
 
+const FEATURED_ARTICLE_SLUG = 'bagaimana-cara-mengajarkan-bipa-pada-pertemuan-pertama-1';
+
+async function getFeaturedArticle() {
+  try {
+    return await prisma.article.findFirst({
+      where: {
+        slug: FEATURED_ARTICLE_SLUG,
+        published: true,
+      },
+      select: {
+        id: true,
+        judul: true,
+        slug: true,
+        ringkasan: true,
+        thumbnailUrl: true,
+        coverUrl: true,
+        kategori: true,
+        publishedAt: true,
+      },
+    });
+  } catch (error) {
+    console.error('Failed to fetch featured article during build/render', error);
+    return null;
+  }
+}
+
 async function getArticles(kategori?: string) {
   try {
     return await prisma.article.findMany({
       where: {
         published: true,
+        slug: { not: FEATURED_ARTICLE_SLUG },
         ...(kategori && { kategori }),
       },
       orderBy: { publishedAt: 'desc' },
@@ -55,10 +82,18 @@ export default async function ArticlesPage({
   const { kategori } = await searchParams;
   const activeCategory = kategori ?? null;
 
-  const [articles, categories] = await Promise.all([
+  const [featured, articles, categories] = await Promise.all([
+    getFeaturedArticle(),
     getArticles(activeCategory ?? undefined),
     getCategories(),
   ]);
+
+  const serializedFeatured = featured
+    ? {
+        ...featured,
+        publishedAt: featured.publishedAt ? featured.publishedAt.toISOString() : null,
+      }
+    : null;
 
   const serializedArticles = articles.map((a) => ({
     ...a,
@@ -67,6 +102,7 @@ export default async function ArticlesPage({
 
   return (
     <ArtikelPageClient
+      featured={serializedFeatured}
       articles={serializedArticles}
       categories={categories}
       activeCategory={activeCategory}
