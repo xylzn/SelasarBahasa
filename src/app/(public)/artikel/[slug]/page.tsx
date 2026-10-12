@@ -5,6 +5,7 @@ import SafeImage from '@/components/shared/SafeImage';
 import { ArrowLeft, Calendar, Eye, Tag, Share2, MessageCircle } from 'lucide-react';
 import { generateArticleJsonLd } from '@/lib/seo';
 import CopyLinkButton from '@/components/public/CopyLinkButton';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 export const revalidate = 3600;
 
@@ -200,7 +201,7 @@ export default async function ArticleDetailPage({
                   {/* Article body */}
                   <div
                     className="prose prose-lg max-w-none text-gray-700 prose-headings:text-brand-blue-dark prose-a:text-brand-blue prose-strong:text-gray-900"
-                    dangerouslySetInnerHTML={{ __html: article.isi }}
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.isi) }}
                   />
                 </div>
               </div>

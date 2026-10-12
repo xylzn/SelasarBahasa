@@ -22,9 +22,26 @@ export async function PUT(
   if ('error' in authResult) {
     return NextResponse.json({ error: authResult.error }, { status: authResult.status });
   }
+  const currentAdminId = authResult.session.user?.id as string;
   const body = await request.json();
   const validated = updateUserSchema.parse(body);
   const { id } = await params;
+
+  // ── GUARD: Self-Role Modification Prevention ──────────────────────────────
+  // Block admin from demoting / changing role on their OWN account to
+  // anything other than ADMIN. This prevents accidental loss of admin
+  // access and privilege-escalation-by-social-engineer attacks where
+  // an admin session is used to downgrade the admin account.
+  const isModifyingOwnAccount = currentAdminId === id;
+  const roleIsBeingChanged = validated.role !== undefined;
+  const newRoleIsNotAdmin = validated.role !== 'ADMIN';
+
+  if (isModifyingOwnAccount && roleIsBeingChanged && newRoleIsNotAdmin) {
+    return NextResponse.json(
+      { error: 'Tidak diizinkan mengubah role akun sendiri' },
+      { status: 403 }
+    );
+  }
 
   const user = await prisma.user.update({
     where: { id },

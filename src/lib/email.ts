@@ -1,4 +1,5 @@
 import { Resend } from 'resend';
+import { escapeHtml } from '@/lib/escape-html';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -9,7 +10,7 @@ export async function sendResetPasswordEmail(to: string, resetUrl: string, nama:
     subject: 'Reset Password - SelasarBahasa',
     html: `
       <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
-        <h2 style="color: #0E46A3;">Halo ${nama},</h2>
+        <h2 style="color: #0E46A3;">Halo ${escapeHtml(nama)},</h2>
         <p>Kami menerima permintaan reset password untuk akun kamu. Klik tombol di bawah untuk membuat password baru. Link ini berlaku selama 1 jam.</p>
         <a href="${resetUrl}" style="display:inline-block; background:#0E46A3; color:#fff; padding:12px 24px; border-radius:12px; text-decoration:none; margin-top:16px;">Reset Password</a>
         <p style="margin-top:24px; color:#666; font-size:13px;">Kalau kamu tidak merasa meminta ini, abaikan saja email ini.</p>
@@ -33,7 +34,7 @@ export async function sendAccountDeletedEmail(
     subject: 'Akun SelasarBahasa Anda Telah Dihapus',
     html: `
       <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
-        <h2 style="color: #0E46A3;">Halo ${nama},</h2>
+        <h2 style="color: #0E46A3;">Halo ${escapeHtml(nama)},</h2>
         <p>${message}</p>
         <p style="margin-top:16px;">Kalau ini keliru atau Anda ingin bergabung kembali, silakan daftar ulang kapan saja di SelasarBahasa.</p>
         <p style="margin-top:24px; color:#666; font-size:13px;">Kalau Anda merasa ini kesalahan, hubungi tim support kami.</p>
@@ -49,7 +50,7 @@ export async function sendAccountWarningEmail(to: string, nama: string) {
     subject: 'Peringatan: Akun SelasarBahasa Anda Akan Dihapus',
     html: `
       <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
-        <h2 style="color: #0E46A3;">Halo ${nama},</h2>
+        <h2 style="color: #0E46A3;">Halo ${escapeHtml(nama)},</h2>
         <p>Akun kamu akan dihapus dalam ~2 minggu karena tidak ada aktivitas login selama lebih dari 5 bulan.</p>
         <p>Silakan login sekarang untuk membatalkan penghapusan akun!</p>
         <a href="${process.env.NEXTAUTH_URL}/login" style="display:inline-block; background:#0E46A3; color:#fff; padding:12px 24px; border-radius:12px; text-decoration:none; margin-top:16px;">Login Sekarang</a>
@@ -73,11 +74,11 @@ export async function sendRefundRequestEmail(
     html: `
       <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
         <h2 style="color: #0F9488;">Pengajuan Refund Baru</h2>
-        <p><strong>Nama Siswa:</strong> ${siswaNama}</p>
-        <p><strong>Email Siswa:</strong> ${siswaEmail}</p>
-        <p><strong>Kelas:</strong> ${kelasInfo}</p>
+        <p><strong>Nama Siswa:</strong> ${escapeHtml(siswaNama)}</p>
+        <p><strong>Email Siswa:</strong> ${escapeHtml(siswaEmail)}</p>
+        <p><strong>Kelas:</strong> ${escapeHtml(kelasInfo)}</p>
         <p><strong>Alasan Refund:</strong></p>
-        <blockquote style="border-left:4px solid #0F9488;padding:8px 16px;color:#444;">${alasan}</blockquote>
+        <blockquote style="border-left:4px solid #0F9488;padding:8px 16px;color:#444;">${escapeHtml(alasan)}</blockquote>
         <p style="margin-top:24px;color:#666;font-size:13px;">
           Silakan tindak lanjuti di Admin Panel SelasarBahasa.
         </p>
@@ -97,7 +98,7 @@ export async function sendEnrollmentNotificationEmail(data: {
   notes: Record<string, unknown>;
 }) {
   const notesRows = Object.entries(data.notes)
-    .map(([k, v]) => `<tr><td style="padding:4px 12px;color:#555;font-size:13px;">${k}</td><td style="padding:4px 12px;font-size:13px;">${v}</td></tr>`)
+    .map(([k, v]) => `<tr><td style="padding:4px 12px;color:#555;font-size:13px;">${escapeHtml(k)}</td><td style="padding:4px 12px;font-size:13px;">${escapeHtml(String(v))}</td></tr>`)
     .join('');
 
   await resend.emails.send({
@@ -109,14 +110,14 @@ export async function sendEnrollmentNotificationEmail(data: {
         <h2 style="color:#0F9488;">Pendaftaran Kelas Baru</h2>
         <h3 style="margin-bottom:4px;">Data Peserta</h3>
         <table style="width:100%;border-collapse:collapse;">
-          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Nama</td><td style="padding:4px 12px;font-size:13px;">${data.nama}</td></tr>
-          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Email</td><td style="padding:4px 12px;font-size:13px;">${data.email}</td></tr>
-          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">WhatsApp</td><td style="padding:4px 12px;font-size:13px;">${data.noWhatsapp || '-'}</td></tr>
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Nama</td><td style="padding:4px 12px;font-size:13px;">${escapeHtml(data.nama)}</td></tr>
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Email</td><td style="padding:4px 12px;font-size:13px;">${escapeHtml(data.email)}</td></tr>
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">WhatsApp</td><td style="padding:4px 12px;font-size:13px;">${escapeHtml(data.noWhatsapp) || '-'}</td></tr>
         </table>
         <h3 style="margin-top:16px;margin-bottom:4px;">Detail Kelas</h3>
         <table style="width:100%;border-collapse:collapse;">
-          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Tipe</td><td style="padding:4px 12px;font-size:13px;">${data.tipeKelas}</td></tr>
-          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Tingkat</td><td style="padding:4px 12px;font-size:13px;">${data.tingkat}</td></tr>
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Tipe</td><td style="padding:4px 12px;font-size:13px;">${escapeHtml(data.tipeKelas)}</td></tr>
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Tingkat</td><td style="padding:4px 12px;font-size:13px;">${escapeHtml(data.tingkat)}</td></tr>
           ${notesRows}
         </table>
         <p style="margin-top:24px;color:#888;font-size:12px;">Dikirim otomatis dari SelasarBahasa.</p>
@@ -138,12 +139,12 @@ export const sendRefundNotificationEmail = async (
       subject: `⚠️ Pengajuan Refund Baru - ${userName}`,
       html: `
         <h2>Ada Pengajuan Refund Baru!</h2>
-        <p><strong>Nama Siswa:</strong> ${userName}</p>
-        <p><strong>Email Siswa:</strong> ${userEmail}</p>
+        <p><strong>Nama Siswa:</strong> ${escapeHtml(userName)}</p>
+        <p><strong>Email Siswa:</strong> ${escapeHtml(userEmail)}</p>
         <hr />
         <h3>Detail Pengajuan:</h3>
-        <p><strong>Alasan Refund:</strong><br/> ${alasan}</p>
-        <p><strong>Informasi Rekening / E-Wallet:</strong><br/> ${rekening}</p>
+        <p><strong>Alasan Refund:</strong><br/> ${escapeHtml(alasan)}</p>
+        <p><strong>Informasi Rekening / E-Wallet:</strong><br/> ${escapeHtml(rekening)}</p>
         <br/>
         <p>Silakan cek dashboard Admin untuk mengubah status pendaftaran jika dana sudah ditransfer.</p>
       `,
@@ -179,14 +180,14 @@ export async function sendContactFormNotificationEmail(data: {
         <h2 style="color:#0F9488;">Pesan Baru dari Form Kontak</h2>
         <h3 style="margin-bottom:4px;">Detail Pengirim</h3>
         <table style="width:100%;border-collapse:collapse;">
-          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Nama</td><td style="padding:4px 12px;font-size:13px;">${data.nama}</td></tr>
-          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Email</td><td style="padding:4px 12px;font-size:13px;">${data.email}</td></tr>
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Nama</td><td style="padding:4px 12px;font-size:13px;">${escapeHtml(data.nama)}</td></tr>
+          <tr><td style="padding:4px 12px;color:#555;font-size:13px;">Email</td><td style="padding:4px 12px;font-size:13px;">${escapeHtml(data.email)}</td></tr>
         </table>
         <h3 style="margin-top:16px;margin-bottom:4px;">Isi Pesan</h3>
         <div style="padding:12px 16px;background:#f6f6f6;border-radius:8px;white-space:pre-wrap;font-size:14px;color:#333;">
-          ${data.pesan}
+          ${escapeHtml(data.pesan)}
         </div>
-        <p style="margin-top:24px;color:#888;font-size:12px;">Dikirim otomatis dari SelasarBahasa — tekan Reply untuk langsung membalas ke pengirim (${data.email}).</p>
+        <p style="margin-top:24px;color:#888;font-size:12px;">Dikirim otomatis dari SelasarBahasa — tekan Reply untuk langsung membalas ke pengirim (${escapeHtml(data.email)}).</p>
       </div>
     `,
   } as const;

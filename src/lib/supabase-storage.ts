@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { fileTypeFromBuffer } from 'file-type';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY as string;
@@ -9,6 +10,33 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey, {
     persistSession: false,
   },
 });
+
+const ALLOWED_IMAGE_MIMES = ['image/jpeg', 'image/png', 'image/webp'] as const;
+const ALLOWED_PDF_MIMES = ['application/pdf'] as const;
+
+type AllowedImageMime = (typeof ALLOWED_IMAGE_MIMES)[number];
+type AllowedPdfMime = (typeof ALLOWED_PDF_MIMES)[number];
+
+/**
+ * SECURITY — Detect actual file content type from magic bytes (file signature)
+ * instead of trusting client-supplied `file.type` or filename extension.
+ *
+ * Reads the first 4100 bytes (covers PNG/JPEG/WEBP/PDF header + minimal
+ * chunk required by file-type detectors).
+ *
+ * @returns detected MIME string or null if unrecognized
+ */
+async function detectRealMime(file: File): Promise<string | null> {
+  try {
+    const sampleSize = Math.min(file.size, 4100);
+    const buffer = Buffer.from(await file.slice(0, sampleSize).arrayBuffer());
+    const detected = await fileTypeFromBuffer(buffer);
+    return detected?.mime ?? null;
+  } catch (err) {
+    console.error('Magic bytes detection failed:', err);
+    return null;
+  }
+}
 
 /**
  * Upload file to Supabase Storage
@@ -23,31 +51,50 @@ export async function uploadFile(
   path?: string
 ): Promise<{ url: string; fileName: string; fileSize: number } | { error: string }> {
   try {
+    // ── SECURITY: Magic-bytes validation ──────────────────────────────────────
+    // Always sniff content FIRST before any size check on any bucket. This prevents
+    // polyglot / renamed extension attacks and Content-Type spoofing.
+    const realMime = await detectRealMime(file);
+
     // Validate file size and type based on bucket
     if (bucket === 'materi-files') {
       if (file.size > 2 * 1024 * 1024) { // 2MB
         return { error: 'Ukuran file materi tidak boleh lebih dari 2MB' };
       }
-      if (file.type !== 'application/pdf') {
-        return { error: 'File materi harus berupa PDF' };
+      if (realMime == null || !ALLOWED_PDF_MIMES.includes(realMime as AllowedPdfMime)) {
+        return { error: 'File materi harus berupa PDF (terdeteksi otomatis dari konten file)' };
       }
     } else if (bucket === 'tugas-files') {
       if (file.size > 10 * 1024 * 1024) { // 10MB per file
         return { error: 'Ukuran file tugas tidak boleh lebih dari 10MB' };
       }
+      // tugas-files accepts arbitrary documents — skip strict mime allowlist to support
+      // .doc(x), .ppt(x), .zip etc but still require a recognized file signature
+      // to block raw executable / html polyglot uploads.
+      if (realMime == null) {
+        return { error: 'Tipe file tugas tidak terdeteksi. Pastikan file tidak rusak.' };
+      }
+      if ([
+        'application/x-msdownload', 'application/x-executable',
+        'application/x-sharedlib', 'application/x-mach-binary',
+        'application/x-elf', 'text/html', 'application/xhtml+xml',
+        'application/javascript', 'text/javascript',
+      ].includes(realMime)) {
+        return { error: 'Tipe file tugas ini tidak diizinkan untuk keamanan.' };
+      }
     } else if (bucket === 'profile-photos') {
       if (file.size > 1 * 1024 * 1024) { // 1MB
         return { error: 'Ukuran foto profil tidak boleh lebih dari 1MB' };
       }
-      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-        return { error: 'Foto profil harus berupa JPG, PNG, atau WEBP' };
+      if (realMime == null || !ALLOWED_IMAGE_MIMES.includes(realMime as AllowedImageMime)) {
+        return { error: 'Foto profil harus berupa JPG, PNG, atau WEBP (terdeteksi otomatis)' };
       }
     } else if (bucket === 'pengumuman') {
       if (file.size > 2 * 1024 * 1024) { // 2MB
         return { error: 'Ukuran foto dokumentasi tidak boleh lebih dari 2MB' };
       }
-      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-        return { error: 'Foto dokumentasi harus berupa JPG, PNG, atau WEBP' };
+      if (realMime == null || !ALLOWED_IMAGE_MIMES.includes(realMime as AllowedImageMime)) {
+        return { error: 'Foto dokumentasi harus berupa JPG, PNG, atau WEBP (terdeteksi otomatis)' };
       }
     }
 
@@ -63,7 +110,8 @@ export async function uploadFile(
       });
 
     if (uploadError) {
-      return { error: `Gagal upload file: ${uploadError.message}` };
+      console.error('[uploadFile] Supabase error:', uploadError.message);
+      return { error: 'Gagal mengunggah berkas. Silakan coba beberapa saat lagi.' };
     }
 
     const { data: urlData } = supabase.storage

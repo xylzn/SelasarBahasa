@@ -3,13 +3,13 @@ import { registerSchema } from '@/lib/validations/auth';
 import bcrypt from 'bcryptjs';
 import { NextResponse } from 'next/server';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { getClientIp } from '@/lib/get-client-ip';
 
 export async function POST(request: Request) {
   try {
     // Rate limit: max 5 per minute per IP
-    const forwardedFor = request.headers.get('x-forwarded-for');
-    const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : 'unknown';
-    
+    const ip = getClientIp(request);
+
     const { allowed } = await checkRateLimit(`register:${ip}`, 5, 60);
     if (!allowed) {
       return NextResponse.json(

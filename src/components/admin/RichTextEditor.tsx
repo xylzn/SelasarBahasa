@@ -26,7 +26,7 @@ type ToolbarButton = {
 
 export default function RichTextEditor({ value, onChange }: RichTextEditorProps) {
   const editor = useEditor({
-    immediatelyRender: true,
+    immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         // Disable h1 — h1 is reserved for the article title outside the editor
@@ -51,11 +51,25 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
   // Sync external initial value once (for edit mode where initialData is loaded
   // asynchronously and value may arrive after editor has mounted).
   useEffect(() => {
-    if (!editor) return;
-    // Only reset if the editor is empty and value has actual content
-    const currentHTML = editor.getHTML();
+    if (!editor || (editor as unknown as { isDestroyed?: boolean }).isDestroyed) return;
+    // Guard: only reset if the editor is empty and value has actual content.
+    // Wrap in try/catch because React Strict Mode may run this effect while the
+    // TipTap editor wrapper is in a partially-torn-down state (view/cached null).
+    let currentHTML = '';
+    try {
+      if (typeof (editor as unknown as { getHTML?: () => string }).getHTML === 'function') {
+        currentHTML = editor.getHTML();
+      }
+    } catch {
+      // editor.view is destroyed mid-effect run — skip this run, next invocation will sync.
+      return;
+    }
     if (value && value !== '<p></p>' && currentHTML !== value) {
-      editor.commands.setContent(value, { emitUpdate: false });
+      try {
+        editor.commands.setContent(value, { emitUpdate: false });
+      } catch {
+        // ignore race with torn-down editor
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, editor]);

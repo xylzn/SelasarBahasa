@@ -5,3 +5,6 @@ node_modules
 /generated/prisma
 .next
 sb.zip
+.aider-desk/
+.agents/
+.kiro/

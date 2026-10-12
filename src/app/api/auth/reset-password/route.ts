@@ -4,12 +4,12 @@ import { NextResponse } from 'next/server';
 import { checkRateLimit } from '@/lib/rate-limit';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
+import { getClientIp } from '@/lib/get-client-ip';
 
 export async function POST(request: Request) {
   try {
-    const forwardedFor = request.headers.get('x-forwarded-for');
-    const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : 'unknown';
-    
+    const ip = getClientIp(request);
+
     const { allowed } = await checkRateLimit(`reset-password:${ip}`, 5, 900);
     if (!allowed) {
       return NextResponse.json(

@@ -4,6 +4,7 @@ import { requireAdmin } from '@/lib/api-auth';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { z } from 'zod';
 import { sendContactFormNotificationEmail } from '@/lib/email';
+import { getClientIp } from '@/lib/get-client-ip';
 
 const contactSchema = z.object({
   nama: z.string().min(1),
@@ -14,9 +15,8 @@ const contactSchema = z.object({
 // POST /api/contact
 export async function POST(request: Request) {
   // Rate limit: max 5 per minute per IP
-  const forwardedFor = request.headers.get('x-forwarded-for');
-  const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : 'unknown';
-  
+  const ip = getClientIp(request);
+
   const { allowed } = await checkRateLimit(`contact:${ip}`, 5, 60);
   if (!allowed) {
     return NextResponse.json(
