@@ -38,30 +38,40 @@ export default function SearchBar() {
   }, []);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchResults = async () => {
       if (!query.trim()) {
         setResults(null);
         setIsOpen(false);
+        setIsLoading(false);
         return;
       }
 
       setIsLoading(true);
       setIsOpen(true);
       try {
-        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`, {
+          signal: controller.signal,
+        });
         if (response.ok) {
           const data = await response.json();
           setResults(data);
         }
       } catch (err) {
-        console.error('Search error:', err);
+        if (!(err instanceof DOMException && err.name === 'AbortError')) {
+          console.error('Search error:', err);
+        }
       } finally {
-        setIsLoading(false);
+        if (!controller.signal.aborted) setIsLoading(false);
       }
     };
 
     const debounceTimer = setTimeout(fetchResults, 300);
-    return () => clearTimeout(debounceTimer);
+    return () => {
+      clearTimeout(debounceTimer);
+      controller.abort();
+    };
   }, [query]);
 
   const handleSelect = () => {
